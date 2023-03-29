@@ -5,31 +5,35 @@ import axios, {
 import queryString from "query-string";
 import { BASE_URL_API } from "../config";
 
+// Request middleware
+const handleRequest = (config: InternalAxiosRequestConfig) => {
+  return config;
+};
+
+// Response middleware
+const handleResponse = (response: AxiosResponse) => {
+  if (response.status === 200 || response.status === 201) {
+    return response.data;
+  }
+};
+
+const handleFailedResponse = (error: any) => {
+  throw error?.response;
+};
+
+// Create html client - axios client
 const axiosClient = axios.create({
   baseURL: BASE_URL_API,
   headers: {
-    "Content-Type": "application/json; charset=utf-8",
+    "Content-Type": "application/json",
   },
   paramsSerializer: { serialize: (params) => queryString.stringify(params) },
 });
 
-axiosClient.interceptors.request.use(
-  async (config: InternalAxiosRequestConfig) => {
-    return config;
-  }
-);
+// Handle request
+axiosClient.interceptors.request.use(handleRequest);
 
-axiosClient.interceptors.response.use(
-  (response: AxiosResponse) => {
-    if (response && response.data) {
-      return response.data;
-    }
-
-    return response;
-  },
-  (err) => {
-    throw err;
-  }
-);
+// Handle response
+axiosClient.interceptors.response.use(handleResponse, handleFailedResponse);
 
 export default axiosClient;

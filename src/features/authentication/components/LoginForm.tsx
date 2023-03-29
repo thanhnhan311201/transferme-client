@@ -4,7 +4,18 @@ import { NavLink } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { IconContext } from "react-icons";
 
-const LoginForm: React.FC<{ onLogin: () => void }> = (props) => {
+const LoginForm: React.FC<{
+  email: string;
+  onHandleEmail: (
+    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => void;
+  password: string;
+  onHandlePassword: (
+    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => void;
+  onGoogleLogin: () => void;
+  onLogin: () => void;
+}> = (props) => {
   return (
     <div className="w-96">
       <form className="flex flex-col px-6 py-8 rounded-xl shadow-lg mb-8">
@@ -17,6 +28,8 @@ const LoginForm: React.FC<{ onLogin: () => void }> = (props) => {
             id="email"
             name="email"
             label="Email"
+            value={props.email}
+            onChange={props.onHandleEmail}
             variant="outlined"
             type="email"
             sx={{
@@ -44,6 +57,8 @@ const LoginForm: React.FC<{ onLogin: () => void }> = (props) => {
             label="Password"
             variant="outlined"
             type="password"
+            value={props.password}
+            onChange={props.onHandlePassword}
             sx={{
               height: "3.5rem",
               fontSize: "1rem",
@@ -65,6 +80,7 @@ const LoginForm: React.FC<{ onLogin: () => void }> = (props) => {
         </div>
         <Button
           variant="contained"
+          onClick={props.onLogin}
           sx={{
             textTransform: "none",
             marginBottom: "1.5rem",
@@ -88,7 +104,7 @@ const LoginForm: React.FC<{ onLogin: () => void }> = (props) => {
           or
         </Divider>
         <Button
-          onClick={() => props.onLogin()}
+          onClick={() => props.onGoogleLogin()}
           variant="outlined"
           sx={{
             textTransform: "none",

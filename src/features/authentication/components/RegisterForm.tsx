@@ -67,9 +67,9 @@ const RegisterForm: React.FC<{ onLogin: () => void }> = (props) => {
         </div>
         <div>
           <TextField
-            id="confirm-password"
+            name="confirmPassword"
+            id="confirmPassword"
             label="Confirm Password"
-            name="confirm-password"
             variant="outlined"
             type="password"
             sx={{

@@ -5,27 +5,22 @@ export enum AUTHENTICATION_STATUS {
   AUTHENTICATED = "AUTHENTICATED",
 }
 
-interface IUserInfo {
-  id: string;
-  username: string;
-}
-
 const authSlice = createSlice({
   name: "auth",
   initialState: {
-    authenticationStatus: AUTHENTICATION_STATUS.UNAUTHENTICATE,
-    userInfo: { id: null, username: null },
+    authStatus: AUTHENTICATION_STATUS.UNAUTHENTICATE,
+    userInfo: { id: null, email: null, name: null, picture: null },
   },
   reducers: {
     setAuthenticated: (state, action) => ({
       ...state,
-      authenticationStatus: AUTHENTICATION_STATUS.AUTHENTICATED,
-      userInfo: action.payload.userInfo,
+      authStatus: AUTHENTICATION_STATUS.AUTHENTICATED,
+      userInfo: action.payload,
     }),
     setUnauthenticated: (state) => ({
       ...state,
-      authenticationStatus: AUTHENTICATION_STATUS.UNAUTHENTICATE,
-      userInfo: { id: null, username: null },
+      authStatus: AUTHENTICATION_STATUS.UNAUTHENTICATE,
+      userInfo: { id: null, email: null, name: null, picture: null },
     }),
   },
 });
