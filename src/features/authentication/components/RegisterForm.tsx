@@ -4,7 +4,22 @@ import { NavLink } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { IconContext } from "react-icons";
 
-const RegisterForm: React.FC<{ onLogin: () => void }> = (props) => {
+const RegisterForm: React.FC<{
+  email: string;
+  onHandleEmail: (
+    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => void;
+  password: string;
+  onHandlePassword: (
+    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => void;
+  confirmPassword: string;
+  onHandleConfirmPassword: (
+    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => void;
+  onGoogleLogin: () => void;
+  onSignup: () => void;
+}> = (props) => {
   return (
     <div className="w-96">
       <form className="flex flex-col px-6 py-8 rounded-xl shadow-lg mb-8">
@@ -18,6 +33,8 @@ const RegisterForm: React.FC<{ onLogin: () => void }> = (props) => {
             name="email"
             type="email"
             label="Email"
+            value={props.email}
+            onChange={props.onHandleEmail}
             variant="outlined"
             sx={{
               height: "3.5rem",
@@ -44,6 +61,8 @@ const RegisterForm: React.FC<{ onLogin: () => void }> = (props) => {
             label="Password"
             name="password"
             variant="outlined"
+            value={props.password}
+            onChange={props.onHandlePassword}
             type="password"
             sx={{
               height: "3.5rem",
@@ -70,6 +89,8 @@ const RegisterForm: React.FC<{ onLogin: () => void }> = (props) => {
             name="confirmPassword"
             id="confirmPassword"
             label="Confirm Password"
+            value={props.confirmPassword}
+            onChange={props.onHandleConfirmPassword}
             variant="outlined"
             type="password"
             sx={{
@@ -102,6 +123,7 @@ const RegisterForm: React.FC<{ onLogin: () => void }> = (props) => {
             borderRadius: "24px",
             height: "3.5rem",
           }}
+          onClick={() => props.onSignup()}
         >
           Agree & Join
         </Button>
@@ -113,7 +135,7 @@ const RegisterForm: React.FC<{ onLogin: () => void }> = (props) => {
           or
         </Divider>
         <Button
-          onClick={() => props.onLogin()}
+          onClick={() => props.onGoogleLogin()}
           variant="outlined"
           sx={{
             textTransform: "none",

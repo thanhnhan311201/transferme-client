@@ -1,5 +1,5 @@
-import { useState, useEffect, useCallback } from "react";
-import { TokenResponse, useGoogleLogin } from "@react-oauth/google";
+import { useCallback } from "react";
+import { useGoogleLogin } from "@react-oauth/google";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -7,25 +7,13 @@ import LoginForm from "../components/LoginForm";
 import useInput from "../hooks/useInput";
 import AuthenticationAPI from "../../../api/authAPI";
 import { authActions } from "../slice/authSlice";
-
-interface IProfile {
-  email: string;
-  family_name: string;
-  given_name: string;
-  id: string;
-  locale: string;
-  name: string;
-  picture: string;
-  verified_email: boolean;
-}
+import useGoogleLoginSuccess from "../hooks/useGoogleLoginSuccess";
 
 const Login: React.FC = () => {
-  const [user, setUser] = useState<TokenResponse>();
-  const [profile, setProfile] = useState<IProfile>();
-
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
+
+  const handleSuccess = useGoogleLoginSuccess();
 
   const {
     value: emailValue,
@@ -38,39 +26,25 @@ const Login: React.FC = () => {
     reset: resetPassword,
   } = useInput();
 
-  const fetchUserInfo = useCallback(async () => {
-    if (user) {
-      const response = await fetch(
-        `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`,
-        {
-          headers: {
-            Authorization: `Bearer ${user.access_token}`,
-            Accept: "application/json",
-          },
-        }
-      );
-      const data = await response.json();
-      setProfile(data);
-    }
-  }, [user]);
-
-  useEffect(() => {
-    fetchUserInfo();
-  }, [fetchUserInfo]);
-
-  const loginWithGoogle = useGoogleLogin({
-    onSuccess: (codeResponse) => setUser(codeResponse),
+  const handleGoogleLogin = useGoogleLogin({
+    onSuccess: handleSuccess,
     onError: (error) => console.log("Login Failed:", error),
   });
 
-  const handleLogin = () => {
+  const handleLogin = useCallback(() => {
     const login = async () => {
       try {
         const response = await AuthenticationAPI.login({
           email: emailValue,
           password: passwordValue,
         });
-        document.cookie = `accessToken=${response.token}; userId=${response.user.id}`;
+        document.cookie = `accessToken=${response.token}; expires= ${new Date(
+          new Date().getTime() + 3600 * 1000
+        ).toUTCString()}`;
+        document.cookie = `userId=${response.user.id}; expires= ${new Date(
+          new Date().getTime() + 3600 * 1000
+        ).toUTCString()}`;
+
         dispatch(authActions.setAuthenticated(response.user));
         navigate("/transfer");
       } catch (error) {
@@ -78,7 +52,7 @@ const Login: React.FC = () => {
       }
     };
     login();
-  };
+  }, [emailValue, passwordValue]);
 
   return (
     <LoginForm
@@ -86,7 +60,7 @@ const Login: React.FC = () => {
       onHandleEmail={handleEmailChange}
       password={passwordValue}
       onHandlePassword={handlePasswordChange}
-      onGoogleLogin={loginWithGoogle}
+      onGoogleLogin={handleGoogleLogin}
       onLogin={handleLogin}
     />
   );
