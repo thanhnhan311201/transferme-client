@@ -9,6 +9,8 @@ import AuthenticationAPI from "../../../api/authAPI";
 import { authActions } from "../slice/authSlice";
 import useGoogleLoginSuccess from "../hooks/useGoogleLoginSuccess";
 
+import { REDIRECT_URI } from "../../../config";
+
 const Login: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -29,6 +31,8 @@ const Login: React.FC = () => {
   const handleGoogleLogin = useGoogleLogin({
     onSuccess: handleSuccess,
     onError: (error) => console.log("Login Failed:", error),
+    flow: "auth-code",
+    redirect_uri: REDIRECT_URI,
   });
 
   const handleLogin = useCallback(() => {
@@ -39,11 +43,14 @@ const Login: React.FC = () => {
           password: passwordValue,
         });
         document.cookie = `accessToken=${response.token}; expires= ${new Date(
-          new Date().getTime() + 3600 * 1000
+          new Date().getTime() + 3599 * 1000
         ).toUTCString()}`;
         document.cookie = `userId=${response.user.id}; expires= ${new Date(
-          new Date().getTime() + 3600 * 1000
+          new Date().getTime() + 3599 * 1000
         ).toUTCString()}`;
+
+        // TODO: save
+        // jwtStorage.set();
 
         dispatch(authActions.setAuthenticated(response.user));
         navigate("/transfer");
@@ -52,7 +59,7 @@ const Login: React.FC = () => {
       }
     };
     login();
-  }, [emailValue, passwordValue]);
+  }, [emailValue, passwordValue, dispatch, navigate]);
 
   return (
     <LoginForm

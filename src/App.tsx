@@ -5,10 +5,17 @@ import PublicRoutes from "./routes/PublicRoutes";
 import ProtectedRoutes from "./routes/ProtectedRoutes";
 
 import { AUTHENTICATION_STATUS } from "./features/authentication/slice/authSlice";
+import useAutoLogin from "./features/authentication/hooks/useAutoLogin";
 import { RootState } from "./states";
 
 function App() {
   const authStatus = useSelector((state: RootState) => state.auth.authStatus);
+
+  const autoLogin = useAutoLogin();
+
+  useEffect(() => {
+    autoLogin();
+  }, [autoLogin]);
 
   switch (authStatus) {
     case AUTHENTICATION_STATUS.UNAUTHENTICATE:

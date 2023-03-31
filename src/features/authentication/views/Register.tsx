@@ -9,6 +9,8 @@ import AuthenticationAPI from "../../../api/authAPI";
 import { authActions } from "../slice/authSlice";
 import useGoogleLoginSuccess from "../hooks/useGoogleLoginSuccess";
 
+import { REDIRECT_URI } from "../../../config";
+
 const Register: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -34,6 +36,8 @@ const Register: React.FC = () => {
   const handleGoogleLogin = useGoogleLogin({
     onSuccess: handleSuccess,
     onError: (error) => console.log("Login Failed:", error),
+    flow: "auth-code",
+    redirect_uri: REDIRECT_URI,
   });
 
   const handleSignup = useCallback(() => {
@@ -51,7 +55,7 @@ const Register: React.FC = () => {
       }
     };
     signup();
-  }, [emailValue, passwordValue, confirmPasswordValue]);
+  }, [emailValue, passwordValue, confirmPasswordValue, navigate]);
 
   return (
     <RegisterForm

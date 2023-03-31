@@ -8,4 +8,4 @@ export const BASE_URL_API = devEnv
   ? "http://localhost:8080/api"
   : process.env.REACT_APP_BASE_URL_API;
 
-export { clientID, clientSecret } from "./constants/google";
+export { CLIENT_ID, CLIENT_SECRET, REDIRECT_URI } from "./constants/google";

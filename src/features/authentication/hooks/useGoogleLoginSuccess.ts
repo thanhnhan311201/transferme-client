@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { TokenResponse } from "@react-oauth/google";
+import { CodeResponse } from "@react-oauth/google";
 
 import AuthenticationAPI from "../../../api/authAPI";
 import { authActions } from "../slice/authSlice";
@@ -11,37 +11,28 @@ const useGoogleLoginSuccess = () => {
 
   return async (
     codeResponse: Omit<
-      TokenResponse,
+      CodeResponse,
       "error" | "error_description" | "error_uri"
     >
   ) => {
     try {
-      const params = {
-        access_token: codeResponse.access_token,
-      };
-      const headers = {
-        Authorization: `Bearer ${codeResponse.access_token}`,
-      };
-      const userInfo = await AuthenticationAPI.getGoogleUserInfo(
-        params,
-        headers
+      const response = await AuthenticationAPI.loginWithGoogle(
+        codeResponse.code
       );
 
-      document.cookie = `accessToken=${
-        codeResponse.access_token
-      }; expires= ${new Date(
-        new Date().getTime() + codeResponse.expires_in * 1000
+      document.cookie = `accessToken=${response.token}; expires= ${new Date(
+        new Date().getTime() + 3599 * 1000
       ).toUTCString()}`;
-      document.cookie = `userId=${userInfo.id}; expires= ${new Date(
-        new Date().getTime() + codeResponse.expires_in * 1000
+      document.cookie = `userId=${response.user.id}; expires= ${new Date(
+        new Date().getTime() + 3599 * 1000
       ).toUTCString()}`;
 
       dispatch(
         authActions.setAuthenticated({
-          id: userInfo.id,
-          email: userInfo.email,
-          name: userInfo.name,
-          picture: userInfo.picture,
+          id: response.user.id,
+          email: response.user.email,
+          name: response.user.name,
+          picture: response.user.picture,
         })
       );
       navigate("/transfer");

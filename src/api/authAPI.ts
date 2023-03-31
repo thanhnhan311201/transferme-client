@@ -11,11 +11,18 @@ interface IProfile {
   verified_email: boolean;
 }
 
+interface IUserInfoResponse {
+  email: string;
+  name: string;
+  id: string;
+  picture: string;
+}
+
 namespace AuthenticationAPI {
   export const login = (userLoginInfo: { email: string; password: string }) => {
     const url = "/auth/login";
     const requestBody = JSON.stringify(userLoginInfo);
-    return axiosClient.post<any, { user: any; token: string }>(
+    return axiosClient.post<any, { user: IUserInfoResponse; token: string }>(
       url,
       requestBody
     );
@@ -31,16 +38,22 @@ namespace AuthenticationAPI {
     return axiosClient.post(url, requestBody);
   };
 
-  export const getGoogleUserInfo = (
-    params: { [key: string]: string },
-    headers: Record<string, string>
-  ) => {
-    const url = "/userinfo";
-    return axiosClient.get<any, IProfile>(url, {
-      baseURL: "https://www.googleapis.com/oauth2/v1",
-      headers: { ...headers },
-      params,
-    });
+  export const loginWithGoogle = (authCode: string) => {
+    const url = "/auth/google";
+    const requestBody = JSON.stringify({ authCode: authCode });
+    return axiosClient.post<any, { user: IUserInfoResponse; token: string }>(
+      url,
+      requestBody
+    );
+  };
+
+  export const verifyToken = (token: string) => {
+    const url = "/auth/verify-token";
+    const requestBody = JSON.stringify({ token: token });
+    return axiosClient.post<any, { user: IUserInfoResponse; message: string }>(
+      url,
+      requestBody
+    );
   };
 }
 
