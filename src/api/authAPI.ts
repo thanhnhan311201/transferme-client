@@ -1,4 +1,4 @@
-import axiosClient from ".";
+import axiosClient from "./axiosClient";
 
 interface IProfile {
   email: string;
@@ -11,21 +11,18 @@ interface IProfile {
   verified_email: boolean;
 }
 
-interface IUserInfoResponse {
-  email: string;
-  name: string;
-  id: string;
-  picture: string;
+interface IAuthResponse {
+  status: string;
+  code: number;
+  token: string;
+  user: { email: string; name: string; id: string; picture: string };
 }
 
-namespace AuthenticationAPI {
+namespace AuthAPI {
   export const login = (userLoginInfo: { email: string; password: string }) => {
     const url = "/auth/login";
     const requestBody = JSON.stringify(userLoginInfo);
-    return axiosClient.post<any, { user: IUserInfoResponse; token: string }>(
-      url,
-      requestBody
-    );
+    return axiosClient.post<any, IAuthResponse>(url, requestBody);
   };
 
   export const signup = (userSignupInfo: {
@@ -41,20 +38,14 @@ namespace AuthenticationAPI {
   export const loginWithGoogle = (authCode: string) => {
     const url = "/auth/google";
     const requestBody = JSON.stringify({ authCode: authCode });
-    return axiosClient.post<any, { user: IUserInfoResponse; token: string }>(
-      url,
-      requestBody
-    );
+    return axiosClient.post<any, IAuthResponse>(url, requestBody);
   };
 
   export const verifyToken = (token: string) => {
     const url = "/auth/verify-token";
     const requestBody = JSON.stringify({ token: token });
-    return axiosClient.post<any, { user: IUserInfoResponse; message: string }>(
-      url,
-      requestBody
-    );
+    return axiosClient.post<any, IAuthResponse>(url, requestBody);
   };
 }
 
-export default AuthenticationAPI;
+export default AuthAPI;

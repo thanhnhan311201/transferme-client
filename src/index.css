@@ -7,6 +7,10 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --main-background-color: #f7f9fc;
+}
+
 * {
   margin: 0;
   padding: 0;

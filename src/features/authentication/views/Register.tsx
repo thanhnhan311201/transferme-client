@@ -5,8 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 import RegisterForm from "../components/RegisterForm";
 import useInput from "../hooks/useInput";
-import AuthenticationAPI from "../../../api/authAPI";
-import { authActions } from "../slice/authSlice";
+import { AuthAPI } from "../../../api";
 import useGoogleLoginSuccess from "../hooks/useGoogleLoginSuccess";
 
 import { REDIRECT_URI } from "../../../config";
@@ -43,7 +42,7 @@ const Register: React.FC = () => {
   const handleSignup = useCallback(() => {
     const signup = async () => {
       try {
-        const response = await AuthenticationAPI.signup({
+        const response = await AuthAPI.signup({
           email: emailValue,
           password: passwordValue,
           confirmPassword: confirmPasswordValue,

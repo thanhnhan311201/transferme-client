@@ -22,6 +22,7 @@ function App() {
       return <PublicRoutes />;
     case AUTHENTICATION_STATUS.AUTHENTICATED:
       return <ProtectedRoutes />;
+    case AUTHENTICATION_STATUS.AUTHENTICATING:
     default:
       return <div>Loading</div>;
   }

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 import LoginForm from "../components/LoginForm";
 import useInput from "../hooks/useInput";
-import AuthenticationAPI from "../../../api/authAPI";
+import { AuthAPI } from "../../../api";
 import { authActions } from "../slice/authSlice";
 import useGoogleLoginSuccess from "../hooks/useGoogleLoginSuccess";
 
@@ -38,7 +38,7 @@ const Login: React.FC = () => {
   const handleLogin = useCallback(() => {
     const login = async () => {
       try {
-        const response = await AuthenticationAPI.login({
+        const response = await AuthAPI.login({
           email: emailValue,
           password: passwordValue,
         });

@@ -9,3 +9,5 @@ export const BASE_URL_API = devEnv
   : process.env.REACT_APP_BASE_URL_API;
 
 export { CLIENT_ID, CLIENT_SECRET, REDIRECT_URI } from "./constants/google";
+
+export { type IUserInfo } from "./interface";

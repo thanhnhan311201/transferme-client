@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { CodeResponse } from "@react-oauth/google";
 
-import AuthenticationAPI from "../../../api/authAPI";
+import { AuthAPI } from "../../../api";
 import { authActions } from "../slice/authSlice";
 
 const useGoogleLoginSuccess = () => {
@@ -16,9 +16,7 @@ const useGoogleLoginSuccess = () => {
     >
   ) => {
     try {
-      const response = await AuthenticationAPI.loginWithGoogle(
-        codeResponse.code
-      );
+      const response = await AuthAPI.loginWithGoogle(codeResponse.code);
 
       document.cookie = `accessToken=${response.token}; expires= ${new Date(
         new Date().getTime() + 3599 * 1000

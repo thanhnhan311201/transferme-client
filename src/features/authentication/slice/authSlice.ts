@@ -3,13 +3,14 @@ import { createSlice } from "@reduxjs/toolkit";
 export enum AUTHENTICATION_STATUS {
   UNAUTHENTICATE = "UNAUTHENTICATE",
   AUTHENTICATED = "AUTHENTICATED",
+  AUTHENTICATING = "AUTHENTICATING",
 }
 
 const authSlice = createSlice({
   name: "auth",
   initialState: {
     authStatus: AUTHENTICATION_STATUS.UNAUTHENTICATE,
-    userInfo: { id: null, email: null, name: null, picture: null },
+    userInfo: { id: "", email: "", name: "", picture: "" },
   },
   reducers: {
     setAuthenticated: (state, action) => ({
@@ -20,7 +21,11 @@ const authSlice = createSlice({
     setUnauthenticated: (state) => ({
       ...state,
       authStatus: AUTHENTICATION_STATUS.UNAUTHENTICATE,
-      userInfo: { id: null, email: null, name: null, picture: null },
+      userInfo: { id: "", email: "", name: "", picture: "" },
+    }),
+    setUnauthenticating: (state) => ({
+      ...state,
+      authStatus: AUTHENTICATION_STATUS.AUTHENTICATING,
     }),
   },
 });

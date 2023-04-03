@@ -1,0 +1,56 @@
+import React from "react";
+
+import { MdLogout } from "react-icons/md";
+import { IconContext } from "react-icons";
+
+import { type IUserInfo } from "../../../config";
+
+const UserNav: React.FC<{ onLogout: () => void; userInfo: IUserInfo }> = (
+  props
+) => {
+  return (
+    <div className="bg-modal-user w-96 shadow-user-nav p-2 rounded-3xl absolute top-16 right-4">
+      <div className="bg-white w-full p-4 rounded-3xl mb-2">
+        <div className="flex gap-4 items-center">
+          <div className="w-14">
+            <img
+              className="rounded-full w-full"
+              src={props.userInfo.picture}
+              alt="User avatar"
+            />
+          </div>
+          <div className="grow">
+            <div className="text-3c4043 font-medium text-sm">
+              {props.userInfo.name}
+            </div>
+            <div className="text-5f6368 text-xs">{props.userInfo.email}</div>
+          </div>
+        </div>
+      </div>
+      <div
+        onClick={props.onLogout}
+        className="w-full p-4 hover:bg-e0e9f8 rounded-3xl"
+      >
+        <div className="flex gap-4 items-center">
+          <div className="w-14 flex justify-center">
+            <IconContext.Provider
+              value={{
+                style: {
+                  width: "1.5rem",
+                  height: "1.5rem",
+                },
+              }}
+            >
+              <MdLogout />
+            </IconContext.Provider>
+          </div>
+          <div className="grow">
+            <span className="text-3c4043 font-medium text-base">Log out</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default UserNav;
