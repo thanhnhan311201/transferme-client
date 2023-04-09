@@ -4,10 +4,11 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import LoginForm from "../components/LoginForm";
-import useInput from "../hooks/useInput";
 import { AuthAPI } from "../../../api";
 import { authActions } from "../slice/authSlice";
-import useGoogleLoginSuccess from "../hooks/useGoogleLoginSuccess";
+import { socketActions } from "../../transfer/slice/socketSlice";
+import { useGoogleLoginSuccess } from "../hooks";
+import { useInput } from "../hooks";
 
 import { REDIRECT_URI } from "../../../config";
 
@@ -52,6 +53,7 @@ const Login: React.FC = () => {
         // TODO: save
         // jwtStorage.set();
 
+        dispatch(socketActions.connect());
         dispatch(authActions.setAuthenticated(response.user));
         navigate("/transfer");
       } catch (error) {

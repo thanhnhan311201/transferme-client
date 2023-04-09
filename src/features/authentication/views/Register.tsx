@@ -4,9 +4,9 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import RegisterForm from "../components/RegisterForm";
-import useInput from "../hooks/useInput";
 import { AuthAPI } from "../../../api";
-import useGoogleLoginSuccess from "../hooks/useGoogleLoginSuccess";
+import { useGoogleLoginSuccess } from "../hooks";
+import { useInput } from "../hooks";
 
 import { REDIRECT_URI } from "../../../config";
 

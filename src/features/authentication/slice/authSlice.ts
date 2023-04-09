@@ -6,12 +6,23 @@ export enum AUTHENTICATION_STATUS {
   AUTHENTICATING = "AUTHENTICATING",
 }
 
+interface SliceState {
+  authStatus: string;
+  userInfo: {
+    id: string;
+    email: string;
+    name: string;
+    picture: string;
+  };
+}
+
 const authSlice = createSlice({
   name: "auth",
   initialState: {
     authStatus: AUTHENTICATION_STATUS.UNAUTHENTICATE,
     userInfo: { id: "", email: "", name: "", picture: "" },
-  },
+    socket: undefined,
+  } as SliceState,
   reducers: {
     setAuthenticated: (state, action) => ({
       ...state,
@@ -26,6 +37,7 @@ const authSlice = createSlice({
     setUnauthenticating: (state) => ({
       ...state,
       authStatus: AUTHENTICATION_STATUS.AUTHENTICATING,
+      userInfo: { id: "", email: "", name: "", picture: "" },
     }),
   },
 });

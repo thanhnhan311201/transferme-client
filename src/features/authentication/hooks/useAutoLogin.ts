@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import { authActions } from "../slice/authSlice";
+import { socketActions } from "../../transfer/slice/socketSlice";
 
 import { AuthAPI } from "../../../api/";
 
@@ -31,14 +32,23 @@ const useAutoLogin = () => {
           return dispatch(authActions.setUnauthenticated());
         }
 
+        dispatch(socketActions.connect());
         dispatch(authActions.setAuthenticated(response.user));
         navigate("/transfer");
       } else {
+        // dispatch(socketActions.disconnect());
         dispatch(authActions.setUnauthenticated());
         console.log("Not authenticated.");
       }
     } catch (error) {
       console.log(error);
+      dispatch(authActions.setUnauthenticated());
+      document.cookie = `accessToken= ; expires= ${new Date(
+        new Date().getTime()
+      ).toUTCString()}`;
+      document.cookie = `userId= ; expires= ${new Date(
+        new Date().getTime()
+      ).toUTCString()}`;
     }
   }, []);
 };

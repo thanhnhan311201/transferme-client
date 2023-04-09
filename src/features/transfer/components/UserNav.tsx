@@ -1,4 +1,5 @@
 import React from "react";
+import { motion } from "framer-motion";
 
 import { MdLogout } from "react-icons/md";
 import { IconContext } from "react-icons";
@@ -9,7 +10,12 @@ const UserNav: React.FC<{ onLogout: () => void; userInfo: IUserInfo }> = (
   props
 ) => {
   return (
-    <div className="bg-modal-user w-96 shadow-user-nav p-2 rounded-3xl absolute top-16 right-4">
+    <motion.div
+      initial={{ opacity: 0, y: -50, scale: 0.1 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, y: -50, scale: 0.1 }}
+      className="bg-modal-user w-96 shadow-user-nav p-2 rounded-3xl absolute top-16 right-4"
+    >
       <div className="bg-white w-full p-4 rounded-3xl mb-2">
         <div className="flex gap-4 items-center">
           <div className="w-14">
@@ -17,6 +23,7 @@ const UserNav: React.FC<{ onLogout: () => void; userInfo: IUserInfo }> = (
               className="rounded-full w-full"
               src={props.userInfo.picture}
               alt="User avatar"
+              referrerPolicy="no-referrer"
             />
           </div>
           <div className="grow">
@@ -49,7 +56,7 @@ const UserNav: React.FC<{ onLogout: () => void; userInfo: IUserInfo }> = (
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
