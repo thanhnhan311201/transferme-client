@@ -4,6 +4,7 @@ import { NavLink } from "react-router-dom";
 import { RiFileTransferFill } from "react-icons/ri";
 import { RiFileTransferLine } from "react-icons/ri";
 import { IconContext } from "react-icons";
+import { motion } from "framer-motion";
 
 const featsNav: { key: string; content: string }[] = [
   { key: "transfer", content: "Transfer file" },
@@ -13,7 +14,12 @@ const activeNav: string = "transfer";
 
 const Navigation = () => {
   return (
-    <div className="overflow-hidden">
+    <motion.div
+      initial={{ opacity: 0, x: -100 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.75 }}
+      className="overflow-hidden"
+    >
       <div className="w-full p-4">
         <div className="flex flex-col w-full">
           {featsNav.map((feat) => (
@@ -46,7 +52,7 @@ const Navigation = () => {
           ))}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

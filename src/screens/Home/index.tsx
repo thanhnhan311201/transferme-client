@@ -3,24 +3,25 @@ import { motion } from "framer-motion";
 
 import Header from "./components/Header";
 
-import illustration from "../../images/5568482_2879879.jpg";
+import HomePage from "../../images/home-page.png";
 
 const ScreenHome: React.FC = () => {
   return (
-    <div className="bg-primary-color--tint w-screen h-screen flex flex-col">
+    <div className="bg-white w-screen h-screen flex flex-col">
       <Header />
       <main className="flex-1 h-auto bg-inherit">
-        <div className="flex justify-center pt-32">
-          <div className="max-w-7xl grid grid-cols-2 gap-24 px-8 items-center">
+        <div className="flex justify-center">
+          <div className="grid grid-cols-2-for-home px-24 pt-16 items-center">
             <motion.div
               initial={{ opacity: 0, x: -200 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 1 }}
+              transition={{ duration: 0.75 }}
+              className="justify-self-start"
             >
-              <h1 className="text-5xl mb-8 text-333 font-bold tracking-tight pr-28">
+              <h1 className="text-5xl mb-14 text-333 font-bold tracking-tight">
                 Transfer and take your files to infinity and beyond
               </h1>
-              <p className="text-xl mb-12 text-555 pr-28">
+              <p className="text-xl mb-36 text-555">
                 TransferMe is a simple, fast and secure way to share your data
               </p>
               <Link
@@ -33,10 +34,11 @@ const ScreenHome: React.FC = () => {
             <motion.div
               initial={{ opacity: 0, y: 200 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1 }}
+              transition={{ duration: 0.75 }}
+              className="w-85/100 justify-self-end"
             >
               <img
-                src={illustration}
+                src={HomePage}
                 alt="Transfer file illustration"
                 className="w-full"
               />

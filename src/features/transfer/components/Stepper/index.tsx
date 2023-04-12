@@ -22,22 +22,31 @@ const steps = [
   "Transfer",
 ];
 
-const FileTransferStepper: React.FC = () => {
+const FileTransferStepper: React.FC<{
+  onSetStep: (newStep: number) => void;
+}> = (props) => {
   const [activeStep, setActiveStep] = React.useState(0);
   const [isNext, setIsNext] = useState(false);
 
   const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    setActiveStep((prevActiveStep) => {
+      props.onSetStep(prevActiveStep + 1);
+      return prevActiveStep + 1;
+    });
   };
 
   const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    setActiveStep((prevActiveStep) => {
+      props.onSetStep(prevActiveStep - 1);
+      return prevActiveStep - 1;
+    });
   };
 
   const handleReset = () => {
     fileInstance.file = null;
     deviceInstance.device = "";
     setActiveStep(0);
+    props.onSetStep(0);
     setIsNext(false);
   };
 

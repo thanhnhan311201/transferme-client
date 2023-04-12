@@ -21,7 +21,12 @@ const Header: React.FC<{
   onHandleShowUserNav: () => void;
 }> = (props) => {
   return (
-    <div className="w-screen col-span-full">
+    <motion.div
+      initial={{ opacity: 0, y: -50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.75 }}
+      className="w-screen col-span-full"
+    >
       <div className="w-full grid grid-cols-3-for-transferLayout items-center">
         <div className="py-4 px-2">
           <div className="w-36 pl-5 ">
@@ -95,7 +100,7 @@ const Header: React.FC<{
           </div>
         </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

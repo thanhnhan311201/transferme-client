@@ -29,6 +29,7 @@ module.exports = {
       gridTemplateColumns: {
         "3-for-transferLayout": "250px auto 300px",
         "2-for-header": "250px auto",
+        "2-for-home": "1fr 2fr",
       },
       gridTemplateRows: {
         "2-for-transferLayout": "auto 1fr",
@@ -37,6 +38,11 @@ module.exports = {
         "user-nav":
           "0 4px 8px 3px rgba(0, 0, 0, .15), 0 1px 3px rgba(0, 0, 0, .3)",
         btn: "0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12)",
+      },
+      width: {
+        "1/2": "50%",
+        "85/100": "85%",
+        "65/100": "65%",
       },
       maxWidth: {
         "1/2": "50%",

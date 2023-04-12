@@ -1,12 +1,18 @@
 import React from "react";
 import { IconContext } from "react-icons";
 import { BsCircleFill } from "react-icons/bs";
+import { motion } from "framer-motion";
 
 const ListDevice: React.FC<{
   devices: { picture: string; socketId: string }[];
 }> = (props) => {
   return (
-    <div className="overflow-hidden p-4 pt-0">
+    <motion.div
+      initial={{ opacity: 0, x: 100 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.75 }}
+      className="overflow-hidden p-4 pt-0"
+    >
       <div className="w-full rounded-xl p-4">
         <div className="flex flex-col w-full gap-3">
           <span className="text-3c4043 font-medium text-lg">Devices</span>
@@ -54,7 +60,7 @@ const ListDevice: React.FC<{
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

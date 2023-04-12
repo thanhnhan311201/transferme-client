@@ -1,11 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 import logo from "../../../images/logo_3.png";
 
 const Header = () => {
   return (
-    <header className="flex justify-between items-center bg-inherit py-4 px-24">
+    <motion.div
+      initial={{ opacity: 0, y: -50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.75 }}
+      className="flex justify-between items-center bg-inherit py-4 px-24"
+    >
       <Link to="/" className="w-48">
         <img className="w-full" src={logo} alt="TransferMe Logo" />
       </Link>
@@ -23,7 +29,7 @@ const Header = () => {
           Join now
         </Link>
       </nav>
-    </header>
+    </motion.div>
   );
 };
 
