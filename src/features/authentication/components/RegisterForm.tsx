@@ -1,8 +1,10 @@
 import TextField from "@mui/material/TextField";
 import { Button, Divider } from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress";
 import { NavLink } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { IconContext } from "react-icons";
+import { motion } from "framer-motion";
 
 const RegisterForm: React.FC<{
   email: string;
@@ -21,11 +23,23 @@ const RegisterForm: React.FC<{
   onSignup: () => void;
 }> = (props) => {
   return (
-    <div className="w-96">
+    <motion.div
+      key="register"
+      initial={{ opacity: 0, x: -100 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: 100 }}
+      transition={{ duration: 0.5 }}
+      className="w-96"
+    >
       <form className="flex flex-col px-6 py-8 rounded-xl shadow-lg mb-8">
-        <div className="mb-8">
-          <h2 className="text-4xl mb-1 font-bold">Sign up</h2>
-          <p className="text-xs">Transfering faster than your love with ex</p>
+        <div className="mb-8 flex justify-between items-start">
+          <div>
+            <h2 className="text-4xl mb-1 font-bold">Sign up</h2>
+            <p className="text-xs">Transfering faster than your love with ex</p>
+          </div>
+          <div className="flex">
+            <CircularProgress />
+          </div>
         </div>
         <div className="mb-4">
           <TextField
@@ -165,7 +179,7 @@ const RegisterForm: React.FC<{
           </NavLink>
         </p>
       </form>
-    </div>
+    </motion.div>
   );
 };
 

@@ -14,7 +14,7 @@ const UserNav: React.FC<{ onLogout: () => void; userInfo: IUserInfo }> = (
       initial={{ opacity: 0, y: -50, scale: 0.1 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: -50, scale: 0.1 }}
-      className="bg-modal-user w-96 shadow-user-nav p-2 rounded-3xl absolute top-16 right-4"
+      className="bg-modal-user w-96 shadow-user-nav p-2 rounded-3xl absolute top-16 right-4 z-50"
     >
       <div className="bg-white w-full p-4 rounded-3xl mb-2">
         <div className="flex gap-4 items-center">

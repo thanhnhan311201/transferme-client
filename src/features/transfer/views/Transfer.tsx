@@ -6,6 +6,7 @@ import Header from "../components/Header";
 import ListDevice from "../components/ListDevice";
 import TransferForm from "../components/TransferForm";
 import UserNav from "../components/UserNav";
+import Navigation from "../components/Navigation";
 import { authActions } from "../../authentication/slice/authSlice";
 import { socketActions } from "../slice/socketSlice";
 
@@ -55,7 +56,7 @@ const Transfer: React.FC = () => {
 
   return (
     <div className="bg-main-bg h-screen">
-      <div className="h-full grid grid-cols-2-for-transferLayout grid-rows-2-for-transferLayout">
+      <div className="h-full grid grid-cols-3-for-transferLayout grid-rows-2-for-transferLayout">
         <Header
           socketId={socketId}
           showUserNav={showUserNav}
@@ -67,8 +68,9 @@ const Transfer: React.FC = () => {
             <UserNav key="modal" onLogout={handleLogout} userInfo={userInfo} />
           </AnimatePresence>
         )}
-        <ListDevice devices={devices} />
+        <Navigation />
         <TransferForm />
+        <ListDevice devices={devices} />
       </div>
     </div>
   );

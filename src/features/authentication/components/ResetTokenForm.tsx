@@ -1,10 +1,18 @@
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
 import { NavLink } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const ResetTokenForm: React.FC = () => {
   return (
-    <div className="w-96">
+    <motion.div
+      key="resettoken"
+      initial={{ opacity: 0, x: -100 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: 100 }}
+      transition={{ duration: 0.5 }}
+      className="w-96"
+    >
       <form className="flex flex-col px-6 py-8 rounded-xl shadow-lg mb-8">
         <div className="mb-8">
           <h2 className="text-2xl mb-1 font-bold">
@@ -60,7 +68,7 @@ const ResetTokenForm: React.FC = () => {
           If you don't see the email in your inbox, check your spam folder.
         </p>
       </form>
-    </div>
+    </motion.div>
   );
 };
 

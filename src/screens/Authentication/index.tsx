@@ -1,8 +1,18 @@
-const ScreenAuthentication: React.FC<{ children: React.ReactNode }> = (
-  props
-) => {
+import { Outlet } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
+
+import Header from "./components/Header";
+
+const ScreenAuthentication: React.FC = (props) => {
   return (
-    <div className="flex justify-center items-center">{props.children}</div>
+    <>
+      <Header />
+      <div className="flex justify-center items-center pt-12">
+        <AnimatePresence>
+          <Outlet />
+        </AnimatePresence>
+      </div>
+    </>
   );
 };
 

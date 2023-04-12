@@ -3,6 +3,9 @@ module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
+      backgroundImage: {
+        home: "url('/src/images/background.png')",
+      },
       colors: {
         "main-bg": "#f7f9fc",
         "modal-user": "#f3f6fc",
@@ -15,9 +18,17 @@ module.exports = {
         "1f1f1f": "#1f1f1f",
         "0000008a": "#0000008a",
         e5e7eb: "#e5e7eb",
+        c2e7ff: "#c2e7ff",
+        d7f4f3: "#d7f4f3",
+        "primary-color": "#1565c0",
+        "primary-color--tint": "#e8f0f9",
+        "primary-color--shade": "#135bad",
+        333: "#333",
+        555: "#555",
       },
       gridTemplateColumns: {
-        "2-for-transferLayout": "320px auto",
+        "3-for-transferLayout": "250px auto 300px",
+        "2-for-header": "250px auto",
       },
       gridTemplateRows: {
         "2-for-transferLayout": "auto 1fr",

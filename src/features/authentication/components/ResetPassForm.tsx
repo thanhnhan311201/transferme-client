@@ -1,12 +1,20 @@
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const ResetPassForm: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="w-96">
+    <motion.div
+      key="resetpass"
+      initial={{ opacity: 0, x: -100 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: 100 }}
+      transition={{ duration: 0.5 }}
+      className="w-96"
+    >
       <form className="flex flex-col px-6 py-8 rounded-xl shadow-lg mb-8">
         <div className="mb-8">
           <h2 className="text-4xl mb-1 font-bold">Reset password</h2>
@@ -61,7 +69,7 @@ const ResetPassForm: React.FC = () => {
           Back
         </Button>
       </form>
-    </div>
+    </motion.div>
   );
 };
 

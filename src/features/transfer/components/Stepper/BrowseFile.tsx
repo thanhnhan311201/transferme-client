@@ -1,5 +1,6 @@
 import React from "react";
 import Box from "@mui/material/Box";
+import CircularProgress from "@mui/material/CircularProgress";
 import { AiFillFileText } from "react-icons/ai";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { FaTrashAlt } from "react-icons/fa";
@@ -8,7 +9,7 @@ import { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
 import { motion, AnimatePresence } from "framer-motion";
 
-import fileInstance from "../../utils/cacheFile";
+import fileInstance from "../../utils/cache-file";
 
 const MAX_FILE_SIZE = 1000000000;
 
@@ -39,7 +40,6 @@ const BrowseFile: React.FC<{
       props.onHandleAllowToContinue(false);
       setError("File does not upload!");
       setIsFileUploaded(false);
-      console.log("File does not upload!");
       return;
     }
     const file = e.target.files[0];
@@ -49,7 +49,6 @@ const BrowseFile: React.FC<{
     } else {
       fileInstance.file = null;
       props.onHandleAllowToContinue(false);
-      console.log("The size of the file must be less than 1MB");
       setError("The size of the file must be less than 1MB");
       setIsFileUploaded(false);
     }
@@ -66,11 +65,9 @@ const BrowseFile: React.FC<{
       setError("File does not upload!");
       setIsFileUploaded(false);
       props.onHandleAllowToContinue(false);
-      console.log("File does not upload!");
       return;
     }
 
-    console.log(fileInstance.file);
     setIsLoading(false);
     setError("");
     setIsFileUploaded(true);
@@ -151,26 +148,7 @@ const BrowseFile: React.FC<{
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             >
-              <motion.div
-                animate={{ rotate: [0, -180, -360] }}
-                transition={{
-                  repeat: Infinity,
-                  times: [0, 0.5, 1],
-                  repeatDelay: 0,
-                }}
-              >
-                <IconContext.Provider
-                  value={{
-                    style: {
-                      color: "#9e9e9e",
-                      width: "1.5rem",
-                      height: "1.5rem",
-                    },
-                  }}
-                >
-                  <AiOutlineLoading3Quarters />
-                </IconContext.Provider>
-              </motion.div>
+              <CircularProgress />
             </motion.div>
           )}
           {isFileUploaded && fileInstance.file && !isLoading && (

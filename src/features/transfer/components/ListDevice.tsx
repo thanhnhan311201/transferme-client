@@ -7,11 +7,9 @@ const ListDevice: React.FC<{
 }> = (props) => {
   return (
     <div className="overflow-hidden p-4 pt-0">
-      <div className="w-full rounded-xl p-4 bg-edf2fc">
+      <div className="w-full rounded-xl p-4">
         <div className="flex flex-col w-full gap-3">
-          <div className="border-b border-solid border-3c4043">
-            <span className="text-3c4043 font-medium text-xl">List Device</span>
-          </div>
+          <span className="text-3c4043 font-medium text-lg">Devices</span>
           <div>
             {props.devices.length === 0 ? (
               <p className="text-sm">No device found.</p>
@@ -36,7 +34,7 @@ const ListDevice: React.FC<{
                               color: "#46ab5e",
                               bottom: -2,
                               right: -2,
-                              zIndex: 100,
+                              zIndex: 2,
                               border: "2px solid #fff",
                               borderRadius: "50%",
                             },

@@ -1,7 +1,12 @@
 import React from "react";
+import Box from "@mui/material/Box";
 
 const FileTransfer: React.FC = () => {
-  return <div>FileTransfer</div>;
+  return (
+    <React.Fragment>
+      <Box></Box>
+    </React.Fragment>
+  );
 };
 
 export default FileTransfer;

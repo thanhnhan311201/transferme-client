@@ -11,17 +11,17 @@ import ResetToken from "../features/authentication/views/ResetToken";
 
 const PublicRoutes: React.FC = () => {
   return (
-    <ScreenAuthentication>
-      <Routes>
-        <Route path="/" element={<ScreenHome />} />
-        <Route path="/auth/login" element={<Login />} />
-        <Route path="/auth/signup" element={<Register />} />
-        <Route path="/auth/reset" element={<ResetPass />} />
-        <Route path="/auth/newpass" element={<NewPass />} />
-        <Route path="/auth/reset-token" element={<ResetToken />} />
-        <Route path="*" element={<Navigate to={"/"} />} />
-      </Routes>
-    </ScreenAuthentication>
+    <Routes>
+      <Route path="/" element={<ScreenHome />} />
+      <Route path="/auth" element={<ScreenAuthentication />}>
+        <Route path="login" element={<Login />} />
+        <Route path="signup" element={<Register />} />
+        <Route path="reset" element={<ResetPass />} />
+        <Route path="newpass" element={<NewPass />} />
+        <Route path="reset-token" element={<ResetToken />} />
+      </Route>
+      <Route path="*" element={<Navigate to={"/"} />} />
+    </Routes>
   );
 };
 

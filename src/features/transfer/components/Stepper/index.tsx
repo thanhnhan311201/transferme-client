@@ -13,6 +13,8 @@ import { useState, useMemo, useEffect } from "react";
 import BrowseFile from "./BrowseFile";
 import DeviceOption from "./DeviceOption";
 import FileTransfer from "./FileTransfer";
+import fileInstance from "../../utils/cache-file";
+import deviceInstance from "../../utils/select-device";
 
 const steps = [
   "Choose file to transfer",
@@ -33,7 +35,10 @@ const FileTransferStepper: React.FC = () => {
   };
 
   const handleReset = () => {
+    fileInstance.file = null;
+    deviceInstance.device = "";
     setActiveStep(0);
+    setIsNext(false);
   };
 
   const handleAllowToContinue = (isAllow: boolean) => {
@@ -42,10 +47,8 @@ const FileTransferStepper: React.FC = () => {
 
   const stepContent: React.ReactElement[] = useMemo(
     () => [
-      <BrowseFile
-        onHandleAllowToContinue={handleAllowToContinue}
-      />,
-      <DeviceOption />,
+      <BrowseFile onHandleAllowToContinue={handleAllowToContinue} />,
+      <DeviceOption onHandleAllowToContinue={handleAllowToContinue} />,
       <FileTransfer />,
     ],
     []
@@ -56,15 +59,7 @@ const FileTransferStepper: React.FC = () => {
       <Stepper activeStep={activeStep} orientation="vertical">
         {steps.map((step, index) => (
           <Step key={step}>
-            <StepLabel
-              optional={
-                index === 2 ? (
-                  <Typography variant="caption">Last step</Typography>
-                ) : null
-              }
-            >
-              {step}
-            </StepLabel>
+            <StepLabel>{step}</StepLabel>
             <StepContent>
               <Box
                 sx={{
