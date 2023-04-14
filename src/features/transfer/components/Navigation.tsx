@@ -23,7 +23,7 @@ const Navigation = () => {
       <div className="w-full p-4">
         <div className="flex flex-col w-full">
           {featsNav.map((feat) => (
-            <NavLink to={`/${feat.key}`}>
+            <NavLink key={feat.key} to={`/${feat.key}`}>
               <div
                 className={`px-4 py-2 hover:bg-edf2fc flex justify-start cursor-pointer rounded-xl ${
                   activeNav === feat.key ? "bg-e0e9f8" : "bg-inherit"

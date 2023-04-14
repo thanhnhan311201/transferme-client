@@ -1,4 +1,6 @@
 import * as React from "react";
+import { useState, useMemo, useEffect } from "react";
+
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
@@ -8,36 +10,53 @@ import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 
-import { useState, useMemo, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+
+import { TbReload } from "react-icons/tb";
+import { GrStatusGood } from "react-icons/gr";
+import { IconContext } from "react-icons";
 
 import BrowseFile from "./BrowseFile";
 import DeviceOption from "./DeviceOption";
 import FileTransfer from "./FileTransfer";
+import TransferSuccess from "./TransferSuccess";
+import TransferError from "./TransferError";
+
 import fileInstance from "../../utils/cache-file";
 import deviceInstance from "../../utils/select-device";
+
+import browseFile from "../../../../images/browse-file.png";
+import devices from "../../../../images/devices.png";
+import transfer from "../../../../images/transfer.png";
+import finish from "../../../../images/finishtransfer.png";
 
 const steps = [
   "Choose file to transfer",
   "Choose device to transfer",
-  "Transfer",
+  "Transfer file",
 ];
 
-const FileTransferStepper: React.FC<{
-  onSetStep: (newStep: number) => void;
-}> = (props) => {
+const FileTransferStepper: React.FC = () => {
   const [activeStep, setActiveStep] = React.useState(0);
   const [isNext, setIsNext] = useState(false);
+  const [isStartTransfer, setIsStartTransfer] = useState<boolean>(false);
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => {
-      props.onSetStep(prevActiveStep + 1);
       return prevActiveStep + 1;
     });
   };
 
+  const handleTransferFile = () => {
+    setIsStartTransfer(true);
+  };
+
+  const handleCancelTransfer = () => {
+    setIsStartTransfer(false);
+  };
+
   const handleBack = () => {
     setActiveStep((prevActiveStep) => {
-      props.onSetStep(prevActiveStep - 1);
       return prevActiveStep - 1;
     });
   };
@@ -46,106 +65,169 @@ const FileTransferStepper: React.FC<{
     fileInstance.file = null;
     deviceInstance.device = "";
     setActiveStep(0);
-    props.onSetStep(0);
     setIsNext(false);
+    setIsStartTransfer(false);
   };
 
   const handleAllowToContinue = (isAllow: boolean) => {
     setIsNext(isAllow);
   };
 
-  const stepContent: React.ReactElement[] = useMemo(
-    () => [
+  const stepContent: React.ReactElement[] = useMemo(() => {
+    return [
       <BrowseFile onHandleAllowToContinue={handleAllowToContinue} />,
       <DeviceOption onHandleAllowToContinue={handleAllowToContinue} />,
-      <FileTransfer />,
-    ],
-    []
-  );
+      <FileTransfer
+        isStartTransfer={isStartTransfer}
+        onCancelTransfer={handleCancelTransfer}
+      />,
+    ];
+  }, [isStartTransfer]);
+
+  useEffect(() => {
+    fileInstance.file = null;
+    deviceInstance.device = "";
+  }, []);
 
   return (
-    <Box sx={{ width: "100%", height: "100%" }}>
-      <Stepper activeStep={activeStep} orientation="vertical">
-        {steps.map((step, index) => (
-          <Step key={step}>
-            <StepLabel>{step}</StepLabel>
-            <StepContent>
-              <Box
-                sx={{
-                  margin: "36px 0",
-                }}
-              >
+    <Box
+      sx={{
+        position: "relative",
+        width: "100%",
+      }}
+    >
+      <Box sx={{ width: "50%" }}>
+        <Stepper activeStep={activeStep} orientation="vertical">
+          {steps.map((step, index) => (
+            <Step key={step}>
+              <StepLabel>{step}</StepLabel>
+              <StepContent>
                 <Box
                   sx={{
-                    marginBottom: "24px",
+                    margin: "36px 0",
                   }}
                 >
-                  {stepContent[activeStep]}
-                </Box>
-                <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-                  <Button
-                    color="inherit"
-                    disabled={activeStep === 0}
-                    onClick={handleBack}
-                    sx={{
-                      mr: 1,
-                      width: "25%",
-                      marginRight: "1rem",
-                      "&:hover": {
-                        backgroundColor: "#fff",
-                        boxShadow:
-                          "0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12)",
-                        borderRadius: "8px",
-                      },
-                    }}
+                  <motion.div
+                    className="mb-10"
+                    initial={{ opacity: 0, y: 50 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.25 }}
                   >
-                    Back
-                  </Button>
-                  <Button
-                    disabled={!isNext}
-                    sx={{
-                      width: "75%",
-                      padding: "8px",
-                      backgroundColor: "#fff",
-                      boxShadow:
-                        "0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12)",
-                      borderRadius: "8px",
-                      "&:hover": {
-                        backgroundColor: "#1976d2",
-                        color: "#fff",
-                      },
-                    }}
-                    onClick={handleNext}
-                  >
-                    {activeStep === steps.length - 1 ? "Finish" : "Next"}
-                  </Button>
+                    {stepContent[activeStep]}
+                  </motion.div>
+                  {!isStartTransfer && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 50 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.25, delay: 0.25 }}
+                      className="flex flex-row"
+                    >
+                      <Button
+                        color="inherit"
+                        disabled={activeStep === 0}
+                        onClick={handleBack}
+                        sx={{
+                          mr: 1,
+                          width: "25%",
+                          marginRight: "1rem",
+                          borderRadius: "8px",
+                          "&:hover": {
+                            backgroundColor: "#fff",
+                            boxShadow:
+                              "0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12)",
+                          },
+                        }}
+                      >
+                        Back
+                      </Button>
+                      {activeStep < steps.length - 1 ? (
+                        <Button
+                          disabled={!isNext}
+                          sx={{
+                            width: "75%",
+                            padding: "8px",
+                            backgroundColor: "#fff",
+                            boxShadow:
+                              "0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12)",
+                            borderRadius: "8px",
+                            "&:hover": {
+                              backgroundColor: "#1976d2",
+                              color: "#fff",
+                            },
+                          }}
+                          onClick={handleNext}
+                        >
+                          Next
+                        </Button>
+                      ) : (
+                        <Button
+                          sx={{
+                            width: "75%",
+                            padding: "8px",
+                            backgroundColor: "#fff",
+                            boxShadow:
+                              "0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12)",
+                            borderRadius: "8px",
+                            "&:hover": {
+                              backgroundColor: "#1976d2",
+                              color: "#fff",
+                            },
+                          }}
+                          onClick={handleTransferFile}
+                        >
+                          Transfer
+                        </Button>
+                      )}
+                    </motion.div>
+                  )}
                 </Box>
-              </Box>
-            </StepContent>
-          </Step>
-        ))}
-      </Stepper>
-      {activeStep === steps.length && (
-        <Paper square elevation={0} sx={{ p: 3 }}>
-          <Typography sx={{ mb: 2 }}>Transfer completed.</Typography>
-          <Button
-            sx={{
-              padding: "8px",
-              backgroundColor: "#fff",
-              boxShadow:
-                "0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12)",
-              borderRadius: "8px",
-              "&:hover": {
-                backgroundColor: "#fff",
-                boxShadow:
-                  "0 4px 8px 3px rgba(0, 0, 0, .15), 0 1px 3px rgba(0, 0, 0, .3)",
-              },
-            }}
-            onClick={handleReset}
-          >
-            Transfer again
-          </Button>
-        </Paper>
+              </StepContent>
+            </Step>
+          ))}
+        </Stepper>
+        {activeStep === steps.length && (
+          <TransferSuccess onHandleReset={handleReset} />
+        )}
+      </Box>
+      {activeStep === 0 && (
+        <motion.img
+          initial={{ opacity: 0, y: 75 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="absolute w-auto h-96 top-8 right-0"
+          src={browseFile}
+          alt="browse file"
+        ></motion.img>
+      )}
+      {activeStep === 1 && (
+        <motion.img
+          initial={{ opacity: 0, y: 75 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="absolute w-auto h-96 top-12 right-0"
+          src={devices}
+          alt="choose device"
+        ></motion.img>
+      )}
+      {activeStep === 2 && (
+        <motion.img
+          initial={{ opacity: 0, y: 75 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="absolute w-auto h-80 top-32 right-0"
+          src={transfer}
+          alt="transfer file"
+        ></motion.img>
+      )}
+      {activeStep === 3 && (
+        <motion.img
+          initial={{ opacity: 0, y: 75 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="absolute w-auto h-88 top-24 right-0"
+          src={finish}
+          alt="finish transfer"
+        ></motion.img>
       )}
     </Box>
   );

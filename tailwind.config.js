@@ -25,6 +25,7 @@ module.exports = {
         "primary-color--shade": "#135bad",
         333: "#333",
         555: "#555",
+        "4caf50": "#4caf50",
       },
       gridTemplateColumns: {
         "3-for-transferLayout": "250px auto 300px",
@@ -44,6 +45,7 @@ module.exports = {
         "85/100": "85%",
         "65/100": "65%",
       },
+      height: { 88: "22rem" },
       maxWidth: {
         "1/2": "50%",
         "3/4": "75%",

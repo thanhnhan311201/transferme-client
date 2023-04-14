@@ -38,13 +38,7 @@ const DeviceOption: React.FC<{
 
   return (
     <React.Fragment>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
+      <Box>
         <FormControl fullWidth>
           <InputLabel id="select-device-error-label">
             Select device *

@@ -36,7 +36,6 @@ const useAutoLogin = () => {
         dispatch(authActions.setAuthenticated(response.user));
         navigate("/transfer");
       } else {
-        // dispatch(socketActions.disconnect());
         dispatch(authActions.setUnauthenticated());
         console.log("Not authenticated.");
       }
