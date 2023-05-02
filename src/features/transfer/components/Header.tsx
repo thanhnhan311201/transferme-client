@@ -65,7 +65,7 @@ const Header: React.FC<{
           whileTap="tapped"
           animate="normal"
           initial="init"
-          className="justify-self-end mr-4"
+          className="justify-self-end mr-4 cursor-pointer"
         >
           <div
             onClick={props.onHandleShowUserNav}

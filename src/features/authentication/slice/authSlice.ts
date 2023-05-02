@@ -21,7 +21,6 @@ const authSlice = createSlice({
   initialState: {
     authStatus: AUTHENTICATION_STATUS.UNAUTHENTICATE,
     userInfo: { id: "", email: "", name: "", picture: "" },
-    socket: undefined,
   } as SliceState,
   reducers: {
     setAuthenticated: (state, action) => ({

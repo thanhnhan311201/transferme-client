@@ -20,7 +20,7 @@ interface IAuthResponse {
 
 namespace AuthAPI {
   export const login = (userLoginInfo: { email: string; password: string }) => {
-    const url = "/auth/login";
+    const url = "/user/login";
     const requestBody = JSON.stringify(userLoginInfo);
     return axiosClient.post<any, IAuthResponse>(url, requestBody);
   };
@@ -30,19 +30,19 @@ namespace AuthAPI {
     password: string;
     confirmPassword: string;
   }) => {
-    const url = "/auth/signup";
+    const url = "/user/signup";
     const requestBody = JSON.stringify(userSignupInfo);
     return axiosClient.post(url, requestBody);
   };
 
   export const loginWithGoogle = (authCode: string) => {
-    const url = "/auth/google";
+    const url = "/user/google";
     const requestBody = JSON.stringify({ authCode: authCode });
     return axiosClient.post<any, IAuthResponse>(url, requestBody);
   };
 
   export const verifyToken = (token: string) => {
-    const url = "/auth/verify-token";
+    const url = "/user/verify-token";
     const requestBody = JSON.stringify({ token: token });
     return axiosClient.post<any, IAuthResponse>(url, requestBody);
   };
