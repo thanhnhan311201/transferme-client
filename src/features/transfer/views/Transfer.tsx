@@ -14,22 +14,8 @@ import socketClient from "../../../socket";
 import { type RootState } from "../../../states";
 import { type IUserInfo } from "../../../config";
 
-// const devices: { picture: string; socketId: string }[] = [
-//   {
-//     picture:
-//       "https://lh3.googleusercontent.com/a/AGNmyxZr85zIpU9L1nQONTk257M85ORkfXiElAYcbyST=s96-c",
-//     socketId: "nhanpnt.dev@djwf5",
-//   },
-//   {
-//     picture:
-//       "https://lh3.googleusercontent.com/a/AGNmyxZr85zIpU9L1nQONTk257M85ORkfXiElAYcbyST=s96-c",
-//     socketId: "nhanpnt.dev@d6wf5",
-//   },
-// ];
-
 const Transfer: React.FC = () => {
-  const [devices, setDevices] = useState<string[]>(socketClient.getDevices());
-  useEffect(() => {}, []);
+  const devices = useSelector((state: RootState) => state.socket.devices);
 
   const dispatch = useDispatch();
   const userInfo: IUserInfo = useSelector(
@@ -50,6 +36,7 @@ const Transfer: React.FC = () => {
       new Date().getTime()
     ).toUTCString()}`;
 
+    socketClient.disconnect();
     dispatch(authActions.setUnauthenticated());
   };
 
@@ -69,7 +56,7 @@ const Transfer: React.FC = () => {
         </AnimatePresence>
         <Navigation />
         <TransferForm />
-        <ListDevice devices={devices} />
+        <ListDevice devices={devices} deviceAvatar={userInfo.picture} />
       </div>
     </div>
   );

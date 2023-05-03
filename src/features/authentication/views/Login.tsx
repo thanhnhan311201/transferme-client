@@ -3,6 +3,8 @@ import { useGoogleLogin } from "@react-oauth/google";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
+import socketClient from "../../../socket";
+
 import LoginForm from "../components/LoginForm";
 import { AuthAPI } from "../../../api";
 import { authActions } from "../slice/authSlice";
@@ -52,6 +54,7 @@ const Login: React.FC = () => {
         // TODO: save
         // jwtStorage.set();
 
+        socketClient.connect();
         dispatch(authActions.setAuthenticated(response.user));
         navigate("/transfer");
       } catch (error) {

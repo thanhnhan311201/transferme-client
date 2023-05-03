@@ -1,10 +1,11 @@
 import React from "react";
 import { IconContext } from "react-icons";
 import { BsCircleFill } from "react-icons/bs";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 const ListDevice: React.FC<{
-  devices: { picture: string; socketId: string }[];
+  devices: string[];
+  deviceAvatar: string;
 }> = (props) => {
   return (
     <motion.div
@@ -22,38 +23,45 @@ const ListDevice: React.FC<{
             ) : (
               <ul className="flex flex-col gap-2">
                 {props.devices.map((device) => (
-                  <li key={device.socketId}>
-                    <div className="flex items-center gap-3">
-                      <div className="w-6 relative">
-                        <img
-                          className="rounded-full w-full z-0"
-                          src={device.picture}
-                          alt="User avatar"
-                          referrerPolicy="no-referrer"
-                        />
-                        <IconContext.Provider
-                          value={{
-                            style: {
-                              position: "absolute",
-                              width: "0.75rem",
-                              height: "0.75rem",
-                              color: "#46ab5e",
-                              bottom: -2,
-                              right: -2,
-                              zIndex: 2,
-                              border: "2px solid #fff",
-                              borderRadius: "50%",
-                            },
-                          }}
-                        >
-                          <BsCircleFill />
-                        </IconContext.Provider>
+                  <AnimatePresence>
+                    <motion.li
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      key={device}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="w-6 relative">
+                          <img
+                            className="rounded-full w-full z-0"
+                            src={props.deviceAvatar}
+                            alt="User avatar"
+                            referrerPolicy="no-referrer"
+                          />
+                          <IconContext.Provider
+                            value={{
+                              style: {
+                                position: "absolute",
+                                width: "0.75rem",
+                                height: "0.75rem",
+                                color: "#46ab5e",
+                                bottom: -2,
+                                right: -2,
+                                zIndex: 2,
+                                border: "2px solid #fff",
+                                borderRadius: "50%",
+                              },
+                            }}
+                          >
+                            <BsCircleFill />
+                          </IconContext.Provider>
+                        </div>
+                        <div className="text-3c4043 font-medium text-sm py-2">
+                          <span>{device}</span>
+                        </div>
                       </div>
-                      <div className="text-3c4043 font-medium text-sm py-2">
-                        <span>{device.socketId}</span>
-                      </div>
-                    </div>
-                  </li>
+                    </motion.li>
+                  </AnimatePresence>
                 ))}
               </ul>
             )}

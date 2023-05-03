@@ -8,10 +8,9 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 
 import deviceInstance from "../../utils/select-device";
 
-const devices: string[] = ["jdlkqwd!@3fjlk_401d", "jdlkqwd!@3fjlk_458d"];
-
 const DeviceOption: React.FC<{
   onHandleAllowToContinue: (isAllow: boolean) => void;
+  devices: string[];
 }> = (props) => {
   const [device, setDevice] = useState<string>(deviceInstance.device);
 
@@ -51,7 +50,7 @@ const DeviceOption: React.FC<{
             onChange={handleChange}
           >
             <MenuItem value={""}>None</MenuItem>
-            {devices.map((device: string) => (
+            {props.devices.map((device: string) => (
               <MenuItem key={device} value={device}>
                 {device}
               </MenuItem>

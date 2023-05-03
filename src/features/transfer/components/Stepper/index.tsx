@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useState, useMemo, useEffect } from "react";
+import { useSelector } from "react-redux";
 
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
@@ -19,6 +20,8 @@ import TransferError from "./TransferError";
 import fileInstance from "../../utils/cache-file";
 import deviceInstance from "../../utils/select-device";
 
+import { RootState } from "../../../../states";
+
 import browseFile from "../../../../images/browse-file.png";
 import devices from "../../../../images/devices.png";
 import transfer from "../../../../images/transfer.png";
@@ -31,6 +34,7 @@ const steps = [
 ];
 
 const FileTransferStepper: React.FC = () => {
+  const deviceList = useSelector((state: RootState) => state.socket.devices);
   const [activeStep, setActiveStep] = React.useState(0);
   const [isNext, setIsNext] = useState(false);
   const [isStartTransfer, setIsStartTransfer] = useState<boolean>(false);
@@ -70,7 +74,10 @@ const FileTransferStepper: React.FC = () => {
   const stepContent: React.ReactElement[] = useMemo(() => {
     return [
       <BrowseFile onHandleAllowToContinue={handleAllowToContinue} />,
-      <DeviceOption onHandleAllowToContinue={handleAllowToContinue} />,
+      <DeviceOption
+        onHandleAllowToContinue={handleAllowToContinue}
+        devices={deviceList}
+      />,
       <FileTransfer
         isStartTransfer={isStartTransfer}
         onCancelTransfer={handleCancelTransfer}
