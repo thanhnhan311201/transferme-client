@@ -27,6 +27,8 @@ import devices from "../../../../images/devices.png";
 import transfer from "../../../../images/transfer.png";
 import finish from "../../../../images/finishtransfer.png";
 
+import socketClient from "../../../../socket";
+
 const steps = [
   "Choose file to transfer",
   "Choose device to transfer",
@@ -83,7 +85,7 @@ const FileTransferStepper: React.FC = () => {
         onCancelTransfer={handleCancelTransfer}
       />,
     ];
-  }, [isStartTransfer]);
+  }, [isStartTransfer, deviceList]);
 
   useEffect(() => {
     fileInstance.file = null;

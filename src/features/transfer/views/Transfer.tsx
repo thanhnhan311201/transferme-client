@@ -29,10 +29,10 @@ const Transfer: React.FC = () => {
   };
 
   const handleLogout = () => {
-    document.cookie = `accessToken= ; expires= ${new Date(
+    document.cookie = `access_token= ; expires= ${new Date(
       new Date().getTime()
     ).toUTCString()}`;
-    document.cookie = `userId= ; expires= ${new Date(
+    document.cookie = `user_id= ; expires= ${new Date(
       new Date().getTime()
     ).toUTCString()}`;
 
@@ -44,7 +44,7 @@ const Transfer: React.FC = () => {
     <div className="bg-main-bg h-screen">
       <div className="h-full grid grid-cols-3-for-transferLayout grid-rows-2-for-transferLayout">
         <Header
-          socketId={socketClient.getSocketName()}
+          socketId={socketClient.socketName}
           showUserNav={showUserNav}
           onHandleShowUserNav={handleShowUserNav}
           userInfo={userInfo}

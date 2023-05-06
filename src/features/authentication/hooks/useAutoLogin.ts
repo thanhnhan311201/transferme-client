@@ -17,17 +17,17 @@ const useAutoLogin = () => {
       dispatch(authActions.setUnauthenticating());
       const allCookies: string[] = document.cookie.split(";");
       const tokenCookie: string | undefined = allCookies.find((cookie) =>
-        cookie.trim().startsWith("accessToken")
+        cookie.trim().startsWith("access_token")
       );
       if (tokenCookie) {
         const accessToken = tokenCookie.split("=")[1];
         const response = await AuthAPI.verifyToken(accessToken);
 
         if (!(response.code === 200 && response.status === "success")) {
-          document.cookie = `accessToken= ; expires= ${new Date(
+          document.cookie = `access_token= ; expires= ${new Date(
             new Date().getTime()
           ).toUTCString()}`;
-          document.cookie = `userId= ; expires= ${new Date(
+          document.cookie = `user_id= ; expires= ${new Date(
             new Date().getTime()
           ).toUTCString()}`;
           return dispatch(authActions.setUnauthenticated());
@@ -38,21 +38,20 @@ const useAutoLogin = () => {
         navigate("/transfer");
       } else {
         dispatch(authActions.setUnauthenticated());
-        document.cookie = `accessToken= ; expires= ${new Date(
+        document.cookie = `access_token= ; expires= ${new Date(
           new Date().getTime()
         ).toUTCString()}`;
-        document.cookie = `userId= ; expires= ${new Date(
+        document.cookie = `user_id= ; expires= ${new Date(
           new Date().getTime()
         ).toUTCString()}`;
-        console.log("Not authenticated.");
       }
     } catch (error) {
       console.log(error);
       dispatch(authActions.setUnauthenticated());
-      document.cookie = `accessToken= ; expires= ${new Date(
+      document.cookie = `access_token= ; expires= ${new Date(
         new Date().getTime()
       ).toUTCString()}`;
-      document.cookie = `userId= ; expires= ${new Date(
+      document.cookie = `user_id= ; expires= ${new Date(
         new Date().getTime()
       ).toUTCString()}`;
     }

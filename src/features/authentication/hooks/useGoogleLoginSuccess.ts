@@ -21,13 +21,12 @@ const useGoogleLoginSuccess = () => {
   ) => {
     try {
       const response = await AuthAPI.loginWithGoogle(codeResponse.code);
-      document.cookie = `accessToken=${response.token}; expires= ${new Date(
+      document.cookie = `access_token=${response.token}; expires= ${new Date(
         new Date().getTime() + TOKEN_EXPIRATION_TIME * 1000
       ).toUTCString()}`;
-      document.cookie = `userId=${response.user.id}; expires= ${new Date(
+      document.cookie = `user_id=${response.user.id}; expires= ${new Date(
         new Date().getTime() + TOKEN_EXPIRATION_TIME * 1000
       ).toUTCString()}`;
-
       dispatch(
         authActions.setAuthenticated({
           id: response.user.id,

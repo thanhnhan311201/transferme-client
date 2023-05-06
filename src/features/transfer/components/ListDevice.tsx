@@ -18,16 +18,25 @@ const ListDevice: React.FC<{
         <div className="flex flex-col w-full gap-3">
           <span className="text-3c4043 font-medium text-lg">Devices</span>
           <div>
-            {props.devices.length === 0 ? (
-              <p className="text-sm">No device found.</p>
-            ) : (
-              <ul className="flex flex-col gap-2">
-                {props.devices.map((device) => (
-                  <AnimatePresence>
+            <AnimatePresence>
+              {props.devices.length === 0 ? (
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5 }}
+                  className="text-sm"
+                >
+                  No device found
+                </motion.p>
+              ) : (
+                <ul className="flex flex-col gap-2">
+                  {props.devices.map((device) => (
                     <motion.li
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
+                      transition={{ duration: 0.5 }}
                       key={device}
                     >
                       <div className="flex items-center gap-3">
@@ -61,10 +70,10 @@ const ListDevice: React.FC<{
                         </div>
                       </div>
                     </motion.li>
-                  </AnimatePresence>
-                ))}
-              </ul>
-            )}
+                  ))}
+                </ul>
+              )}
+            </AnimatePresence>
           </div>
         </div>
       </div>

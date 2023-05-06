@@ -44,10 +44,10 @@ const Login: React.FC = () => {
           email: emailValue,
           password: passwordValue,
         });
-        document.cookie = `accessToken=${response.token}; expires= ${new Date(
+        document.cookie = `access_token=${response.token}; expires= ${new Date(
           new Date().getTime() + 3599 * 1000
         ).toUTCString()}`;
-        document.cookie = `userId=${response.user.id}; expires= ${new Date(
+        document.cookie = `user_id=${response.user.id}; expires= ${new Date(
           new Date().getTime() + 3599 * 1000
         ).toUTCString()}`;
 
