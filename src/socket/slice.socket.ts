@@ -1,27 +1,29 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+import { IUserInfo } from "../config";
+
 interface SliceState {
-  devices: string[];
+  onlineUsers: IUserInfo[];
 }
 
 const socketSlice = createSlice({
   name: "socket",
   initialState: {
-    devices: [],
+    onlineUsers: [],
   } as SliceState,
   reducers: {
-    setDevices: (state, action) => ({ ...state, devices: action.payload }),
+    setDevices: (state, action) => ({ ...state, onlineUsers: action.payload }),
     addDevice: (state, action) => ({
       ...state,
-      devices: state.devices.concat(action.payload),
+      onlineUsers: state.onlineUsers.concat(action.payload),
     }),
     removeDevice: (state, action) => {
-      const newDevices = state.devices.filter(
-        (device) => device !== action.payload
+      const removedUser = state.onlineUsers.filter(
+        (user) => user.id !== action.payload
       );
       return {
         ...state,
-        devices: newDevices,
+        onlineUsers: removedUser,
       };
     },
   },

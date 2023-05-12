@@ -3,6 +3,7 @@ import io, { type Socket } from "socket.io-client";
 import { dispatch } from "../states";
 import { socketActions } from "./slice.socket";
 import { authActions } from "../features/authentication/slice/authSlice";
+import { transferActions } from "../features/transfer/slice/transferSlice";
 
 import transferEventListener from "./transfer.listener.socket";
 
@@ -11,7 +12,6 @@ import { SOCKET_EVENTS } from "./config.socket";
 
 class SocketClient {
   private _socket: Socket | null = null;
-  private _socketName: string = "";
 
   connect() {
     this._socket = io(BASE_URL_SERVER, {
@@ -30,20 +30,33 @@ class SocketClient {
         new Date().getTime()
       ).toUTCString()}`;
 
+      dispatch(socketActions.setDevices([]));
+      dispatch(authActions.setUnauthenticated());
+    });
+
+    this._socket.on("error", (error) => {
+      if (error instanceof Error) {
+        console.log(error.message);
+      }
+      console.log("Internal Servel Error");
+    });
+
+    this._socket.on("disconnect", (reason) => {
+      document.cookie = `access_token= ; expires= ${new Date(
+        new Date().getTime()
+      ).toUTCString()}`;
+      document.cookie = `user_id= ; expires= ${new Date(
+        new Date().getTime()
+      ).toUTCString()}`;
+
+      this._socket = null;
+      dispatch(socketActions.setDevices([]));
       dispatch(authActions.setUnauthenticated());
     });
   }
 
   transfer(): void {
     this._socket?.emit(SOCKET_EVENTS.SUCCESS_TRANSFER);
-  }
-
-  get socketName(): string {
-    return this._socketName;
-  }
-
-  set socketName(newSocketName: string) {
-    this._socketName = newSocketName;
   }
 
   get socket(): Socket {
@@ -53,9 +66,21 @@ class SocketClient {
     return this._socket;
   }
 
+  requestSendFile(userId: string) {
+    this._socket?.emit(SOCKET_EVENTS.REQUEST_SEND_FILE, userId);
+  }
+
+  replyToRequest(confirm: boolean) {
+    this.socket.emit(SOCKET_EVENTS.REPLY_TO_REQUEST, confirm);
+    if (confirm) {
+      dispatch(transferActions.transfering());
+    } else {
+      dispatch(transferActions.availableToTransfer());
+    }
+  }
+
   disconnect() {
     dispatch(socketActions.setDevices([]));
-    this._socketName = "";
     this._socket?.disconnect();
   }
 }

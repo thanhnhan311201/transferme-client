@@ -3,9 +3,10 @@ import { IconContext } from "react-icons";
 import { BsCircleFill } from "react-icons/bs";
 import { motion, AnimatePresence } from "framer-motion";
 
-const ListDevice: React.FC<{
-  devices: string[];
-  deviceAvatar: string;
+import { IUserInfo } from "../../../config";
+
+const ListUser: React.FC<{
+  onlineUsers: IUserInfo[];
 }> = (props) => {
   return (
     <motion.div
@@ -16,10 +17,10 @@ const ListDevice: React.FC<{
     >
       <div className="w-full rounded-xl p-4">
         <div className="flex flex-col w-full gap-3">
-          <span className="text-3c4043 font-medium text-lg">Devices</span>
+          <span className="text-3c4043 font-medium text-lg">Users</span>
           <div>
             <AnimatePresence>
-              {props.devices.length === 0 ? (
+              {props.onlineUsers.length === 0 ? (
                 <motion.p
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
@@ -27,23 +28,23 @@ const ListDevice: React.FC<{
                   transition={{ duration: 0.5 }}
                   className="text-sm"
                 >
-                  No device found
+                  No user found
                 </motion.p>
               ) : (
                 <ul className="flex flex-col gap-2">
-                  {props.devices.map((device) => (
+                  {props.onlineUsers.map((user) => (
                     <motion.li
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.5 }}
-                      key={device}
+                      key={user.id}
                     >
                       <div className="flex items-center gap-3">
                         <div className="w-6 relative">
                           <img
                             className="rounded-full w-full z-0"
-                            src={props.deviceAvatar}
+                            src={user.picture}
                             alt="User avatar"
                             referrerPolicy="no-referrer"
                           />
@@ -65,8 +66,8 @@ const ListDevice: React.FC<{
                             <BsCircleFill />
                           </IconContext.Provider>
                         </div>
-                        <div className="text-3c4043 font-medium text-sm py-2">
-                          <span>{device}</span>
+                        <div className="text-3c4043 font-medium text-sm py-2 truncate">
+                          <span>{user.email}</span>
                         </div>
                       </div>
                     </motion.li>
@@ -81,4 +82,4 @@ const ListDevice: React.FC<{
   );
 };
 
-export default ListDevice;
+export default ListUser;

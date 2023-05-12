@@ -6,34 +6,36 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 
-import deviceInstance from "../../utils/select-device";
+import receiverInstance from "../../utils/receiver-instance";
+
+import { IUserInfo } from "../../../../config";
 
 const DeviceOption: React.FC<{
   onHandleAllowToContinue: (isAllow: boolean) => void;
-  devices: string[];
+  onlineUsers: IUserInfo[];
 }> = (props) => {
-  const [device, setDevice] = useState<string>(deviceInstance.device);
+  const [device, setDevice] = useState<string>(receiverInstance.receiver);
 
   const handleChange = (e: SelectChangeEvent) => {
     setDevice(e.target.value);
 
     if (e.target.value) {
-      deviceInstance.device = e.target.value;
+      receiverInstance.receiver = e.target.value;
       props.onHandleAllowToContinue(true);
     } else {
       props.onHandleAllowToContinue(false);
-      deviceInstance.device = "";
+      receiverInstance.receiver = "";
     }
   };
 
   useEffect(() => {
-    if (!deviceInstance.device) {
+    if (!receiverInstance.receiver) {
       props.onHandleAllowToContinue(false);
       return;
     }
 
     props.onHandleAllowToContinue(true);
-  }, [deviceInstance.device]);
+  }, [receiverInstance.receiver]);
 
   return (
     <React.Fragment>
@@ -50,9 +52,9 @@ const DeviceOption: React.FC<{
             onChange={handleChange}
           >
             <MenuItem value={""}>None</MenuItem>
-            {props.devices.map((device: string) => (
-              <MenuItem key={device} value={device}>
-                {device}
+            {props.onlineUsers.map((user) => (
+              <MenuItem key={user.id} value={user.email}>
+                {user.email}
               </MenuItem>
             ))}
           </Select>

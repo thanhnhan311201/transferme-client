@@ -12,13 +12,13 @@ import Button from "@mui/material/Button";
 import { motion } from "framer-motion";
 
 import BrowseFile from "./BrowseFile";
-import DeviceOption from "./DeviceOption";
+import DeviceOption from "./UserOption";
 import FileTransfer from "./FileTransfer";
 import TransferSuccess from "./TransferSuccess";
 import TransferError from "./TransferError";
 
 import fileInstance from "../../utils/cache-file";
-import deviceInstance from "../../utils/select-device";
+import receiverInstance from "../../utils/receiver-instance";
 
 import { RootState } from "../../../../states";
 
@@ -36,7 +36,9 @@ const steps = [
 ];
 
 const FileTransferStepper: React.FC = () => {
-  const deviceList = useSelector((state: RootState) => state.socket.devices);
+  const onlineUsers = useSelector(
+    (state: RootState) => state.socket.onlineUsers
+  );
   const [activeStep, setActiveStep] = React.useState(0);
   const [isNext, setIsNext] = useState(false);
   const [isStartTransfer, setIsStartTransfer] = useState<boolean>(false);
@@ -49,6 +51,13 @@ const FileTransferStepper: React.FC = () => {
 
   const handleTransferFile = () => {
     setIsStartTransfer(true);
+    const receiver = onlineUsers.find(
+      (user) => user.email === receiverInstance.receiver
+    );
+    if (!receiver) {
+      return;
+    }
+    socketClient.requestSendFile(receiver.id);
   };
 
   const handleCancelTransfer = () => {
@@ -63,7 +72,7 @@ const FileTransferStepper: React.FC = () => {
 
   const handleReset = () => {
     fileInstance.file = null;
-    deviceInstance.device = "";
+    receiverInstance.receiver = "";
     setActiveStep(0);
     setIsNext(false);
     setIsStartTransfer(false);
@@ -78,18 +87,18 @@ const FileTransferStepper: React.FC = () => {
       <BrowseFile onHandleAllowToContinue={handleAllowToContinue} />,
       <DeviceOption
         onHandleAllowToContinue={handleAllowToContinue}
-        devices={deviceList}
+        onlineUsers={onlineUsers}
       />,
       <FileTransfer
         isStartTransfer={isStartTransfer}
         onCancelTransfer={handleCancelTransfer}
       />,
     ];
-  }, [isStartTransfer, deviceList]);
+  }, [isStartTransfer, onlineUsers]);
 
   useEffect(() => {
     fileInstance.file = null;
-    deviceInstance.device = "";
+    receiverInstance.receiver = "";
   }, []);
 
   return (
@@ -101,7 +110,7 @@ const FileTransferStepper: React.FC = () => {
     >
       <Box sx={{ width: "50%" }}>
         <Stepper activeStep={activeStep} orientation="vertical">
-          {steps.map((step, index) => (
+          {steps.map((step) => (
             <Step key={step}>
               <StepLabel>{step}</StepLabel>
               <StepContent>

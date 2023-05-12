@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
 
 import Header from "../components/Header";
-import ListDevice from "../components/ListDevice";
+import ListUser from "../components/ListUser";
 import TransferForm from "../components/TransferForm";
 import UserNav from "../components/UserNav";
 import Navigation from "../components/Navigation";
@@ -15,7 +15,9 @@ import { type RootState } from "../../../states";
 import { type IUserInfo } from "../../../config";
 
 const Transfer: React.FC = () => {
-  const devices = useSelector((state: RootState) => state.socket.devices);
+  const onlineUsers = useSelector(
+    (state: RootState) => state.socket.onlineUsers
+  );
 
   const dispatch = useDispatch();
   const userInfo: IUserInfo = useSelector(
@@ -44,7 +46,6 @@ const Transfer: React.FC = () => {
     <div className="bg-main-bg h-screen">
       <div className="h-full grid grid-cols-3-for-transferLayout grid-rows-2-for-transferLayout">
         <Header
-          socketId={socketClient.socketName}
           showUserNav={showUserNav}
           onHandleShowUserNav={handleShowUserNav}
           userInfo={userInfo}
@@ -56,7 +57,7 @@ const Transfer: React.FC = () => {
         </AnimatePresence>
         <Navigation />
         <TransferForm />
-        <ListDevice devices={devices} deviceAvatar={userInfo.picture} />
+        <ListUser onlineUsers={onlineUsers} />
       </div>
     </div>
   );
