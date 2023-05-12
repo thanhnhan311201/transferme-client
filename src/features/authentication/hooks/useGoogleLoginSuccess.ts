@@ -4,7 +4,8 @@ import { CodeResponse } from "@react-oauth/google";
 
 import { AuthAPI } from "../../../api";
 import { authActions } from "../slice/authSlice";
-import { socketActions } from "../../transfer/slice/socketSlice";
+
+import socketClient from "../../../socket";
 
 import { TOKEN_EXPIRATION_TIME } from "../../../config";
 
@@ -20,20 +21,12 @@ const useGoogleLoginSuccess = () => {
   ) => {
     try {
       const response = await AuthAPI.loginWithGoogle(codeResponse.code);
-      document.cookie = `accessToken=${response.token}; expires= ${new Date(
+      document.cookie = `access_token=${response.token}; expires= ${new Date(
         new Date().getTime() + TOKEN_EXPIRATION_TIME * 1000
       ).toUTCString()}`;
-      document.cookie = `userId=${response.user.id}; expires= ${new Date(
+      document.cookie = `user_id=${response.user.id}; expires= ${new Date(
         new Date().getTime() + TOKEN_EXPIRATION_TIME * 1000
       ).toUTCString()}`;
-
-      dispatch(socketActions.connect());
-      dispatch(
-        socketActions.sendData({
-          eventName: "login",
-          data: "Log in successfully!",
-        })
-      );
       dispatch(
         authActions.setAuthenticated({
           id: response.user.id,
@@ -42,6 +35,7 @@ const useGoogleLoginSuccess = () => {
           picture: response.user.picture,
         })
       );
+      socketClient.connect();
       navigate("/transfer");
     } catch (error) {
       console.log(error);

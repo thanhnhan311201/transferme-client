@@ -5,7 +5,7 @@ export const BASE_URL = devEnv
   : (process.env.REACT_APP_BASE_URL as string);
 
 export const BASE_URL_API = devEnv
-  ? "http://localhost:8080/api"
+  ? "http://localhost:8080/api/v1"
   : (process.env.REACT_APP_BASE_URL_API as string);
 
 export const BASE_URL_SERVER = devEnv

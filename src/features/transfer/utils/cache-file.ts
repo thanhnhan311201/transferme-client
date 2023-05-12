@@ -13,3 +13,26 @@ class CacheFile {
 const fileInstance = new CacheFile(null);
 
 export default fileInstance;
+
+export class CacheStream {
+  private static _instance: CacheStream;
+  private controller?: TransformStreamDefaultController;
+
+  private constructor() {}
+
+  static get instance() {
+    if (!CacheStream._instance) {
+      CacheStream._instance = new CacheStream();
+    }
+
+    return CacheStream._instance;
+  }
+
+  setController(controller: TransformStreamDefaultController) {
+    this.controller = controller;
+  }
+
+  getController() {
+    return this.controller;
+  }
+}

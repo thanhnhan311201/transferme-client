@@ -36,7 +36,7 @@ const UserNav: React.FC<{ onLogout: () => void; userInfo: IUserInfo }> = (
       </div>
       <div
         onClick={props.onLogout}
-        className="w-full p-4 hover:bg-e0e9f8 rounded-3xl"
+        className="w-full p-4 hover:bg-e0e9f8 rounded-3xl cursor-pointer"
       >
         <div className="flex gap-4 items-center">
           <div className="w-14 flex justify-center">

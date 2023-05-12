@@ -68,7 +68,7 @@ const FileTransfer: React.FC<{
               <Box
                 sx={{
                   display: "flex",
-                  alignItems: "center",
+                  alignItems: "start",
                   gap: "1rem",
                 }}
               >
@@ -78,8 +78,11 @@ const FileTransfer: React.FC<{
                     borderRadius: "8px",
                     backgroundColor: "#fff",
                     color: "#b91c1c",
-                    boxShadow:
-                      "0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12)",
+                    "&:hover": {
+                      boxShadow:
+                        "0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12)",
+                      backgroundColor: "#fff",
+                    },
                   }}
                   onClick={props.onCancelTransfer}
                 >
@@ -91,11 +94,21 @@ const FileTransfer: React.FC<{
                     width: "auto",
                     boxShadow:
                       "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);",
-                    padding: "1rem 2rem",
+                    padding: "1rem 1.5rem",
                     borderRadius: "8px",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: ".5rem",
                   }}
                 >
                   <LinearProgress />
+                  <Box
+                    sx={{
+                      fontSize: "0.75rem",
+                    }}
+                  >
+                    Waiting for the recipient to accept to send the file...
+                  </Box>
                 </Box>
               </Box>
             </motion.div>

@@ -3,10 +3,11 @@ import { useGoogleLogin } from "@react-oauth/google";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
+import socketClient from "../../../socket";
+
 import LoginForm from "../components/LoginForm";
 import { AuthAPI } from "../../../api";
 import { authActions } from "../slice/authSlice";
-import { socketActions } from "../../transfer/slice/socketSlice";
 import { useGoogleLoginSuccess } from "../hooks";
 import { useInput } from "../hooks";
 
@@ -43,17 +44,17 @@ const Login: React.FC = () => {
           email: emailValue,
           password: passwordValue,
         });
-        document.cookie = `accessToken=${response.token}; expires= ${new Date(
+        document.cookie = `access_token=${response.token}; expires= ${new Date(
           new Date().getTime() + 3599 * 1000
         ).toUTCString()}`;
-        document.cookie = `userId=${response.user.id}; expires= ${new Date(
+        document.cookie = `user_id=${response.user.id}; expires= ${new Date(
           new Date().getTime() + 3599 * 1000
         ).toUTCString()}`;
 
         // TODO: save
         // jwtStorage.set();
 
-        dispatch(socketActions.connect());
+        socketClient.connect();
         dispatch(authActions.setAuthenticated(response.user));
         navigate("/transfer");
       } catch (error) {
