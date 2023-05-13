@@ -28,7 +28,7 @@ const BrowseFile: React.FC<{
       return;
     }
     const file = e.target.files[0];
-    if (file && file.size < MAX_FILE_SIZE) {
+    if (file) {
       fileInstance.file = file;
       setIsLoading(true);
     } else {

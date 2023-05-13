@@ -26,7 +26,7 @@ const ScreenHome: React.FC = () => {
               </p>
               <Link
                 to="/auth/login"
-                className="bg-primary-color--shade inline-block text-white text-xl px-8 py-4 rounded-lg font-medium cursor-pointer"
+                className="bg-gradient-to-r from-primary-color to-primary-color--shade inline-block text-white text-xl px-8 py-4 rounded-lg font-medium cursor-pointer"
               >
                 Start transfering
               </Link>

@@ -35,11 +35,6 @@ const Header: React.FC<{
           </div>
         </div>
         <div className="flex justify-end items-center gap-8 py-2">
-          <div className="px-4 py-2 hover:bg-edf2fc rounded-3xl cursor-pointer">
-            <span className="uppercase text-blue-700 font-bold text-lg">
-              HOW TO USE
-            </span>
-          </div>
           <motion.div
             variants={scaleVariants}
             whileTap="tapped"
