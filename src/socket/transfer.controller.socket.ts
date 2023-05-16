@@ -7,6 +7,7 @@ import fileInstance from "../features/transfer/utils/cache-file";
 import socketClient from ".";
 
 import { IUserInfo } from "../config";
+import { sleep } from "../utils";
 
 import { SOCKET_EVENTS } from "./config.socket";
 import StreamSlicer from "../utils/stream/slicer.stream";
@@ -37,16 +38,25 @@ namespace transferController {
       let countChunkId = 1;
 
       // progress
-      const callbackSend = (chunk: Uint8Array) => {
-        socketClient.socket.emit(SOCKET_EVENTS.SEND_FILE, {
-          fileData: chunk,
-          fileName: fileInstance.file?.name,
-          fileType: fileInstance.file?.type,
-          fileSize: fileInstance.file?.size,
-          totalChunk,
-          countChunkId,
-        });
-        countChunkId++;
+      const callbackSend = async (
+        chunk: Uint8Array,
+        controller: TransformStreamDefaultController
+      ) => {
+        await sleep(1500);
+        if (socketClient.isCancel) {
+          controller.terminate();
+        } else {
+          socketClient.socket.emit(SOCKET_EVENTS.SEND_FILE, {
+            fileData: chunk,
+            fileName: fileInstance.file?.name,
+            fileType: fileInstance.file?.type,
+            fileSize: fileInstance.file?.size,
+            totalChunk,
+            countChunkId,
+          });
+          dispatch(transferActions.setProgress(countChunkId / totalChunk));
+          countChunkId++;
+        }
       };
       const transformedStream = stream
         .pipeThrough(new TransformStream(new StreamSlicer(CHUNK_SIZE)))
@@ -57,7 +67,7 @@ namespace transferController {
         const reader = transformedStream.getReader();
         while (true) {
           const { done, value } = await reader.read();
-          if (done || socketClient.isCancel) {
+          if (done) {
             break;
           }
         }
@@ -77,7 +87,6 @@ namespace transferController {
     countChunkId: number;
     totalChunk: number;
   }) => {
-    console.log(file);
     if (streamReceiver.controller) {
       streamReceiver.controller.enqueue(new Uint8Array(file.fileData));
       dispatch(
@@ -139,14 +148,17 @@ namespace transferController {
     const { done, receivedChunk, totalChunk } = ack;
     if (done) {
       dispatch(transferActions.transferSuccess());
-    } else {
-      dispatch(transferActions.setProgress(receivedChunk / totalChunk));
     }
   };
 
   export const handleCancelTransfer = () => {
-    dispatch(transferActions.transferError())
-  }
+    if (streamReceiver.controller) {
+      streamReceiver.controller.close();
+      streamReceiver.controller = undefined;
+    }
+    socketClient.isCancel = true;
+    dispatch(transferActions.transferError());
+  };
 }
 
 export default transferController;

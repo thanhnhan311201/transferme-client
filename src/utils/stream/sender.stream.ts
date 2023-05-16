@@ -2,8 +2,8 @@ class StreamSender implements Transformer<Uint8Array, Uint8Array> {
   constructor(private send: Function) {}
 
   //reslice input into record sized chunks
-  transform(chunk: Uint8Array) {
-    this.send(chunk);
+  transform(chunk: Uint8Array, controller: TransformStreamDefaultController) {
+    this.send(chunk, controller);
   }
 
   flush(controller: TransformStreamDefaultController) {}

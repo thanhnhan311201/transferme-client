@@ -80,13 +80,12 @@ const ReceivingWindow: React.FC = () => {
                   style={{ height: "300px", width: "auto" }}
                 />
                 {transferStatus === SOCKET_EVENTS.WAIT_TRANSFER_ACCEPTED && (
-                  <Box
-                    sx={{
-                      flex: "1 1 0%",
-                      width: "100%",
-                      display: "flex",
-                      flexDirection: "column",
-                    }}
+                  <motion.div
+                    initial={{ opacity: 0, x: 50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -50 }}
+                    transition={{ duration: 0.5 }}
+                    className="flex-1 flex flex-col"
                   >
                     <h2 className="text-2xl font-medium mb-2">
                       Hey, You Just Received A File Transfer Request!
@@ -140,50 +139,73 @@ const ReceivingWindow: React.FC = () => {
                         Yes, Send it to me
                       </Button>
                     </Box>
-                  </Box>
+                  </motion.div>
                 )}
                 {transferStatus === SOCKET_EVENTS.TRANSFERING && (
-                  <Box
-                    sx={{
-                      flex: "1 1 0%",
-                      width: "100%",
-                      display: "flex",
-                      flexDirection: "column",
-                    }}
+                  <motion.div
+                    initial={{ opacity: 0, x: 50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -50 }}
+                    transition={{ duration: 0.5 }}
+                    className="flex-1 flex flex-col"
                   >
-                    <h2 className="text-2xl font-medium mb-8">
-                      Transfering...
-                    </h2>
-                    <Box sx={{ marginBottom: "3rem" }}>
+                    {progress === 100 ? (
+                      <motion.div
+                        initial={{ opacity: 0, x: 50 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -50 }}
+                        transition={{ duration: 0.5 }}
+                        className="text-2xl font-medium mb-8"
+                      >
+                        Waiting for the recipient to receive the file
+                        successfully...
+                      </motion.div>
+                    ) : (
+                      <motion.div
+                        initial={{ opacity: 0, x: 50 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -50 }}
+                        transition={{ duration: 0.5 }}
+                        className="text-2xl font-medium mb-8"
+                      >
+                        Transfering...
+                      </motion.div>
+                    )}
+                    <Box
+                      sx={{
+                        marginBottom: "3rem",
+                      }}
+                    >
                       <TransferProgressWithLabel value={progress} />
                     </Box>
-                    <Button
-                      sx={{
-                        width: "100%",
-                        padding: "6px 8px",
-                        backgroundColor: "transparent",
-                        borderRadius: "8px",
-                        color: "#999",
-                        textTransform: "none",
-                        "&:hover": {
-                          backgroundColor: "#fff",
-                          color: "#b91c1c",
-                        },
-                      }}
-                      onClick={handleCancel}
-                    >
-                      Cancel
-                    </Button>
-                  </Box>
+                    {progress !== 100 && (
+                      <Button
+                        sx={{
+                          width: "100%",
+                          padding: "6px 8px",
+                          backgroundColor: "transparent",
+                          borderRadius: "8px",
+                          color: "#999",
+                          textTransform: "none",
+                          "&:hover": {
+                            backgroundColor: "#fff",
+                            color: "#b91c1c",
+                          },
+                        }}
+                        onClick={handleCancel}
+                      >
+                        Cancel
+                      </Button>
+                    )}
+                  </motion.div>
                 )}
                 {transferStatus === SOCKET_EVENTS.SUCCESS_TRANSFER && (
-                  <Box
-                    sx={{
-                      flex: "1 1 0%",
-                      width: "100%",
-                      display: "flex",
-                      flexDirection: "column",
-                    }}
+                  <motion.div
+                    initial={{ opacity: 0, x: 50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -50 }}
+                    transition={{ duration: 0.5 }}
+                    className="flex-1 flex flex-col"
                   >
                     <h2 className="text-2xl font-medium mb-2">Successfully!</h2>
                     <span className="text-base font-normal mb-10">
@@ -219,16 +241,15 @@ const ReceivingWindow: React.FC = () => {
                       </IconContext.Provider>
                       Finish
                     </Button>
-                  </Box>
+                  </motion.div>
                 )}
                 {transferStatus === SOCKET_EVENTS.ERROR_TRANSFER && (
-                  <Box
-                    sx={{
-                      flex: "1 1 0%",
-                      width: "100%",
-                      display: "flex",
-                      flexDirection: "column",
-                    }}
+                  <motion.div
+                    initial={{ opacity: 0, x: 50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -50 }}
+                    transition={{ duration: 0.5 }}
+                    className="flex-1 flex flex-col"
                   >
                     <h2 className="text-2xl font-medium mb-2">Error!</h2>
                     <span className="text-base font-normal mb-10">
@@ -264,7 +285,7 @@ const ReceivingWindow: React.FC = () => {
                       </IconContext.Provider>
                       Finish
                     </Button>
-                  </Box>
+                  </motion.div>
                 )}
               </Box>
             </motion.div>
