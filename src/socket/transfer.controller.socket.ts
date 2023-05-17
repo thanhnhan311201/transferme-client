@@ -79,7 +79,7 @@ namespace transferController {
     dispatch(transferActions.refuseTransfer());
   };
 
-  export const handleReceiveFile = (file: {
+  export const handleReceiveFile = async (file: {
     fileData: ArrayBuffer;
     fileName: string;
     fileType: string;
@@ -87,56 +87,43 @@ namespace transferController {
     countChunkId: number;
     totalChunk: number;
   }) => {
+    const isDone = file.countChunkId === file.totalChunk;
+
     if (streamReceiver.controller) {
       streamReceiver.controller.enqueue(new Uint8Array(file.fileData));
-      dispatch(
-        transferActions.setProgress(file.countChunkId / file.totalChunk)
-      );
-      const isDone = file.countChunkId === file.totalChunk;
-      if (isDone) {
-        streamReceiver.controller.close();
-        streamReceiver.controller = undefined;
-      }
-      socketClient.socket.emit(SOCKET_EVENTS.ACK_RECEIVE_FILE, {
-        done: isDone,
-        receivedChunk: file.countChunkId,
-        totalChunk: file.totalChunk,
-      });
     } else {
-      (async () => {
-        const newStream = new ReadableStream<Uint8Array>({
-          start: (_controller) => {
-            streamReceiver.controller = _controller;
-            _controller.enqueue(new Uint8Array(file.fileData));
-            dispatch(
-              transferActions.setProgress(file.countChunkId / file.totalChunk)
-            );
+      const newStream = new ReadableStream<Uint8Array>({
+        start: (_controller) => {
+          streamReceiver.controller = _controller;
+          _controller.enqueue(new Uint8Array(file.fileData));
+        },
+      });
+      const headers = new Headers();
+      headers.set("content-type", file.fileType);
+      headers.set("content-length", file.fileSize.toString());
+      const response = new Response(newStream, { headers });
+      const blob = await response.blob();
 
-            const isDone = file.countChunkId === file.totalChunk;
-            if (isDone) {
-              streamReceiver.controller.close();
-              streamReceiver.controller = undefined;
-            }
-            socketClient.socket.emit(SOCKET_EVENTS.ACK_RECEIVE_FILE, {
-              done: isDone,
-              receivedChunk: file.countChunkId,
-              totalChunk: file.totalChunk,
-            });
-          },
-        });
-
-        const headers = new Headers();
-        headers.set("content-type", file.fileType);
-        headers.set("content-length", file.fileSize.toString());
-        const response = new Response(newStream, { headers });
-        const blob = await response.blob();
+      if (!socketClient.isCancel) {
         const newFile = new File([blob], file.fileName, {
           type: file.fileType,
         });
 
         dispatch(transferActions.transferSuccess());
         streamReceiver.downloadFile(newFile);
-      })();
+      }
+    }
+
+    dispatch(transferActions.setProgress(file.countChunkId / file.totalChunk));
+    socketClient.socket.emit(SOCKET_EVENTS.ACK_RECEIVE_FILE, {
+      done: isDone,
+      receivedChunk: file.countChunkId,
+      totalChunk: file.totalChunk,
+    });
+
+    if (isDone && streamReceiver.controller) {
+      streamReceiver.controller.close();
+      streamReceiver.controller = undefined;
     }
   };
 
