@@ -83,7 +83,6 @@ const FileTransferStepper: React.FC = () => {
       setActiveStep(0);
       setIsNext(false);
       setIsStartTransfer(false);
-      dispatch(transferActions.setProgress(0));
       socketClient.isCancel = false;
     } else if (transferStatus === SOCKET_EVENTS.REFUSE_REQUEST) {
       handleNext();

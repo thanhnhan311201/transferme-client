@@ -32,6 +32,7 @@ const transferSlice = createSlice({
       ...state,
       transferStatus: SOCKET_EVENTS.AVAILABLE,
       sender: "",
+      progress: 0,
     }),
     transfering: (state) => ({
       ...state,
