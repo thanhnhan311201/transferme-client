@@ -50,6 +50,7 @@ const Transfer: React.FC = () => {
           showUserNav={showUserNav}
           onHandleShowUserNav={handleShowUserNav}
           userInfo={userInfo}
+          clientId={socketClient.clientId}
         />
         <AnimatePresence>
           {showUserNav && (

@@ -14,8 +14,15 @@ import StreamSlicer from "../utils/stream/slicer.stream";
 import StreamSender from "../utils/stream/sender.stream";
 import streamReceiver from "../utils/stream/receiver.stream";
 namespace transferController {
-  export const handleNewConnection = (onlineUsers: IUserInfo[]) => {
-    dispatch(socketActions.addDevice(onlineUsers));
+  export const handleNewConnection = (payload: {
+    action: string;
+    onlineUsers: { id: string; clientId: string; picture: string }[];
+    clientId: string;
+  }) => {
+    if (payload.action === "login") {
+      socketClient.clientId = payload.clientId;
+    }
+    dispatch(socketActions.addDevice(payload.onlineUsers));
   };
 
   export const handleUserLogout = (userId: string) => {
@@ -54,7 +61,11 @@ namespace transferController {
             totalChunk,
             countChunkId,
           });
-          dispatch(transferActions.setProgress(countChunkId / totalChunk));
+          if (countChunkId === totalChunk) {
+            dispatch(transferActions.waitForRecipientReceiveFile());
+          } else {
+            dispatch(transferActions.setProgress(countChunkId / totalChunk));
+          }
           countChunkId++;
         }
       };

@@ -38,6 +38,10 @@ const transferSlice = createSlice({
       ...state,
       transferStatus: SOCKET_EVENTS.TRANSFERING,
     }),
+    waitForRecipientReceiveFile: (state) => ({
+      ...state,
+      transferStatus: SOCKET_EVENTS.WAIT_FOR_RECIPIENT_RECEIVE_FILE,
+    }),
     refuseTransfer: (state) => ({
       ...state,
       transferStatus: SOCKET_EVENTS.REFUSE_REQUEST,

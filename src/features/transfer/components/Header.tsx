@@ -18,6 +18,7 @@ const Header: React.FC<{
   userInfo: IUserInfo;
   showUserNav: boolean;
   onHandleShowUserNav: () => void;
+  clientId: string;
 }> = (props) => {
   return (
     <motion.div
@@ -26,7 +27,7 @@ const Header: React.FC<{
       transition={{ duration: 0.75 }}
       className="w-screen col-span-full"
     >
-      <div className="w-full grid grid-cols-2-for-header items-center">
+      <div className="w-full grid grid-cols-3-for-transferLayout items-center">
         <div className="py-4 px-2">
           <div className="w-36 pl-5 ">
             <Link to="/transfer" className="w-full">
@@ -34,13 +35,28 @@ const Header: React.FC<{
             </Link>
           </div>
         </div>
-        <div className="flex justify-end items-center gap-8 py-2">
+        <div className="flex justify-start items-center gap-4">
+          <IconContext.Provider
+            value={{
+              style: {
+                color: "#46ab5e",
+                width: "1.5rem",
+                height: "1.5rem",
+              },
+            }}
+          >
+            <HiOutlineStatusOnline />
+          </IconContext.Provider>
+          <span className="text-46ab5e font-medium text-base">
+            {props.clientId}
+          </span>
+        </div>
+        <div className="flex justify-end items-center py-2 mr-4 cursor-pointer">
           <motion.div
             variants={scaleVariants}
             whileTap="tapped"
             animate="normal"
             initial="init"
-            className="justify-self-end mr-4 cursor-pointer"
           >
             <div
               onClick={props.onHandleShowUserNav}

@@ -13,6 +13,7 @@ import { SOCKET_EVENTS } from "./config.socket";
 class SocketClient {
   private _socket: Socket | null = null;
   private _isCancel: boolean = false;
+  private _clientId: string = "";
 
   connect() {
     this._socket = io(BASE_URL_SERVER, {
@@ -91,6 +92,14 @@ class SocketClient {
 
   set isCancel(cfm: boolean) {
     this._isCancel = cfm;
+  }
+
+  get clientId(): string {
+    return this._clientId;
+  }
+
+  set clientId(newId: string) {
+    this._clientId = newId;
   }
 
   disconnect() {

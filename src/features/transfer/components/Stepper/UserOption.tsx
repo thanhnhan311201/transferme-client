@@ -12,7 +12,7 @@ import { IUserInfo } from "../../../../config";
 
 const UserOption: React.FC<{
   onHandleAllowToContinue: (isAllow: boolean) => void;
-  onlineUsers: IUserInfo[];
+  onlineUsers: { id: string; clientId: string; picture: string }[];
 }> = (props) => {
   const [user, setuser] = useState<string>(receiverInstance.receiver);
 
@@ -51,8 +51,8 @@ const UserOption: React.FC<{
           >
             <MenuItem value={""}>None</MenuItem>
             {props.onlineUsers.map((user) => (
-              <MenuItem key={user.id} value={user.email}>
-                {user.email}
+              <MenuItem key={user.id} value={user.clientId}>
+                {user.clientId}
               </MenuItem>
             ))}
           </Select>

@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Box from "@mui/material/Box";
 import Backdrop from "@mui/material/Backdrop";
 import Button from "@mui/material/Button";
+import LinearProgress from "@mui/material/LinearProgress";
 
 import { IconContext } from "react-icons";
 import { BiTransferAlt } from "react-icons/bi";
@@ -149,28 +150,9 @@ const ReceivingWindow: React.FC = () => {
                     transition={{ duration: 0.5 }}
                     className="flex-1 flex flex-col"
                   >
-                    {progress === 100 ? (
-                      <motion.div
-                        initial={{ opacity: 0, x: 50 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -50 }}
-                        transition={{ duration: 0.5 }}
-                        className="text-2xl font-medium mb-8"
-                      >
-                        Waiting for the recipient to receive the file
-                        successfully...
-                      </motion.div>
-                    ) : (
-                      <motion.div
-                        initial={{ opacity: 0, x: 50 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -50 }}
-                        transition={{ duration: 0.5 }}
-                        className="text-2xl font-medium mb-8"
-                      >
-                        Transfering...
-                      </motion.div>
-                    )}
+                    <h2 className="text-2xl font-medium mb-8">
+                      Transfering...
+                    </h2>
                     <Box
                       sx={{
                         marginBottom: "3rem",
@@ -178,25 +160,46 @@ const ReceivingWindow: React.FC = () => {
                     >
                       <TransferProgressWithLabel value={progress} />
                     </Box>
-                    {progress !== 100 && (
-                      <Button
-                        sx={{
-                          width: "100%",
-                          padding: "6px 8px",
-                          backgroundColor: "transparent",
-                          borderRadius: "8px",
-                          color: "#999",
-                          textTransform: "none",
-                          "&:hover": {
-                            backgroundColor: "#fff",
-                            color: "#b91c1c",
-                          },
-                        }}
-                        onClick={handleCancel}
-                      >
-                        Cancel
-                      </Button>
-                    )}
+                    <Button
+                      sx={{
+                        width: "100%",
+                        padding: "6px 8px",
+                        backgroundColor: "transparent",
+                        borderRadius: "8px",
+                        color: "#999",
+                        textTransform: "none",
+                        "&:hover": {
+                          backgroundColor: "#fff",
+                          color: "#b91c1c",
+                        },
+                      }}
+                      onClick={handleCancel}
+                    >
+                      Cancel
+                    </Button>
+                  </motion.div>
+                )}
+                {transferStatus ===
+                  SOCKET_EVENTS.WAIT_FOR_RECIPIENT_RECEIVE_FILE && (
+                  <motion.div
+                    initial={{ opacity: 0, x: 50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -50 }}
+                    transition={{ duration: 0.5 }}
+                    className="flex-1 flex flex-col"
+                  >
+                    <h2 className="text-2xl font-medium mb-8">
+                      Waiting for the recipient to receive the file
+                      successfully...
+                    </h2>
+
+                    <Box
+                      sx={{
+                        marginBottom: "3rem",
+                      }}
+                    >
+                      <LinearProgress color="inherit" />
+                    </Box>
                   </motion.div>
                 )}
                 {transferStatus === SOCKET_EVENTS.SUCCESS_TRANSFER && (

@@ -57,13 +57,7 @@ const FileTransferStepper: React.FC = () => {
 
   const handleTransferFile = () => {
     setIsStartTransfer(true);
-    const receiver = onlineUsers.find(
-      (user) => user.email === receiverInstance.receiver
-    );
-    if (!receiver) {
-      return;
-    }
-    socketClient.requestSendFile(receiver.id);
+    socketClient.requestSendFile(receiverInstance.receiver);
   };
 
   const handleCancelTransfer = () => {
