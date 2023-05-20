@@ -8,6 +8,7 @@ import { authActions } from "../slice/authSlice";
 import socketClient from "../../../socket";
 
 import { TOKEN_EXPIRATION_TIME } from "../../../config";
+import { transferActions } from "../../transfer/slice/transferSlice";
 
 const useGoogleLoginSuccess = () => {
   const dispatch = useDispatch();
@@ -35,6 +36,7 @@ const useGoogleLoginSuccess = () => {
           picture: response.user.picture,
         })
       );
+      dispatch(transferActions.availableToTransfer());
       socketClient.connect();
       navigate("/transfer");
     } catch (error) {

@@ -2,10 +2,10 @@ export class StreamReceiver {
   // MAP<fileId, Controller>
 
   constructor(
-    private controller: ReadableStreamDefaultController | undefined
+    private _controller: ReadableStreamDefaultController<Uint8Array> | undefined
   ) {}
 
-  download = (blob: File) => {
+  downloadFile = (blob: File) => {
     const url = URL.createObjectURL(blob);
 
     const downloadLink: HTMLAnchorElement = document.createElement("a");
@@ -17,46 +17,14 @@ export class StreamReceiver {
     URL.revokeObjectURL(url);
   };
 
-  concatChunkAndDownloadFile(file: {
-    fileData: ArrayBuffer;
-    fileName: string;
-    fileType: string;
-    fileSize: number;
-    countChunkId: number;
-    totalChunk: number;
-  }) {
-    if (this.controller) {
-      this.controller.enqueue(new Uint8Array(file.fileData));
-      if (file.countChunkId === file.totalChunk) {
-        this.controller.close();
-        this.controller = undefined;
-      }
-    } else {
-      (async () => {
-        const newStream = new ReadableStream<Uint8Array>({
-          start: (_controller) => {
-            this.controller = _controller;
-            _controller.enqueue(new Uint8Array(file.fileData));
+  get controller(): ReadableStreamDefaultController<Uint8Array> | undefined {
+    return this._controller;
+  }
 
-            if (file.countChunkId === file.totalChunk) {
-              this.controller.close();
-              this.controller = undefined;
-            }
-          },
-        });
-
-        const headers = new Headers();
-        headers.set("content-type", file.fileType);
-        headers.set("content-length", file.fileSize.toString());
-        const response = new Response(newStream, { headers });
-        const blob = await response.blob();
-        const newFile = new File([blob], file.fileName, {
-          type: file.fileType,
-        });
-
-        this.download(newFile);
-      })();
-    }
+  set controller(
+    newController: ReadableStreamDefaultController<Uint8Array> | undefined
+  ) {
+    this._controller = newController;
   }
 }
 

@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { IUserInfo } from "../config";
 
 interface SliceState {
-  onlineUsers: IUserInfo[];
+  onlineUsers: { id: string; clientId: string; picture: string }[];
 }
 
 const socketSlice = createSlice({

@@ -12,6 +12,8 @@ import { SOCKET_EVENTS } from "./config.socket";
 
 class SocketClient {
   private _socket: Socket | null = null;
+  private _isCancel: boolean = false;
+  private _clientId: string = "";
 
   connect() {
     this._socket = io(BASE_URL_SERVER, {
@@ -77,6 +79,27 @@ class SocketClient {
     } else {
       dispatch(transferActions.availableToTransfer());
     }
+  }
+
+  cancelTransfer() {
+    this._isCancel = true;
+    this.socket.emit(SOCKET_EVENTS.CANCEL_TRANSFER);
+  }
+
+  get isCancel(): boolean {
+    return this._isCancel;
+  }
+
+  set isCancel(cfm: boolean) {
+    this._isCancel = cfm;
+  }
+
+  get clientId(): string {
+    return this._clientId;
+  }
+
+  set clientId(newId: string) {
+    this._clientId = newId;
   }
 
   disconnect() {

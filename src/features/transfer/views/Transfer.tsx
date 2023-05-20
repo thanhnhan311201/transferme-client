@@ -7,6 +7,7 @@ import ListUser from "../components/ListUser";
 import TransferForm from "../components/TransferForm";
 import UserNav from "../components/UserNav";
 import Navigation from "../components/Navigation";
+
 import { authActions } from "../../authentication/slice/authSlice";
 
 import socketClient from "../../../socket";
@@ -49,6 +50,7 @@ const Transfer: React.FC = () => {
           showUserNav={showUserNav}
           onHandleShowUserNav={handleShowUserNav}
           userInfo={userInfo}
+          clientId={socketClient.clientId}
         />
         <AnimatePresence>
           {showUserNav && (

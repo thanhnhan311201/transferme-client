@@ -10,14 +10,14 @@ import receiverInstance from "../../utils/receiver-instance";
 
 import { IUserInfo } from "../../../../config";
 
-const DeviceOption: React.FC<{
+const UserOption: React.FC<{
   onHandleAllowToContinue: (isAllow: boolean) => void;
-  onlineUsers: IUserInfo[];
+  onlineUsers: { id: string; clientId: string; picture: string }[];
 }> = (props) => {
-  const [device, setDevice] = useState<string>(receiverInstance.receiver);
+  const [user, setuser] = useState<string>(receiverInstance.receiver);
 
   const handleChange = (e: SelectChangeEvent) => {
-    setDevice(e.target.value);
+    setuser(e.target.value);
 
     if (e.target.value) {
       receiverInstance.receiver = e.target.value;
@@ -41,20 +41,18 @@ const DeviceOption: React.FC<{
     <React.Fragment>
       <Box>
         <FormControl fullWidth>
-          <InputLabel id="select-device-error-label">
-            Select device *
-          </InputLabel>
+          <InputLabel id="select-user-error-label">Select user *</InputLabel>
           <Select
-            labelId="select-device-error-label"
-            id="device-option-error"
-            value={device}
-            label="Select device *"
+            labelId="select-user-error-label"
+            id="user-option-error"
+            value={user}
+            label="Select user *"
             onChange={handleChange}
           >
             <MenuItem value={""}>None</MenuItem>
             {props.onlineUsers.map((user) => (
-              <MenuItem key={user.id} value={user.email}>
-                {user.email}
+              <MenuItem key={user.id} value={user.clientId}>
+                {user.clientId}
               </MenuItem>
             ))}
           </Select>
@@ -64,4 +62,4 @@ const DeviceOption: React.FC<{
   );
 };
 
-export default DeviceOption;
+export default UserOption;

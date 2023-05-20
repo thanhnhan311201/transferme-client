@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useState, useMemo, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
@@ -12,14 +12,14 @@ import Button from "@mui/material/Button";
 import { motion } from "framer-motion";
 
 import BrowseFile from "./BrowseFile";
-import DeviceOption from "./UserOption";
+import UserOption from "./UserOption";
 import FileTransfer from "./FileTransfer";
-import TransferSuccess from "./TransferSuccess";
 import TransferError from "./TransferError";
 
 import fileInstance from "../../utils/cache-file";
 import receiverInstance from "../../utils/receiver-instance";
 
+import { transferActions } from "../../slice/transferSlice";
 import { RootState } from "../../../../states";
 
 import browseFile from "../../../../images/browse-file.png";
@@ -28,6 +28,7 @@ import transfer from "../../../../images/transfer.png";
 import finish from "../../../../images/finishtransfer.png";
 
 import socketClient from "../../../../socket";
+import { SOCKET_EVENTS } from "../../../../socket/config.socket";
 
 const steps = [
   "Choose file to transfer",
@@ -36,12 +37,17 @@ const steps = [
 ];
 
 const FileTransferStepper: React.FC = () => {
+  const transferStatus = useSelector(
+    (state: RootState) => state.transfer.transferStatus
+  );
   const onlineUsers = useSelector(
     (state: RootState) => state.socket.onlineUsers
   );
   const [activeStep, setActiveStep] = React.useState(0);
   const [isNext, setIsNext] = useState(false);
   const [isStartTransfer, setIsStartTransfer] = useState<boolean>(false);
+
+  const dispatch = useDispatch();
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => {
@@ -51,13 +57,7 @@ const FileTransferStepper: React.FC = () => {
 
   const handleTransferFile = () => {
     setIsStartTransfer(true);
-    const receiver = onlineUsers.find(
-      (user) => user.email === receiverInstance.receiver
-    );
-    if (!receiver) {
-      return;
-    }
-    socketClient.requestSendFile(receiver.id);
+    socketClient.requestSendFile(receiverInstance.receiver);
   };
 
   const handleCancelTransfer = () => {
@@ -70,13 +70,18 @@ const FileTransferStepper: React.FC = () => {
     });
   };
 
-  const handleReset = () => {
-    fileInstance.file = null;
-    receiverInstance.receiver = "";
-    setActiveStep(0);
-    setIsNext(false);
-    setIsStartTransfer(false);
-  };
+  useEffect(() => {
+    if (transferStatus === SOCKET_EVENTS.AVAILABLE) {
+      fileInstance.file = null;
+      receiverInstance.receiver = "";
+      setActiveStep(0);
+      setIsNext(false);
+      setIsStartTransfer(false);
+      socketClient.isCancel = false;
+    } else if (transferStatus === SOCKET_EVENTS.REFUSE_REQUEST) {
+      handleNext();
+    }
+  }, [transferStatus]);
 
   const handleAllowToContinue = (isAllow: boolean) => {
     setIsNext(isAllow);
@@ -85,7 +90,7 @@ const FileTransferStepper: React.FC = () => {
   const stepContent: React.ReactElement[] = useMemo(() => {
     return [
       <BrowseFile onHandleAllowToContinue={handleAllowToContinue} />,
-      <DeviceOption
+      <UserOption
         onHandleAllowToContinue={handleAllowToContinue}
         onlineUsers={onlineUsers}
       />,
@@ -197,10 +202,16 @@ const FileTransferStepper: React.FC = () => {
             </Step>
           ))}
         </Stepper>
-        {activeStep === steps.length && (
-          <TransferSuccess onHandleReset={handleReset} />
-        )}
       </Box>
+      {transferStatus === SOCKET_EVENTS.REFUSE_REQUEST && (
+        <Box sx={{ width: "50%" }}>
+          <TransferError
+            onHandleReset={() =>
+              dispatch(transferActions.availableToTransfer())
+            }
+          />
+        </Box>
+      )}
       {activeStep === 0 && (
         <motion.img
           initial={{ opacity: 0, y: 75 }}

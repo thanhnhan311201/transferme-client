@@ -21,7 +21,9 @@ module.exports = {
         c2e7ff: "#c2e7ff",
         d7f4f3: "#d7f4f3",
         "primary-color": "#1565c0",
-        "primary-color--tint": "#e8f0f9",
+        "primary-color--tint-1": "#e8f0f9",
+        "primary-color--tint-6": "#73a3d9",
+        "primary-color--tint-5": "#8ab2e0",
         "primary-color--shade": "#135bad",
         333: "#333",
         555: "#555",
@@ -44,6 +46,7 @@ module.exports = {
         "1/2": "50%",
         "85/100": "85%",
         "65/100": "65%",
+        "50rem": "50rem",
       },
       height: { 88: "22rem" },
       maxWidth: {

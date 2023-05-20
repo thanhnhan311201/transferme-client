@@ -7,6 +7,7 @@ import { authActions } from "../slice/authSlice";
 import socketClient from "../../../socket";
 
 import { AuthAPI } from "../../../api/";
+import { transferActions } from "../../transfer/slice/transferSlice";
 
 const useAutoLogin = () => {
   const dispatch = useDispatch();
@@ -34,6 +35,7 @@ const useAutoLogin = () => {
         }
 
         dispatch(authActions.setAuthenticated(response.user));
+        dispatch(transferActions.availableToTransfer());
         socketClient.connect();
         navigate("/transfer");
       } else {

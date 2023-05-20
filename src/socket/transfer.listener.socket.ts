@@ -22,7 +22,16 @@ const transferEventListener = (socket: Socket) => {
     transferController.handleAcceptRequest
   );
 
+  socket.on(SOCKET_EVENTS.REFUSE_REQUEST, transferController.handleRefuseRequest)
+
   socket.on(SOCKET_EVENTS.RECEIVE_FILE, transferController.handleReceiveFile);
+
+  socket.on(
+    SOCKET_EVENTS.ON_ACK_RECEIVE_FILE,
+    transferController.handleAcknowledge
+  );
+
+  socket.on(SOCKET_EVENTS.ON_CANCEL_TRANSFER, transferController.handleCancelTransfer)
 };
 
 export default transferEventListener;

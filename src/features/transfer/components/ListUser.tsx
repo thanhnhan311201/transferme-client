@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { IUserInfo } from "../../../config";
 
 const ListUser: React.FC<{
-  onlineUsers: IUserInfo[];
+  onlineUsers: { id: string; clientId: string; picture: string }[];
 }> = (props) => {
   return (
     <motion.div
@@ -67,7 +67,7 @@ const ListUser: React.FC<{
                           </IconContext.Provider>
                         </div>
                         <div className="text-3c4043 font-medium text-sm py-2 truncate">
-                          <span>{user.email}</span>
+                          <span>{user.clientId}</span>
                         </div>
                       </div>
                     </motion.li>

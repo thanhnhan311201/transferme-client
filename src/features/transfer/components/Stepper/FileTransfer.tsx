@@ -1,4 +1,5 @@
 import React from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -7,8 +8,6 @@ import LinearProgress from "@mui/material/LinearProgress";
 import { BiTransferAlt } from "react-icons/bi";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import { IconContext } from "react-icons";
-
-import { motion, AnimatePresence } from "framer-motion";
 
 import fileInstance from "../../utils/cache-file";
 

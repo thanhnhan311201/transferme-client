@@ -12,6 +12,7 @@ import { useGoogleLoginSuccess } from "../hooks";
 import { useInput } from "../hooks";
 
 import { REDIRECT_URI } from "../../../config";
+import { transferActions } from "../../transfer/slice/transferSlice";
 
 const Login: React.FC = () => {
   const dispatch = useDispatch();
@@ -56,6 +57,7 @@ const Login: React.FC = () => {
 
         socketClient.connect();
         dispatch(authActions.setAuthenticated(response.user));
+        dispatch(transferActions.availableToTransfer());
         navigate("/transfer");
       } catch (error) {
         console.log(error);
