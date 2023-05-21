@@ -7,7 +7,7 @@ const ScreenAuthentication: React.FC = (props) => {
   return (
     <>
       <Header />
-      <div className="flex justify-center items-center pt-12">
+      <div className="flex justify-center items-center pt-10">
         <AnimatePresence>
           <Outlet />
         </AnimatePresence>

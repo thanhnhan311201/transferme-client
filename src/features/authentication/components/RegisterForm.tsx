@@ -11,6 +11,10 @@ const RegisterForm: React.FC<{
   onHandleEmail: (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => void;
+  username: string;
+  onHandleUsername: (
+    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => void;
   password: string;
   onHandlePassword: (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -43,6 +47,35 @@ const RegisterForm: React.FC<{
         </div>
         <div className="mb-4">
           <TextField
+            id="username"
+            name="username"
+            type="username"
+            label="Username"
+            value={props.username}
+            onChange={props.onHandleUsername}
+            variant="outlined"
+            placeholder="E.g. TransferMe"
+            sx={{
+              height: "3.5rem",
+              fontSize: "1rem",
+              marginBottom: "0.5rem",
+              width: "100%",
+              "& .MuiInputBase-root": {
+                height: "100%",
+                "& .MuiInputBase-input": {
+                  padding: "0 1rem",
+                  height: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                },
+              },
+            }}
+            required
+          />
+          <p className="text-xs">You can use letters, numbers & periods</p>
+        </div>
+        <div className="mb-4">
+          <TextField
             id="email"
             name="email"
             type="email"
@@ -50,6 +83,7 @@ const RegisterForm: React.FC<{
             value={props.email}
             onChange={props.onHandleEmail}
             variant="outlined"
+            placeholder="E.g. myemail@transferme.com"
             sx={{
               height: "3.5rem",
               fontSize: "1rem",
@@ -95,14 +129,15 @@ const RegisterForm: React.FC<{
             }}
             required
           />
-          <p className="text-xs">Password must have 8 characters</p>
-          <p className="text-xs">Number and sepecial character</p>
+          <p className="text-xs">
+            Use 8 or more characters with a mix of letters, numbers & symbols
+          </p>
         </div>
         <div>
           <TextField
             name="confirmPassword"
             id="confirmPassword"
-            label="Confirm Password"
+            label="Confirm"
             value={props.confirmPassword}
             onChange={props.onHandleConfirmPassword}
             variant="outlined"

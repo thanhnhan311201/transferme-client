@@ -22,6 +22,11 @@ const Register: React.FC = () => {
     reset: resetEmail,
   } = useInput();
   const {
+    value: usernameValue,
+    handleValueChange: handleUsernameChange,
+    reset: resetUsername,
+  } = useInput();
+  const {
     value: passwordValue,
     handleValueChange: handlePasswordChange,
     reset: resetPassword,
@@ -60,6 +65,8 @@ const Register: React.FC = () => {
     <RegisterForm
       email={emailValue}
       onHandleEmail={handleEmailChange}
+      username={usernameValue}
+      onHandleUsername={handleUsernameChange}
       password={passwordValue}
       onHandlePassword={handlePasswordChange}
       confirmPassword={confirmPasswordValue}
