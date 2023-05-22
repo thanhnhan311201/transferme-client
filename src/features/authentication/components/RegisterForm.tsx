@@ -6,25 +6,15 @@ import { FcGoogle } from "react-icons/fc";
 import { IconContext } from "react-icons";
 import { motion } from "framer-motion";
 
+import { type IUserInputResult } from "../hooks";
+
 const RegisterForm: React.FC<{
-  email: string;
-  onHandleEmail: (
-    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-  ) => void;
-  username: string;
-  onHandleUsername: (
-    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-  ) => void;
-  password: string;
-  onHandlePassword: (
-    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-  ) => void;
-  confirmPassword: string;
-  onHandleConfirmPassword: (
-    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-  ) => void;
+  email: IUserInputResult;
+  username: IUserInputResult;
+  password: IUserInputResult;
+  confirmPassword: IUserInputResult;
   onGoogleLogin: () => void;
-  onSignup: () => void;
+  onSignup: (e: React.FormEvent<HTMLFormElement>) => void;
 }> = (props) => {
   return (
     <motion.div
@@ -35,7 +25,10 @@ const RegisterForm: React.FC<{
       transition={{ duration: 0.5 }}
       className="w-96"
     >
-      <form className="flex flex-col px-6 py-8 rounded-xl shadow-lg mb-8">
+      <form
+        onSubmit={props.onSignup}
+        className="flex flex-col px-6 py-8 rounded-xl shadow-lg mb-8"
+      >
         <div className="mb-8 flex justify-between items-start">
           <div>
             <h2 className="text-4xl mb-1 font-bold">Sign up</h2>
@@ -47,132 +40,138 @@ const RegisterForm: React.FC<{
         </div>
         <div className="mb-4">
           <TextField
+            error={Boolean(props.username.errMessage)}
             id="username"
             name="username"
             type="username"
             label="Username"
-            value={props.username}
-            onChange={props.onHandleUsername}
+            value={props.username.value}
+            onChange={props.username.handleValueChange}
+            onBlur={props.username.handleInputBlur}
             variant="outlined"
             placeholder="E.g. TransferMe"
+            helperText={
+              props.username.errMessage ? props.username.errMessage : ""
+            }
             sx={{
-              height: "3.5rem",
               fontSize: "1rem",
               marginBottom: "0.5rem",
               width: "100%",
-              "& .MuiInputBase-root": {
-                height: "100%",
-                "& .MuiInputBase-input": {
-                  padding: "0 1rem",
-                  height: "100%",
-                  display: "flex",
-                  alignItems: "center",
-                },
+              "& .MuiInputBase-input": {
+                height: "3.5rem",
+                padding: "0 1rem",
+                display: "flex",
+                alignItems: "center",
               },
             }}
             required
           />
-          <p className="text-xs">You can use letters, numbers & periods</p>
+          <p className="text-xs"></p>
         </div>
         <div className="mb-4">
           <TextField
+            error={Boolean(props.email.errMessage)}
             id="email"
             name="email"
             type="email"
             label="Email"
-            value={props.email}
-            onChange={props.onHandleEmail}
+            value={props.email.value}
+            onChange={props.email.handleValueChange}
+            onBlur={props.email.handleInputBlur}
             variant="outlined"
             placeholder="E.g. myemail@transferme.com"
+            helperText={
+              props.email.errMessage
+                ? props.email.errMessage
+                : "You can use letters, numbers & periods"
+            }
             sx={{
-              height: "3.5rem",
               fontSize: "1rem",
               marginBottom: "0.5rem",
               width: "100%",
-              "& .MuiInputBase-root": {
-                height: "100%",
-                "& .MuiInputBase-input": {
-                  padding: "0 1rem",
-                  height: "100%",
-                  display: "flex",
-                  alignItems: "center",
-                },
+              "& .MuiInputBase-input": {
+                height: "3.5rem",
+                padding: "0 1rem",
+                display: "flex",
+                alignItems: "center",
               },
             }}
             required
           />
-          <p className="text-xs">Please enter a valid email</p>
         </div>
         <div className="mb-4">
           <TextField
+            error={Boolean(props.password.errMessage)}
             id="password"
             label="Password"
             name="password"
             variant="outlined"
-            value={props.password}
-            onChange={props.onHandlePassword}
+            value={props.password.value}
+            onChange={props.password.handleValueChange}
+            onBlur={props.password.handleInputBlur}
             type="password"
+            helperText={
+              props.password.errMessage
+                ? props.password.errMessage
+                : "Use 8 or more characters with a mix of letters, numbers & symbols"
+            }
             sx={{
-              height: "3.5rem",
               fontSize: "1rem",
               marginBottom: "0.5rem",
               width: "100%",
-              "& .MuiInputBase-root": {
-                height: "100%",
-                "& .MuiInputBase-input": {
-                  height: "100%",
-                  padding: "0 1rem",
-                  display: "flex",
-                  alignItems: "center",
-                },
+              "& .MuiInputBase-input": {
+                height: "3.5rem",
+                padding: "0 1rem",
+                display: "flex",
+                alignItems: "center",
               },
             }}
             required
           />
-          <p className="text-xs">
-            Use 8 or more characters with a mix of letters, numbers & symbols
-          </p>
         </div>
         <div>
           <TextField
+            error={Boolean(props.confirmPassword.errMessage)}
             name="confirmPassword"
             id="confirmPassword"
             label="Confirm"
-            value={props.confirmPassword}
-            onChange={props.onHandleConfirmPassword}
+            value={props.confirmPassword.value}
+            onChange={props.confirmPassword.handleValueChange}
+            onBlur={props.confirmPassword.handleInputBlur}
             variant="outlined"
             type="password"
+            helperText={
+              props.confirmPassword.errMessage
+                ? props.confirmPassword.errMessage
+                : ""
+            }
             sx={{
-              height: "3.5rem",
               fontSize: "1rem",
               marginBottom: "0.5rem",
               width: "100%",
-              "& .MuiInputBase-root": {
-                height: "100%",
-                "& .MuiInputBase-input": {
-                  height: "100%",
-                  padding: "0 1rem",
-                  display: "flex",
-                  alignItems: "center",
-                },
+              "& .MuiInputBase-input": {
+                height: "3.5rem",
+                padding: "0 1rem",
+                display: "flex",
+                alignItems: "center",
               },
             }}
             required
           />
-          <p className="text-xs">Password have to match</p>
+          <p className="text-xs"></p>
         </div>
         <p className="text-xs my-6 text-center">
           By clicking Agree & Join, you agree to the TransferMe User Agreement,
           Privacy Policy, and Cookie Policy.
         </p>
         <Button
+          type="submit"
           variant="contained"
           sx={{
             textTransform: "none",
             borderRadius: "24px",
             height: "3.5rem",
           }}
-          onClick={() => props.onSignup()}
         >
           Agree & Join
         </Button>

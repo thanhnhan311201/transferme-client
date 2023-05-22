@@ -1,41 +1,26 @@
 import { useCallback } from "react";
 import { useGoogleLogin } from "@react-oauth/google";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import RegisterForm from "../components/RegisterForm";
 import { AuthAPI } from "../../../api";
 import { useGoogleLoginSuccess } from "../hooks";
 import { useInput } from "../hooks";
+import { ValidationType } from "../hooks";
 
 import { REDIRECT_URI } from "../../../config";
 
 const Register: React.FC = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleSuccess = useGoogleLoginSuccess();
 
-  const {
-    value: emailValue,
-    handleValueChange: handleEmailChange,
-    reset: resetEmail,
-  } = useInput();
-  const {
-    value: usernameValue,
-    handleValueChange: handleUsernameChange,
-    reset: resetUsername,
-  } = useInput();
-  const {
-    value: passwordValue,
-    handleValueChange: handlePasswordChange,
-    reset: resetPassword,
-  } = useInput();
-  const {
-    value: confirmPasswordValue,
-    handleValueChange: handleConfirmPasswordChange,
-    reset: resetConfirmPassword,
-  } = useInput();
+  const email = useInput(ValidationType.IS_EMAIL_VALID);
+  const username = useInput(ValidationType.REQUIRED);
+  const password = useInput(ValidationType.IS_PASSWORD_VALID);
+  const cfmPassword = useInput(ValidationType.IS_PASSWORD_MATCH, {
+    password: password.value,
+  });
 
   const handleGoogleLogin = useGoogleLogin({
     onSuccess: handleSuccess,
@@ -44,33 +29,40 @@ const Register: React.FC = () => {
     redirect_uri: REDIRECT_URI,
   });
 
-  const handleSignup = useCallback(() => {
-    const signup = async () => {
-      try {
-        const response = await AuthAPI.signup({
-          email: emailValue,
-          password: passwordValue,
-          confirmPassword: confirmPasswordValue,
-        });
-        console.log(response);
-        navigate("/auth/login");
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    signup();
-  }, [emailValue, passwordValue, confirmPasswordValue, navigate]);
+  const handleSignup = useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      (async () => {
+        try {
+          e.preventDefault();
+
+          console.log({
+            email: email.value,
+            username: username.value,
+            password: password.value,
+            confirmPassword: cfmPassword.value,
+          });
+          // const response = await AuthAPI.signup({
+          //   email: email.value,
+          //   username: username.value,
+          //   password: password.value,
+          //   confirmPassword: cfmPassword.value,
+          // });
+          // console.log(response);
+          // navigate("/auth/login");
+        } catch (error) {
+          console.log(error);
+        }
+      })();
+    },
+    [email.value, username.value, password.value, cfmPassword.value, navigate]
+  );
 
   return (
     <RegisterForm
-      email={emailValue}
-      onHandleEmail={handleEmailChange}
-      username={usernameValue}
-      onHandleUsername={handleUsernameChange}
-      password={passwordValue}
-      onHandlePassword={handlePasswordChange}
-      confirmPassword={confirmPasswordValue}
-      onHandleConfirmPassword={handleConfirmPasswordChange}
+      email={email}
+      username={username}
+      password={password}
+      confirmPassword={cfmPassword}
       onSignup={handleSignup}
       onGoogleLogin={handleGoogleLogin}
     />

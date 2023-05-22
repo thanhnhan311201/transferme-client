@@ -1,15 +1,15 @@
 import axiosClient from "./axiosClient";
 
-interface IProfile {
-  email: string;
-  family_name: string;
-  given_name: string;
-  id: string;
-  locale: string;
-  name: string;
-  picture: string;
-  verified_email: boolean;
-}
+// interface IProfile {
+//   email: string;
+//   family_name: string;
+//   given_name: string;
+//   id: string;
+//   locale: string;
+//   name: string;
+//   picture: string;
+//   verified_email: boolean;
+// }
 
 interface IAuthResponse {
   status: string;
@@ -27,6 +27,7 @@ namespace AuthAPI {
 
   export const signup = (userSignupInfo: {
     email: string;
+    username: string;
     password: string;
     confirmPassword: string;
   }) => {

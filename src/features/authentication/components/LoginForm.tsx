@@ -6,15 +6,11 @@ import { FcGoogle } from "react-icons/fc";
 import { IconContext } from "react-icons";
 import { motion } from "framer-motion";
 
+import { type IUserInputResult } from "../hooks";
+
 const LoginForm: React.FC<{
-  email: string;
-  onHandleEmail: (
-    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-  ) => void;
-  password: string;
-  onHandlePassword: (
-    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-  ) => void;
+  email: IUserInputResult;
+  password: IUserInputResult;
   onGoogleLogin: () => void;
   onLogin: () => void;
 }> = (props) => {
@@ -42,8 +38,9 @@ const LoginForm: React.FC<{
             id="email"
             name="email"
             label="Email"
-            value={props.email}
-            onChange={props.onHandleEmail}
+            value={props.email.value}
+            onChange={props.email.handleValueChange}
+            onBlur={props.email.handleInputBlur}
             variant="outlined"
             type="email"
             sx={{
@@ -71,8 +68,9 @@ const LoginForm: React.FC<{
             label="Password"
             variant="outlined"
             type="password"
-            value={props.password}
-            onChange={props.onHandlePassword}
+            value={props.password.value}
+            onChange={props.password.handleValueChange}
+            onBlur={props.password.handleInputBlur}
             sx={{
               height: "3.5rem",
               fontSize: "1rem",

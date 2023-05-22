@@ -10,6 +10,7 @@ import { AuthAPI } from "../../../api";
 import { authActions } from "../slice/authSlice";
 import { useGoogleLoginSuccess } from "../hooks";
 import { useInput } from "../hooks";
+import { ValidationType } from "../hooks";
 
 import { REDIRECT_URI } from "../../../config";
 import { transferActions } from "../../transfer/slice/transferSlice";
@@ -20,16 +21,8 @@ const Login: React.FC = () => {
 
   const handleSuccess = useGoogleLoginSuccess();
 
-  const {
-    value: emailValue,
-    handleValueChange: handleEmailChange,
-    reset: resetEmail,
-  } = useInput();
-  const {
-    value: passwordValue,
-    handleValueChange: handlePasswordChange,
-    reset: resetPassword,
-  } = useInput();
+  const email = useInput(ValidationType.IS_EMAIL_VALID);
+  const password = useInput(ValidationType.IS_PASSWORD_VALID);
 
   const handleGoogleLogin = useGoogleLogin({
     onSuccess: handleSuccess,
@@ -39,11 +32,11 @@ const Login: React.FC = () => {
   });
 
   const handleLogin = useCallback(() => {
-    const login = async () => {
+    (async () => {
       try {
         const response = await AuthAPI.login({
-          email: emailValue,
-          password: passwordValue,
+          email: email.value,
+          password: password.value,
         });
         document.cookie = `access_token=${response.token}; expires= ${new Date(
           new Date().getTime() + 3599 * 1000
@@ -62,16 +55,13 @@ const Login: React.FC = () => {
       } catch (error) {
         console.log(error);
       }
-    };
-    login();
-  }, [emailValue, passwordValue, dispatch, navigate]);
+    })();
+  }, [email.value, password.value, dispatch, navigate]);
 
   return (
     <LoginForm
-      email={emailValue}
-      onHandleEmail={handleEmailChange}
-      password={passwordValue}
-      onHandlePassword={handlePasswordChange}
+      email={email}
+      password={password}
       onGoogleLogin={handleGoogleLogin}
       onLogin={handleLogin}
     />
