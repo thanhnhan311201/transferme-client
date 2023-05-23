@@ -47,7 +47,6 @@ const RegisterForm: React.FC<{
             label="Username"
             value={props.username.value}
             onChange={props.username.handleValueChange}
-            onBlur={props.username.handleInputBlur}
             variant="outlined"
             placeholder="E.g. TransferMe"
             helperText={
@@ -77,13 +76,12 @@ const RegisterForm: React.FC<{
             label="Email"
             value={props.email.value}
             onChange={props.email.handleValueChange}
-            onBlur={props.email.handleInputBlur}
             variant="outlined"
             placeholder="E.g. myemail@transferme.com"
             helperText={
               props.email.errMessage
                 ? props.email.errMessage
-                : "You can use letters, numbers & periods"
+                : "You can use letters, numbers, underscore & periods "
             }
             sx={{
               fontSize: "1rem",
@@ -108,7 +106,6 @@ const RegisterForm: React.FC<{
             variant="outlined"
             value={props.password.value}
             onChange={props.password.handleValueChange}
-            onBlur={props.password.handleInputBlur}
             type="password"
             helperText={
               props.password.errMessage
@@ -137,7 +134,6 @@ const RegisterForm: React.FC<{
             label="Confirm"
             value={props.confirmPassword.value}
             onChange={props.confirmPassword.handleValueChange}
-            onBlur={props.confirmPassword.handleInputBlur}
             variant="outlined"
             type="password"
             helperText={

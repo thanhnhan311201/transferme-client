@@ -30,29 +30,27 @@ const Register: React.FC = () => {
   });
 
   const handleSignup = useCallback(
-    (e: React.FormEvent<HTMLFormElement>) => {
-      (async () => {
-        try {
-          e.preventDefault();
+    async (e: React.FormEvent<HTMLFormElement>) => {
+      try {
+        e.preventDefault();
 
-          console.log({
-            email: email.value,
-            username: username.value,
-            password: password.value,
-            confirmPassword: cfmPassword.value,
-          });
-          // const response = await AuthAPI.signup({
-          //   email: email.value,
-          //   username: username.value,
-          //   password: password.value,
-          //   confirmPassword: cfmPassword.value,
-          // });
-          // console.log(response);
-          // navigate("/auth/login");
-        } catch (error) {
-          console.log(error);
-        }
-      })();
+        console.log({
+          email: email.value,
+          username: username.value,
+          password: password.value,
+          confirmPassword: cfmPassword.value,
+        });
+        // const response = await AuthAPI.signup({
+        //   email: email.value,
+        //   username: username.value,
+        //   password: password.value,
+        //   confirmPassword: cfmPassword.value,
+        // });
+        // console.log(response);
+        // navigate("/auth/login");
+      } catch (error) {
+        console.log(error);
+      }
     },
     [email.value, username.value, password.value, cfmPassword.value, navigate]
   );

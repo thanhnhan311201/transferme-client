@@ -40,7 +40,6 @@ const LoginForm: React.FC<{
             label="Email"
             value={props.email.value}
             onChange={props.email.handleValueChange}
-            onBlur={props.email.handleInputBlur}
             variant="outlined"
             type="email"
             sx={{
@@ -70,7 +69,6 @@ const LoginForm: React.FC<{
             type="password"
             value={props.password.value}
             onChange={props.password.handleValueChange}
-            onBlur={props.password.handleInputBlur}
             sx={{
               height: "3.5rem",
               fontSize: "1rem",

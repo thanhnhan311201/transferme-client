@@ -31,31 +31,29 @@ const Login: React.FC = () => {
     redirect_uri: REDIRECT_URI,
   });
 
-  const handleLogin = useCallback(() => {
-    (async () => {
-      try {
-        const response = await AuthAPI.login({
-          email: email.value,
-          password: password.value,
-        });
-        document.cookie = `access_token=${response.token}; expires= ${new Date(
-          new Date().getTime() + 3599 * 1000
-        ).toUTCString()}`;
-        document.cookie = `user_id=${response.user.id}; expires= ${new Date(
-          new Date().getTime() + 3599 * 1000
-        ).toUTCString()}`;
+  const handleLogin = useCallback(async () => {
+    try {
+      const response = await AuthAPI.login({
+        email: email.value,
+        password: password.value,
+      });
+      document.cookie = `access_token=${response.token}; expires= ${new Date(
+        new Date().getTime() + 3599 * 1000
+      ).toUTCString()}`;
+      document.cookie = `user_id=${response.user.id}; expires= ${new Date(
+        new Date().getTime() + 3599 * 1000
+      ).toUTCString()}`;
 
-        // TODO: save
-        // jwtStorage.set();
+      // TODO: save
+      // jwtStorage.set();
 
-        socketClient.connect();
-        dispatch(authActions.setAuthenticated(response.user));
-        dispatch(transferActions.availableToTransfer());
-        navigate("/transfer");
-      } catch (error) {
-        console.log(error);
-      }
-    })();
+      socketClient.connect();
+      dispatch(authActions.setAuthenticated(response.user));
+      dispatch(transferActions.availableToTransfer());
+      navigate("/transfer");
+    } catch (error) {
+      console.log(error);
+    }
   }, [email.value, password.value, dispatch, navigate]);
 
   return (
