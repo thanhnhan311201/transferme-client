@@ -10,6 +10,7 @@ import { AuthAPI } from "../../../api";
 import { authActions } from "../slice/authSlice";
 import { useGoogleLoginSuccess } from "../hooks";
 import { useInput } from "../hooks";
+import { ValidationType } from "../hooks";
 
 import { REDIRECT_URI } from "../../../config";
 import { transferActions } from "../../transfer/slice/transferSlice";
@@ -20,16 +21,8 @@ const Login: React.FC = () => {
 
   const handleSuccess = useGoogleLoginSuccess();
 
-  const {
-    value: emailValue,
-    handleValueChange: handleEmailChange,
-    reset: resetEmail,
-  } = useInput();
-  const {
-    value: passwordValue,
-    handleValueChange: handlePasswordChange,
-    reset: resetPassword,
-  } = useInput();
+  const email = useInput(ValidationType.IS_EMAIL_VALID);
+  const password = useInput(ValidationType.IS_PASSWORD_VALID);
 
   const handleGoogleLogin = useGoogleLogin({
     onSuccess: handleSuccess,
@@ -38,40 +31,35 @@ const Login: React.FC = () => {
     redirect_uri: REDIRECT_URI,
   });
 
-  const handleLogin = useCallback(() => {
-    const login = async () => {
-      try {
-        const response = await AuthAPI.login({
-          email: emailValue,
-          password: passwordValue,
-        });
-        document.cookie = `access_token=${response.token}; expires= ${new Date(
-          new Date().getTime() + 3599 * 1000
-        ).toUTCString()}`;
-        document.cookie = `user_id=${response.user.id}; expires= ${new Date(
-          new Date().getTime() + 3599 * 1000
-        ).toUTCString()}`;
+  const handleLogin = useCallback(async () => {
+    try {
+      const response = await AuthAPI.login({
+        email: email.value,
+        password: password.value,
+      });
+      document.cookie = `access_token=${response.token}; expires= ${new Date(
+        new Date().getTime() + 3599 * 1000
+      ).toUTCString()}`;
+      document.cookie = `user_id=${response.user.id}; expires= ${new Date(
+        new Date().getTime() + 3599 * 1000
+      ).toUTCString()}`;
 
-        // TODO: save
-        // jwtStorage.set();
+      // TODO: save
+      // jwtStorage.set();
 
-        socketClient.connect();
-        dispatch(authActions.setAuthenticated(response.user));
-        dispatch(transferActions.availableToTransfer());
-        navigate("/transfer");
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    login();
-  }, [emailValue, passwordValue, dispatch, navigate]);
+      socketClient.connect();
+      dispatch(authActions.setAuthenticated(response.user));
+      dispatch(transferActions.availableToTransfer());
+      navigate("/transfer");
+    } catch (error) {
+      console.log(error);
+    }
+  }, [email.value, password.value, dispatch, navigate]);
 
   return (
     <LoginForm
-      email={emailValue}
-      onHandleEmail={handleEmailChange}
-      password={passwordValue}
-      onHandlePassword={handlePasswordChange}
+      email={email}
+      password={password}
       onGoogleLogin={handleGoogleLogin}
       onLogin={handleLogin}
     />

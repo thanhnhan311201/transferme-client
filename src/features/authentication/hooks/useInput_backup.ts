@@ -1,4 +1,4 @@
-import { useCallback, useReducer, useMemo, useEffect } from "react";
+import { useCallback, useReducer } from "react";
 
 import { emailRegex } from "../../../utils";
 
@@ -11,7 +11,7 @@ export enum ValidationType {
 
 enum InputActionType {
   INPUT = "INPUT",
-  VALIDATE = "VALIDATE",
+  BLUR = "BLUR",
   RESET = "RESET",
 }
 
@@ -22,24 +22,22 @@ interface IAction {
 
 interface IState {
   value: string;
-  isValidated: boolean;
-  isTouched: boolean;
+  isBlur: boolean;
 }
 
 const initialState: IState = {
   value: "",
-  isValidated: false,
-  isTouched: false,
+  isBlur: false,
 };
 
 const inputStateReducer = (state: IState, action: IAction) => {
   switch (action.type) {
     case InputActionType.INPUT:
-      return { value: action.payload, isTouched: true, isValidated: false };
-    case InputActionType.VALIDATE:
-      return { ...state, isValidated: true };
+      return { value: action.payload, isBlur: false };
+    case InputActionType.BLUR:
+      return { ...state, isBlur: true };
     case InputActionType.RESET:
-      return { value: "", isValidated: false, isTouched: false };
+      return { value: "", isBlur: false };
     default:
       return state;
   }
@@ -58,27 +56,21 @@ const validateValue = (
       return { isValid: true, error: undefined };
 
     case ValidationType.IS_EMAIL_VALID:
-      const emailName = value.split("@")[0];
       if (!value.trim()) {
         return { isValid: false, error: "Sorry, email must not be empty." };
-      } else if (!value.includes("@")) {
-        return { isValid: false, error: "Sorry, your email must include '@'." };
       } else if (value.length < 6 || value.length > 30) {
         return {
           isValid: false,
           error:
             "Sorry, your username must be between 6 and 30 characters long.",
         };
-      } else if (/^\d+$/.test(emailName)) {
+      } else if (/^\d+$/.test(value.split("@")[0])) {
         return {
           isValid: false,
           error:
-            "Sorry, your username must include at least one alphabetical character (a-z).",
+            "Sorry, username must include at least one alphabetical character (a-z).",
         };
-      } else if (
-        emailName[0] === "." ||
-        emailName[emailName.length - 1] === "."
-      ) {
+      } else if (value[0] === "." || value[value.length - 1] === ".") {
         return {
           isValid: false,
           error:
@@ -88,7 +80,7 @@ const validateValue = (
         return {
           isValid: false,
           error:
-            "Sorry, please enter a valid email. Only letters (a-z), number (0-9), underscore (_) and periods (.)  are allowed.",
+            "Sorry, only letters (a-z), number (0-9), and periods (.) are allowed.",
         };
       }
       return { isValid: true, error: undefined };
@@ -138,41 +130,27 @@ const validateValue = (
   }
 };
 
-let inputTimer: NodeJS.Timeout;
-
 const useInput = (
   validateType: ValidationType,
   option?: { password: string }
 ) => {
-  clearTimeout(inputTimer);
-
   const [inputState, dispatch] = useReducer(inputStateReducer, initialState);
 
   const valResult: { isValid: boolean; error: string | undefined } =
     validateValue(validateType, inputState.value, option?.password);
 
-  useEffect(() => {
-    if (inputState.isTouched) {
-      inputTimer = setTimeout(() => {
-        dispatch({ type: InputActionType.VALIDATE, payload: "" });
-      }, 1000);
-    }
-  }, [inputState.value, inputState.isTouched]);
-
-  const errMessage = useMemo(
-    () =>
-      inputState.isTouched
-        ? inputState.isValidated
-          ? valResult.error
-          : undefined
-        : undefined,
-    [inputState.isValidated, inputState.isTouched]
-  );
+  const errMessage = inputState.isBlur ? valResult.error : undefined;
 
   const handleValueChange = useCallback(
     (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
       dispatch({ type: InputActionType.INPUT, payload: event.target.value });
     },
+    []
+  );
+
+  const handleInputBlur = useCallback(
+    (event: React.FocusEvent<HTMLElement>) =>
+      dispatch({ type: InputActionType.BLUR, payload: "" }),
     []
   );
 
@@ -185,6 +163,7 @@ const useInput = (
     isValid: valResult.isValid,
     errMessage,
     handleValueChange,
+    handleInputBlur,
     resetValue,
   };
 };
@@ -198,5 +177,6 @@ export interface IUserInputResult {
   handleValueChange: (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => void;
+  handleInputBlur: (event: React.FocusEvent<HTMLElement>) => void;
   resetValue: () => void;
 }
