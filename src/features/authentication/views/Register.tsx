@@ -1,9 +1,11 @@
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { useGoogleLogin } from "@react-oauth/google";
 import { useNavigate } from "react-router-dom";
 
 import RegisterForm from "../components/RegisterForm";
+
 import { AuthAPI } from "../../../api";
+
 import { useGoogleLoginSuccess } from "../hooks";
 import { useInput } from "../hooks";
 import { ValidationType } from "../hooks";
@@ -34,12 +36,20 @@ const Register: React.FC = () => {
       try {
         e.preventDefault();
 
-        console.log({
-          email: email.value,
-          username: username.value,
-          password: password.value,
-          confirmPassword: cfmPassword.value,
-        });
+        email.setIsTouched();
+        username.setIsTouched();
+        password.setIsTouched();
+        cfmPassword.setIsTouched();
+
+        if (
+          !email.isValid ||
+          !username.isValid ||
+          !password.isValid ||
+          !cfmPassword.isValid
+        ) {
+          email.inputRef.current!.focus();
+        }
+
         // const response = await AuthAPI.signup({
         //   email: email.value,
         //   username: username.value,
@@ -52,7 +62,7 @@ const Register: React.FC = () => {
         console.log(error);
       }
     },
-    [email.value, username.value, password.value, cfmPassword.value, navigate]
+    [email, username, password, cfmPassword, navigate]
   );
 
   return (

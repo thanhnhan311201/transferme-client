@@ -1,3 +1,5 @@
+import React from "react";
+
 import TextField from "@mui/material/TextField";
 import { Button, Divider } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -47,6 +49,8 @@ const RegisterForm: React.FC<{
             label="Username"
             value={props.username.value}
             onChange={props.username.handleValueChange}
+            onBlur={props.username.handleInputBlur}
+            inputRef={props.username.inputRef}
             variant="outlined"
             placeholder="E.g. TransferMe"
             helperText={
@@ -63,7 +67,6 @@ const RegisterForm: React.FC<{
                 alignItems: "center",
               },
             }}
-            required
           />
           <p className="text-xs"></p>
         </div>
@@ -76,6 +79,8 @@ const RegisterForm: React.FC<{
             label="Email"
             value={props.email.value}
             onChange={props.email.handleValueChange}
+            onBlur={props.email.handleInputBlur}
+            inputRef={props.email.inputRef}
             variant="outlined"
             placeholder="E.g. myemail@transferme.com"
             helperText={
@@ -94,7 +99,6 @@ const RegisterForm: React.FC<{
                 alignItems: "center",
               },
             }}
-            required
           />
         </div>
         <div className="mb-4">
@@ -106,6 +110,8 @@ const RegisterForm: React.FC<{
             variant="outlined"
             value={props.password.value}
             onChange={props.password.handleValueChange}
+            onBlur={props.password.handleInputBlur}
+            inputRef={props.password.inputRef}
             type="password"
             helperText={
               props.password.errMessage
@@ -123,7 +129,6 @@ const RegisterForm: React.FC<{
                 alignItems: "center",
               },
             }}
-            required
           />
         </div>
         <div>
@@ -134,6 +139,8 @@ const RegisterForm: React.FC<{
             label="Confirm"
             value={props.confirmPassword.value}
             onChange={props.confirmPassword.handleValueChange}
+            onBlur={props.confirmPassword.handleInputBlur}
+            inputRef={props.confirmPassword.inputRef}
             variant="outlined"
             type="password"
             helperText={
@@ -152,7 +159,6 @@ const RegisterForm: React.FC<{
                 alignItems: "center",
               },
             }}
-            required
           />
           <p className="text-xs"></p>
         </div>
