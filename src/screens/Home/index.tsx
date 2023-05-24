@@ -13,6 +13,7 @@ const ScreenHome: React.FC = () => {
         <div className="flex justify-center">
           <div className="grid grid-cols-2-for-home px-24 pt-16 items-center">
             <motion.div
+              key="transferme_heading"
               initial={{ opacity: 0, x: -200 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.75 }}
@@ -32,6 +33,7 @@ const ScreenHome: React.FC = () => {
               </Link>
             </motion.div>
             <motion.div
+              key="transferme_illustration"
               initial={{ opacity: 0, y: 200 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.75 }}

@@ -162,7 +162,7 @@ const validateValue = (
 
 const useInput = (
   validateType: ValidationType,
-  option?: { password: string }
+  option?: { password?: string; isCheckEmailExist?: boolean }
 ) => {
   const [inputState, dispatch] = useReducer(inputStateReducer, initialState);
   const [valResult, setValResult] = useState<{
@@ -190,6 +190,7 @@ const useInput = (
 
   useEffect(() => {
     if (
+      option?.isCheckEmailExist &&
       valResult.isValid &&
       validateType === ValidationType.IS_EMAIL_VALID &&
       inputState.isValidated
@@ -199,7 +200,6 @@ const useInput = (
           const response = await AuthAPI.verifyEmail(inputState.value);
         } catch (error: any) {
           if (error.code === 422) {
-            console.log(error);
             setValResult({
               isValid: false,
               error: "That email has already been taken. Try another.",

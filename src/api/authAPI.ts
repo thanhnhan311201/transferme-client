@@ -39,7 +39,7 @@ namespace AuthAPI {
   }) => {
     const url = "/user/signup";
     const requestBody = JSON.stringify(userSignupInfo);
-    return axiosClient.post(url, requestBody);
+    return axiosClient.post<any, IResponse>(url, requestBody);
   };
 
   export const loginWithGoogle = (authCode: string) => {

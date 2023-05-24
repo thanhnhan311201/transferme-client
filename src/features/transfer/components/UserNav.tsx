@@ -11,6 +11,7 @@ const UserNav: React.FC<{ onLogout: () => void; userInfo: IUserInfo }> = (
 ) => {
   return (
     <motion.div
+      key="user_nav"
       initial={{ opacity: 0, y: -50, scale: 0.1 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: -50, scale: 0.1 }}

@@ -125,6 +125,7 @@ const FileTransferStepper: React.FC = () => {
                   }}
                 >
                   <motion.div
+                    key="step_item"
                     className="mb-10"
                     initial={{ opacity: 0, y: 50 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -134,6 +135,7 @@ const FileTransferStepper: React.FC = () => {
                   </motion.div>
                   {!isStartTransfer && (
                     <motion.div
+                      key="step_transfer"
                       initial={{ opacity: 0, y: 50 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.25, delay: 0.25 }}

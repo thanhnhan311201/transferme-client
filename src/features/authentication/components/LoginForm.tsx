@@ -6,13 +6,16 @@ import { FcGoogle } from "react-icons/fc";
 import { IconContext } from "react-icons";
 import { motion } from "framer-motion";
 
+import { LOGIN_STATUS } from "../slice/loginSlice";
+
 import { type IUserInputResult } from "../hooks";
 
 const LoginForm: React.FC<{
   email: IUserInputResult;
   password: IUserInputResult;
   onGoogleLogin: () => void;
-  onLogin: () => void;
+  onLogin: (e: React.FormEvent<HTMLFormElement>) => void;
+  isProcessLogin: LOGIN_STATUS;
 }> = (props) => {
   return (
     <motion.div
@@ -23,74 +26,79 @@ const LoginForm: React.FC<{
       transition={{ duration: 0.5 }}
       className="w-96"
     >
-      <form className="flex flex-col px-6 py-8 rounded-xl shadow-lg mb-8">
+      <form
+        onSubmit={props.onLogin}
+        className="flex flex-col px-6 py-8 rounded-xl shadow-lg mb-8"
+      >
         <div className="mb-8 flex justify-between items-start">
           <div>
             <h2 className="text-4xl mb-1 font-bold">Sign in</h2>
             <p className="text-xs">Transfering faster than your love with ex</p>
           </div>
           <div className="flex">
-            <CircularProgress />
+            {props.isProcessLogin === LOGIN_STATUS.PROCESS_LOGIN && (
+              <CircularProgress />
+            )}
           </div>
         </div>
         <div className="mb-4">
           <TextField
+            error={Boolean(props.email.errMessage)}
             id="email"
             name="email"
             label="Email"
             value={props.email.value}
             onChange={props.email.handleValueChange}
+            onBlur={props.email.handleInputBlur}
+            inputRef={props.email.inputRef}
             variant="outlined"
             type="email"
+            helperText={props.email.errMessage ? props.email.errMessage : ""}
             sx={{
-              height: "3.5rem",
               fontSize: "1rem",
               marginBottom: "0.5rem",
               width: "100%",
-              "& .MuiInputBase-root": {
-                height: "100%",
-                "& .MuiInputBase-input": {
-                  padding: "0 1rem",
-                  height: "100%",
-                  display: "flex",
-                  alignItems: "center",
-                },
+              "& .MuiInputBase-input": {
+                height: "3.5rem",
+                padding: "0 1rem",
+                display: "flex",
+                alignItems: "center",
               },
             }}
             required
           />
-          <p className="text-xs">Please enter a valid email</p>
         </div>
         <div className="mb-6">
           <TextField
+            error={Boolean(props.password.errMessage)}
             id="password"
             label="Password"
             variant="outlined"
             type="password"
             value={props.password.value}
             onChange={props.password.handleValueChange}
+            onBlur={props.password.handleInputBlur}
+            inputRef={props.password.inputRef}
+            helperText={
+              props.password.errMessage ? props.password.errMessage : ""
+            }
             sx={{
-              height: "3.5rem",
               fontSize: "1rem",
               marginBottom: "0.5rem",
               width: "100%",
-              "& .MuiInputBase-root": {
-                height: "100%",
-                "& .MuiInputBase-input": {
-                  height: "100%",
-                  padding: "0 1rem",
-                  display: "flex",
-                  alignItems: "center",
-                },
+              "& .MuiInputBase-input": {
+                height: "3.5rem",
+                padding: "0 1rem",
+                display: "flex",
+                alignItems: "center",
               },
             }}
             required
           />
-          <p className="text-xs">Wrong password</p>
         </div>
         <Button
           variant="contained"
-          onClick={props.onLogin}
+          type="submit"
           sx={{
             textTransform: "none",
             marginBottom: "1.5rem",

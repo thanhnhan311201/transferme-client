@@ -8,6 +8,8 @@ import { FcGoogle } from "react-icons/fc";
 import { IconContext } from "react-icons";
 import { motion } from "framer-motion";
 
+import { SIGNUP_STATUS } from "../slice/signupSlice";
+
 import { type IUserInputResult } from "../hooks";
 
 const RegisterForm: React.FC<{
@@ -17,6 +19,7 @@ const RegisterForm: React.FC<{
   confirmPassword: IUserInputResult;
   onGoogleLogin: () => void;
   onSignup: (e: React.FormEvent<HTMLFormElement>) => void;
+  isProcessSignup: SIGNUP_STATUS;
 }> = (props) => {
   return (
     <motion.div
@@ -37,7 +40,9 @@ const RegisterForm: React.FC<{
             <p className="text-xs">Transfering faster than your love with ex</p>
           </div>
           <div className="flex">
-            <CircularProgress />
+            {props.isProcessSignup === SIGNUP_STATUS.PROCESS_SIGNUP && (
+              <CircularProgress />
+            )}
           </div>
         </div>
         <div className="mb-4">
@@ -86,7 +91,7 @@ const RegisterForm: React.FC<{
             helperText={
               props.email.errMessage
                 ? props.email.errMessage
-                : "You can use letters, numbers, underscore & periods "
+                : "You can use letters, numbers, underscore & periods."
             }
             sx={{
               fontSize: "1rem",
@@ -116,7 +121,7 @@ const RegisterForm: React.FC<{
             helperText={
               props.password.errMessage
                 ? props.password.errMessage
-                : "Use 8 or more characters with a mix of letters, numbers & symbols"
+                : "Use 8 or more characters with a mix of letters, numbers & symbols."
             }
             sx={{
               fontSize: "1rem",

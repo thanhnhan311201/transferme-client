@@ -7,6 +7,7 @@ import logo from "../../../images/logo_3.png";
 const Header = () => {
   return (
     <motion.div
+      key="auth_header"
       initial={{ opacity: 0, y: -50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.75 }}

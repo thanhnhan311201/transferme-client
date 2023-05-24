@@ -58,6 +58,7 @@ const FileTransfer: React.FC<{
         {props.isStartTransfer && (
           <>
             <motion.div
+              key="waiting_progress"
               initial={{ opacity: 0, y: -50 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -25 }}
@@ -112,6 +113,7 @@ const FileTransfer: React.FC<{
               </Box>
             </motion.div>
             <motion.div
+              key="waiting_alert"
               initial={{ opacity: 0, y: -50 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -50 }}

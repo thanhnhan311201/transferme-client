@@ -74,6 +74,7 @@ const BrowseFile: React.FC<{
       >
         {!isFileUploaded && !fileInstance.file && !isLoading && (
           <motion.div
+            key="file_upload_form"
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
@@ -127,6 +128,7 @@ const BrowseFile: React.FC<{
         )}
         {!isFileUploaded && !fileInstance.file && isLoading && (
           <motion.div
+            key="waiting_upload"
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
@@ -136,6 +138,7 @@ const BrowseFile: React.FC<{
         )}
         {isFileUploaded && fileInstance.file && !isLoading && (
           <motion.div
+            key="file"
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
