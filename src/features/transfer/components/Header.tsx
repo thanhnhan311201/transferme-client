@@ -5,7 +5,7 @@ import { IoIosArrowDown } from "react-icons/io";
 import { IconContext } from "react-icons";
 import { motion } from "framer-motion";
 
-import logo from "../../../images/logo.png";
+import logo from "../../../images/logo_4.png";
 import { type IUserInfo } from "../../../config";
 
 const scaleVariants = {
@@ -14,15 +14,17 @@ const scaleVariants = {
   tapped: { scale: 1.2 },
 };
 
-const Header: React.FC<{
-  userInfo: IUserInfo;
-  showUserNav: boolean;
-  onHandleShowUserNav: () => void;
-  clientId: string;
-}> = (props) => {
+const Header = React.forwardRef<
+  HTMLDivElement,
+  {
+    userInfo: IUserInfo;
+    showUserNav: boolean;
+    onHandleShowUserNav: () => void;
+    clientId: string;
+  }
+>((props, ref) => {
   return (
     <motion.div
-      key="transfer_header"
       initial={{ opacity: 0, y: -50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.75 }}
@@ -60,6 +62,7 @@ const Header: React.FC<{
             initial="init"
           >
             <div
+              ref={ref}
               onClick={props.onHandleShowUserNav}
               className={`w-11 rounded-full border-4 hover:border-e0e9f8 border-solid relative ${
                 props.showUserNav ? "border-e0e9f8" : "border-main-bg"
@@ -70,6 +73,7 @@ const Header: React.FC<{
                 src={props.userInfo.picture}
                 alt="User avatar"
                 referrerPolicy="no-referrer"
+                crossOrigin="anonymous"
               />
               <IconContext.Provider
                 value={{
@@ -95,6 +99,6 @@ const Header: React.FC<{
       </div>
     </motion.div>
   );
-};
+});
 
 export default Header;

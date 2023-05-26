@@ -1,7 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { IUserInfo } from "../config";
-
 interface SliceState {
   onlineUsers: { id: string; clientId: string; picture: string }[];
 }

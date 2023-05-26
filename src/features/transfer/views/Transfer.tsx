@@ -1,6 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useState, useEffect } from "react";
+import { useState, useCallback } from "react";
 import { AnimatePresence } from "framer-motion";
+
+import useOutsideRef from "../hooks/useOutsideRef";
 
 import Header from "../components/Header";
 import ListUser from "../components/ListUser";
@@ -27,9 +29,14 @@ const Transfer: React.FC = () => {
 
   const [showUserNav, setShowUserNav] = useState<boolean>(false);
 
-  const handleShowUserNav = () => {
+  const [userNavRef, userHeaderRef] = useOutsideRef(() => {
+    console.log("outside");
+    setShowUserNav(false);
+  });
+
+  const handleShowUserNav = useCallback(() => {
     setShowUserNav((prev) => !prev);
-  };
+  }, []);
 
   const handleLogout = () => {
     document.cookie = `access_token= ; expires= ${new Date(
@@ -47,6 +54,7 @@ const Transfer: React.FC = () => {
     <div className="bg-main-bg h-screen">
       <div className="h-full grid grid-cols-3-for-transferLayout grid-rows-2-for-transferLayout">
         <Header
+          ref={userHeaderRef}
           showUserNav={showUserNav}
           onHandleShowUserNav={handleShowUserNav}
           userInfo={userInfo}
@@ -54,7 +62,12 @@ const Transfer: React.FC = () => {
         />
         <AnimatePresence>
           {showUserNav && (
-            <UserNav key="modal" onLogout={handleLogout} userInfo={userInfo} />
+            <UserNav
+              ref={userNavRef}
+              key="modal"
+              onLogout={handleLogout}
+              userInfo={userInfo}
+            />
           )}
         </AnimatePresence>
         <Navigation />

@@ -6,12 +6,14 @@ import { IconContext } from "react-icons";
 
 import { type IUserInfo } from "../../../config";
 
-const UserNav: React.FC<{ onLogout: () => void; userInfo: IUserInfo }> = (
-  props
-) => {
+const UserNav = React.forwardRef<
+  HTMLDivElement,
+  { onLogout: () => void; userInfo: IUserInfo }
+>((props, ref) => {
   return (
     <motion.div
       key="user_nav"
+      ref={ref}
       initial={{ opacity: 0, y: -50, scale: 0.1 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: -50, scale: 0.1 }}
@@ -25,6 +27,7 @@ const UserNav: React.FC<{ onLogout: () => void; userInfo: IUserInfo }> = (
               src={props.userInfo.picture}
               alt="User avatar"
               referrerPolicy="no-referrer"
+              crossOrigin="anonymous"
             />
           </div>
           <div className="grow">
@@ -59,6 +62,6 @@ const UserNav: React.FC<{ onLogout: () => void; userInfo: IUserInfo }> = (
       </div>
     </motion.div>
   );
-};
+});
 
 export default UserNav;

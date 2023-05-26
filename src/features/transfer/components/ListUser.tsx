@@ -10,7 +10,6 @@ const ListUser: React.FC<{
 }> = (props) => {
   return (
     <motion.div
-      key="list_user"
       initial={{ opacity: 0, x: 100 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.75 }}
@@ -48,6 +47,7 @@ const ListUser: React.FC<{
                             src={user.picture}
                             alt="User avatar"
                             referrerPolicy="no-referrer"
+                            crossOrigin="anonymous"
                           />
                           <IconContext.Provider
                             value={{

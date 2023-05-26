@@ -23,16 +23,14 @@ const RegisterForm: React.FC<{
 }> = (props) => {
   return (
     <motion.div
-      key="register"
       initial={{ opacity: 0, x: -100 }}
       animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: 100 }}
       transition={{ duration: 0.5 }}
-      className="w-96"
+      className="w-96  rounded-xl"
     >
       <form
         onSubmit={props.onSignup}
-        className="flex flex-col px-6 py-8 rounded-xl shadow-lg mb-8"
+        className="flex flex-col px-6 py-8 rounded-xl shadow-lg bg-white"
       >
         <div className="mb-8 flex justify-between items-start">
           <div>

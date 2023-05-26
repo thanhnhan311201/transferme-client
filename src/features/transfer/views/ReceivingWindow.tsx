@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import { Player } from "@lottiefiles/react-lottie-player";
 import { motion } from "framer-motion";
