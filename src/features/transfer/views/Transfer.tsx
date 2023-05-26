@@ -30,7 +30,6 @@ const Transfer: React.FC = () => {
   const [showUserNav, setShowUserNav] = useState<boolean>(false);
 
   const [userNavRef, userHeaderRef] = useOutsideRef(() => {
-    console.log("outside");
     setShowUserNav(false);
   });
 
@@ -38,7 +37,7 @@ const Transfer: React.FC = () => {
     setShowUserNav((prev) => !prev);
   }, []);
 
-  const handleLogout = () => {
+  const handleLogout = useCallback(() => {
     document.cookie = `access_token= ; expires= ${new Date(
       new Date().getTime()
     ).toUTCString()}`;
@@ -48,7 +47,7 @@ const Transfer: React.FC = () => {
 
     socketClient.disconnect();
     dispatch(authActions.setUnauthenticated());
-  };
+  }, []);
 
   return (
     <div className="bg-main-bg h-screen">
@@ -67,6 +66,8 @@ const Transfer: React.FC = () => {
               key="modal"
               onLogout={handleLogout}
               userInfo={userInfo}
+              clientId={socketClient.clientId}
+              onlineUsers={onlineUsers}
             />
           )}
         </AnimatePresence>

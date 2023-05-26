@@ -7,7 +7,7 @@ import HomePage from "../../images/home-page.png";
 
 const ScreenHome: React.FC = () => {
   return (
-    <div className="bg-gradient-to-br from-white to-primary-color--tint-1 w-screen h-screen flex flex-col">
+    <div className="bg-gradient-to-br from-white to-primary-color--tint-2 w-screen h-screen flex flex-col">
       <Header />
       <main className="flex-1 h-auto bg-inherit">
         <div className="flex justify-center">
