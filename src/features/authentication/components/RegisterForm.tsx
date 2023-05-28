@@ -1,3 +1,5 @@
+import React from "react";
+
 import TextField from "@mui/material/TextField";
 import { Button, Divider } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -5,6 +7,8 @@ import { NavLink } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { IconContext } from "react-icons";
 import { motion } from "framer-motion";
+
+import { SIGNUP_STATUS } from "../slice/signupSlice";
 
 import { type IUserInputResult } from "../hooks";
 
@@ -15,19 +19,18 @@ const RegisterForm: React.FC<{
   confirmPassword: IUserInputResult;
   onGoogleLogin: () => void;
   onSignup: (e: React.FormEvent<HTMLFormElement>) => void;
+  isProcessSignup: SIGNUP_STATUS;
 }> = (props) => {
   return (
     <motion.div
-      key="register"
       initial={{ opacity: 0, x: -100 }}
       animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: 100 }}
       transition={{ duration: 0.5 }}
-      className="w-96"
+      className="w-96  rounded-xl"
     >
       <form
         onSubmit={props.onSignup}
-        className="flex flex-col px-6 py-8 rounded-xl shadow-lg mb-8"
+        className="flex flex-col px-6 py-8 rounded-xl shadow-lg bg-white"
       >
         <div className="mb-8 flex justify-between items-start">
           <div>
@@ -35,7 +38,9 @@ const RegisterForm: React.FC<{
             <p className="text-xs">Transfering faster than your love with ex</p>
           </div>
           <div className="flex">
-            <CircularProgress />
+            {props.isProcessSignup === SIGNUP_STATUS.PROCESS_SIGNUP && (
+              <CircularProgress />
+            )}
           </div>
         </div>
         <div className="mb-4">
@@ -47,6 +52,8 @@ const RegisterForm: React.FC<{
             label="Username"
             value={props.username.value}
             onChange={props.username.handleValueChange}
+            onBlur={props.username.handleInputBlur}
+            inputRef={props.username.inputRef}
             variant="outlined"
             placeholder="E.g. TransferMe"
             helperText={
@@ -63,7 +70,6 @@ const RegisterForm: React.FC<{
                 alignItems: "center",
               },
             }}
-            required
           />
           <p className="text-xs"></p>
         </div>
@@ -76,12 +82,14 @@ const RegisterForm: React.FC<{
             label="Email"
             value={props.email.value}
             onChange={props.email.handleValueChange}
+            onBlur={props.email.handleInputBlur}
+            inputRef={props.email.inputRef}
             variant="outlined"
             placeholder="E.g. myemail@transferme.com"
             helperText={
               props.email.errMessage
                 ? props.email.errMessage
-                : "You can use letters, numbers, underscore & periods "
+                : "You can use letters, numbers, underscore & periods."
             }
             sx={{
               fontSize: "1rem",
@@ -94,7 +102,6 @@ const RegisterForm: React.FC<{
                 alignItems: "center",
               },
             }}
-            required
           />
         </div>
         <div className="mb-4">
@@ -106,11 +113,13 @@ const RegisterForm: React.FC<{
             variant="outlined"
             value={props.password.value}
             onChange={props.password.handleValueChange}
+            onBlur={props.password.handleInputBlur}
+            inputRef={props.password.inputRef}
             type="password"
             helperText={
               props.password.errMessage
                 ? props.password.errMessage
-                : "Use 8 or more characters with a mix of letters, numbers & symbols"
+                : "Use 8 or more characters with a mix of letters, numbers & symbols."
             }
             sx={{
               fontSize: "1rem",
@@ -123,7 +132,6 @@ const RegisterForm: React.FC<{
                 alignItems: "center",
               },
             }}
-            required
           />
         </div>
         <div>
@@ -134,6 +142,8 @@ const RegisterForm: React.FC<{
             label="Confirm"
             value={props.confirmPassword.value}
             onChange={props.confirmPassword.handleValueChange}
+            onBlur={props.confirmPassword.handleInputBlur}
+            inputRef={props.confirmPassword.inputRef}
             variant="outlined"
             type="password"
             helperText={
@@ -152,7 +162,6 @@ const RegisterForm: React.FC<{
                 alignItems: "center",
               },
             }}
-            required
           />
           <p className="text-xs"></p>
         </div>

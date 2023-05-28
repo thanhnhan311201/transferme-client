@@ -7,7 +7,7 @@ import HomePage from "../../images/home-page.png";
 
 const ScreenHome: React.FC = () => {
   return (
-    <div className="bg-white w-screen h-screen flex flex-col">
+    <div className="bg-gradient-to-br from-white to-primary-color--tint-2 w-screen h-screen flex flex-col">
       <Header />
       <main className="flex-1 h-auto bg-inherit">
         <div className="flex justify-center">
@@ -26,7 +26,7 @@ const ScreenHome: React.FC = () => {
               </p>
               <Link
                 to="/auth/login"
-                className="bg-gradient-to-r from-primary-color to-primary-color--shade inline-block text-white text-xl px-8 py-4 rounded-lg font-medium cursor-pointer"
+                className="bg-gradient-to-br from-primary-color--tint-8 to-primary-color--shade inline-block text-white text-xl px-8 py-4 rounded-lg font-medium cursor-pointer"
               >
                 Start transfering
               </Link>

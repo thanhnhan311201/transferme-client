@@ -18,6 +18,12 @@ interface IAuthResponse {
   user: { email: string; name: string; id: string; picture: string };
 }
 
+interface IResponse {
+  status: string;
+  code: number;
+  message: string;
+}
+
 namespace AuthAPI {
   export const login = (userLoginInfo: { email: string; password: string }) => {
     const url = "/user/login";
@@ -33,7 +39,7 @@ namespace AuthAPI {
   }) => {
     const url = "/user/signup";
     const requestBody = JSON.stringify(userSignupInfo);
-    return axiosClient.post(url, requestBody);
+    return axiosClient.post<any, IResponse>(url, requestBody);
   };
 
   export const loginWithGoogle = (authCode: string) => {
@@ -46,6 +52,12 @@ namespace AuthAPI {
     const url = "/user/verify-token";
     const requestBody = JSON.stringify({ token: token });
     return axiosClient.post<any, IAuthResponse>(url, requestBody);
+  };
+
+  export const verifyEmail = (email: string) => {
+    const url = "/user/verify-email";
+    const requestBody = JSON.stringify({ email: email });
+    return axiosClient.post<any, IResponse>(url, requestBody);
   };
 }
 

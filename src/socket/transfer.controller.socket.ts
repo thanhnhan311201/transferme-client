@@ -6,7 +6,6 @@ import fileInstance from "../features/transfer/utils/cache-file";
 
 import socketClient from ".";
 
-import { IUserInfo } from "../config";
 import { sleep } from "../utils";
 
 import { SOCKET_EVENTS } from "./config.socket";

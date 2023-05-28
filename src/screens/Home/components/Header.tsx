@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
-import logo from "../../../images/logo_3.png";
+import logo from "../../../images/logo_4.png";
 
 const Header = () => {
   return (
@@ -17,13 +17,13 @@ const Header = () => {
       </Link>
       <nav className="flex items-center gap-8">
         <Link
-          className="text-primary-color inline-block text-lg px-4 py-1 rounded-3xl bg-white hover:bg-primary-color--tint"
+          className="text-primary-color inline-block text-xl px-4 py-1 rounded-3xl bg-transparent hover:bg-white"
           to="/auth/login"
         >
           Sign in
         </Link>
         <Link
-          className="text-primary-color inline-block text-lg px-4 py-1 rounded-3xl border-2 border-solid border-primary-color bg-white hover:bg-primary-color--tint"
+          className="text-primary-color inline-block text-xl px-4 py-1 rounded-3xl border-2 border-solid border-primary-color bg-transparent hover:bg-white"
           to="/auth/signup"
         >
           Join now

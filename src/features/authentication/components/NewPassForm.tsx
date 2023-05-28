@@ -5,14 +5,12 @@ import { motion } from "framer-motion";
 const NewPassForm: React.FC = () => {
   return (
     <motion.div
-      key="newpass"
       initial={{ opacity: 0, x: -100 }}
       animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: 100 }}
       transition={{ duration: 0.5 }}
-      className="w-96"
+      className="w-96  rounded-xl"
     >
-      <form className="flex flex-col px-6 py-8 rounded-xl shadow-lg mb-8">
+      <form className="flex flex-col px-6 py-8 rounded-xl shadow-lg bg-white">
         <div className="mb-8">
           <h2 className="text-3xl mb-1 font-bold">Choose a new password</h2>
           <p className="text-xs">

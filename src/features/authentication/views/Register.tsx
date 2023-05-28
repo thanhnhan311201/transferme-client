@@ -1,9 +1,15 @@
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useGoogleLogin } from "@react-oauth/google";
-import { useNavigate } from "react-router-dom";
 
 import RegisterForm from "../components/RegisterForm";
+
 import { AuthAPI } from "../../../api";
+
+import { RootState } from "../../../states";
+import { loginActions } from "../slice/loginSlice";
+import { signupActions } from "../slice/signupSlice";
+
 import { useGoogleLoginSuccess } from "../hooks";
 import { useInput } from "../hooks";
 import { ValidationType } from "../hooks";
@@ -11,16 +17,26 @@ import { ValidationType } from "../hooks";
 import { REDIRECT_URI } from "../../../config";
 
 const Register: React.FC = () => {
-  const navigate = useNavigate();
-
   const handleSuccess = useGoogleLoginSuccess();
 
-  const email = useInput(ValidationType.IS_EMAIL_VALID);
+  const isProcessSignup = useSelector(
+    (state: RootState) => state.signup.signupStatus
+  );
+  const dispatch = useDispatch();
+
+  const email = useInput(ValidationType.IS_EMAIL_VALID, {
+    isCheckEmailExist: true,
+  });
   const username = useInput(ValidationType.REQUIRED);
   const password = useInput(ValidationType.IS_PASSWORD_VALID);
   const cfmPassword = useInput(ValidationType.IS_PASSWORD_MATCH, {
     password: password.value,
   });
+
+  useEffect(() => {
+    dispatch(loginActions.setNotLogin());
+    dispatch(signupActions.setNotSignup());
+  }, []);
 
   const handleGoogleLogin = useGoogleLogin({
     onSuccess: handleSuccess,
@@ -34,25 +50,49 @@ const Register: React.FC = () => {
       try {
         e.preventDefault();
 
-        console.log({
+        email.setIsTouched();
+        username.setIsTouched();
+        password.setIsTouched();
+        cfmPassword.setIsTouched();
+
+        if (
+          !email.isValid ||
+          !username.isValid ||
+          !password.isValid ||
+          !cfmPassword.isValid
+        ) {
+          if (!username.isValid) {
+            username.inputRef.current!.focus();
+          } else if (!email.isValid) {
+            email.inputRef.current!.focus();
+          } else if (!password.isValid) {
+            password.inputRef.current!.focus();
+          } else if (!cfmPassword.isValid) {
+            cfmPassword.inputRef.current!.focus();
+          }
+          return;
+        }
+
+        dispatch(signupActions.processSignup());
+
+        const response = await AuthAPI.signup({
           email: email.value,
           username: username.value,
           password: password.value,
           confirmPassword: cfmPassword.value,
         });
-        // const response = await AuthAPI.signup({
-        //   email: email.value,
-        //   username: username.value,
-        //   password: password.value,
-        //   confirmPassword: cfmPassword.value,
-        // });
-        // console.log(response);
-        // navigate("/auth/login");
-      } catch (error) {
-        console.log(error);
+        if (response.code === 201) {
+          dispatch(signupActions.setSignupSuccess());
+          email.resetValue();
+          username.resetValue();
+          password.resetValue();
+          cfmPassword.resetValue();
+        }
+      } catch (error: any) {
+        dispatch(signupActions.setSignupFail());
       }
     },
-    [email.value, username.value, password.value, cfmPassword.value, navigate]
+    [email, username, password, cfmPassword]
   );
 
   return (
@@ -63,6 +103,7 @@ const Register: React.FC = () => {
       confirmPassword={cfmPassword}
       onSignup={handleSignup}
       onGoogleLogin={handleGoogleLogin}
+      isProcessSignup={isProcessSignup}
     />
   );
 };

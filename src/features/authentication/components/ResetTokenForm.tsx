@@ -6,14 +6,12 @@ import { motion } from "framer-motion";
 const ResetTokenForm: React.FC = () => {
   return (
     <motion.div
-      key="resettoken"
       initial={{ opacity: 0, x: -100 }}
       animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: 100 }}
       transition={{ duration: 0.5 }}
-      className="w-96"
+      className="w-96 rounded-xl"
     >
-      <form className="flex flex-col px-6 py-8 rounded-xl shadow-lg mb-8">
+      <form className="flex flex-col px-6 py-8 rounded-xl shadow-lg bg-white">
         <div className="mb-8">
           <h2 className="text-2xl mb-1 font-bold">
             We sent a code to your email

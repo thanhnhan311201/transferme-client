@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import { Player } from "@lottiefiles/react-lottie-player";
 import { motion } from "framer-motion";
@@ -59,6 +58,7 @@ const ReceivingWindow: React.FC = () => {
             open={transferStatus !== SOCKET_EVENTS.AVAILABLE}
           >
             <motion.div
+              key="receiving_window"
               initial={{ opacity: 0, y: -150 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -150 }}
@@ -82,6 +82,7 @@ const ReceivingWindow: React.FC = () => {
                 />
                 {transferStatus === SOCKET_EVENTS.WAIT_TRANSFER_ACCEPTED && (
                   <motion.div
+                    key="transfer_request"
                     initial={{ opacity: 0, x: 50 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -50 }}
@@ -144,6 +145,7 @@ const ReceivingWindow: React.FC = () => {
                 )}
                 {transferStatus === SOCKET_EVENTS.TRANSFERING && (
                   <motion.div
+                    key="transfer_progress"
                     initial={{ opacity: 0, x: 50 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -50 }}
@@ -182,6 +184,7 @@ const ReceivingWindow: React.FC = () => {
                 {transferStatus ===
                   SOCKET_EVENTS.WAIT_FOR_RECIPIENT_RECEIVE_FILE && (
                   <motion.div
+                    key="waiting_for_success"
                     initial={{ opacity: 0, x: 50 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -50 }}
@@ -204,6 +207,7 @@ const ReceivingWindow: React.FC = () => {
                 )}
                 {transferStatus === SOCKET_EVENTS.SUCCESS_TRANSFER && (
                   <motion.div
+                    key="transfer_success"
                     initial={{ opacity: 0, x: 50 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -50 }}
@@ -248,6 +252,7 @@ const ReceivingWindow: React.FC = () => {
                 )}
                 {transferStatus === SOCKET_EVENTS.ERROR_TRANSFER && (
                   <motion.div
+                    key="transfer_error"
                     initial={{ opacity: 0, x: 50 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -50 }}

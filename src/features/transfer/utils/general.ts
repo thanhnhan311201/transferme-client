@@ -5,11 +5,16 @@ export const formatFileSize = (size: number) => {
     return `${Number(size.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."))
       .toFixed(2)
       .toString()} KB`;
-  } else if (size > 1000000 && size < MAX_FILE_SIZE) {
+  } else if (size > 1000000 && size < 1000000000) {
     return `${Number(size.toString().replace(/\B(?=(\d{6})+(?!\d))/g, "."))
+      .toFixed(2)
+      .toString()} MB`;
+  } else if (size > 1000000000) {
+    return `${Number(size.toString().replace(/\B(?=(\d{9})+(?!\d))/g, "."))
       .toFixed(2)
       .toString()} MB`;
   }
 
   return `${size} B`;
 };
+

@@ -1,11 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { HiOutlineStatusOnline } from "react-icons/hi";
+import { IoIosHelpCircleOutline } from "react-icons/io";
 import { IoIosArrowDown } from "react-icons/io";
 import { IconContext } from "react-icons";
 import { motion } from "framer-motion";
 
-import logo from "../../../images/logo.png";
+import logo from "../../../images/logo_4.png";
 import { type IUserInfo } from "../../../config";
 
 const scaleVariants = {
@@ -14,42 +14,37 @@ const scaleVariants = {
   tapped: { scale: 1.2 },
 };
 
-const Header: React.FC<{
-  userInfo: IUserInfo;
-  showUserNav: boolean;
-  onHandleShowUserNav: () => void;
-  clientId: string;
-}> = (props) => {
+const Header = React.forwardRef<
+  HTMLDivElement,
+  {
+    userInfo: IUserInfo;
+    showUserNav: boolean;
+    onHandleShowUserNav: () => void;
+    clientId: string;
+  }
+>((props, ref) => {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: -50 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.75 }}
-      className="w-screen col-span-full"
-    >
-      <div className="w-full grid grid-cols-3-for-transferLayout items-center">
-        <div className="py-4 px-2">
-          <div className="w-36 pl-5 ">
-            <Link to="/transfer" className="w-full">
-              <img className="w-full" src={logo} alt="logo" />
-            </Link>
-          </div>
+    <div className="w-full flex justify-between items-center">
+      <div className="py-4 px-2">
+        <div className="h-6 pl-5 ">
+          <Link to="/transfer" className="h-full">
+            <img className="h-full" src={logo} alt="logo" />
+          </Link>
         </div>
-        <div className="flex justify-start items-center gap-4">
+      </div>
+      <div className="flex items-center gap-4">
+        <div className="p-1 rounded-full border-4 border-solid border-transparent cursor-pointer hover:border-e0e9f8">
           <IconContext.Provider
             value={{
               style: {
-                color: "#46ab5e",
-                width: "1.5rem",
-                height: "1.5rem",
+                width: "2rem",
+                height: "2rem",
+                color: "#555",
               },
             }}
           >
-            <HiOutlineStatusOnline />
+            <IoIosHelpCircleOutline />
           </IconContext.Provider>
-          <span className="text-46ab5e font-medium text-base">
-            {props.clientId}
-          </span>
         </div>
         <div className="flex justify-end items-center py-2 mr-4 cursor-pointer">
           <motion.div
@@ -59,9 +54,10 @@ const Header: React.FC<{
             initial="init"
           >
             <div
+              ref={ref}
               onClick={props.onHandleShowUserNav}
               className={`w-11 rounded-full border-4 hover:border-e0e9f8 border-solid relative ${
-                props.showUserNav ? "border-e0e9f8" : "border-main-bg"
+                props.showUserNav ? "border-e0e9f8" : "border-fafafa"
               }`}
             >
               <img
@@ -69,6 +65,7 @@ const Header: React.FC<{
                 src={props.userInfo.picture}
                 alt="User avatar"
                 referrerPolicy="no-referrer"
+                crossOrigin="anonymous"
               />
               <IconContext.Provider
                 value={{
@@ -92,8 +89,8 @@ const Header: React.FC<{
           </motion.div>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
-};
+});
 
 export default Header;

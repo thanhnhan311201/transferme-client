@@ -22,11 +22,6 @@ import receiverInstance from "../../utils/receiver-instance";
 import { transferActions } from "../../slice/transferSlice";
 import { RootState } from "../../../../states";
 
-import browseFile from "../../../../images/browse-file.png";
-import devices from "../../../../images/devices.png";
-import transfer from "../../../../images/transfer.png";
-import finish from "../../../../images/finishtransfer.png";
-
 import socketClient from "../../../../socket";
 import { SOCKET_EVENTS } from "../../../../socket/config.socket";
 
@@ -109,11 +104,10 @@ const FileTransferStepper: React.FC = () => {
   return (
     <Box
       sx={{
-        position: "relative",
         width: "100%",
       }}
     >
-      <Box sx={{ width: "50%" }}>
+      <Box sx={{ width: "100%" }}>
         <Stepper activeStep={activeStep} orientation="vertical">
           {steps.map((step) => (
             <Step key={step}>
@@ -125,6 +119,7 @@ const FileTransferStepper: React.FC = () => {
                   }}
                 >
                   <motion.div
+                    key="step_item"
                     className="mb-10"
                     initial={{ opacity: 0, y: 50 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -134,6 +129,7 @@ const FileTransferStepper: React.FC = () => {
                   </motion.div>
                   {!isStartTransfer && (
                     <motion.div
+                      key="step_transfer"
                       initial={{ opacity: 0, y: 50 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.25, delay: 0.25 }}
@@ -204,53 +200,13 @@ const FileTransferStepper: React.FC = () => {
         </Stepper>
       </Box>
       {transferStatus === SOCKET_EVENTS.REFUSE_REQUEST && (
-        <Box sx={{ width: "50%" }}>
+        <Box sx={{ width: "100%" }}>
           <TransferError
             onHandleReset={() =>
               dispatch(transferActions.availableToTransfer())
             }
           />
         </Box>
-      )}
-      {activeStep === 0 && (
-        <motion.img
-          initial={{ opacity: 0, y: 75 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="absolute w-auto h-96 top-8 right-0"
-          src={browseFile}
-          alt="browse file"
-        ></motion.img>
-      )}
-      {activeStep === 1 && (
-        <motion.img
-          initial={{ opacity: 0, y: 75 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="absolute w-auto h-96 top-12 right-0"
-          src={devices}
-          alt="choose device"
-        ></motion.img>
-      )}
-      {activeStep === 2 && (
-        <motion.img
-          initial={{ opacity: 0, y: 75 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="absolute w-auto h-80 top-32 right-0"
-          src={transfer}
-          alt="transfer file"
-        ></motion.img>
-      )}
-      {activeStep === 3 && (
-        <motion.img
-          initial={{ opacity: 0, y: 75 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="absolute w-auto h-88 top-24 right-0"
-          src={finish}
-          alt="finish transfer"
-        ></motion.img>
       )}
     </Box>
   );

@@ -1,18 +1,20 @@
 import { Outlet } from "react-router-dom";
-import { AnimatePresence } from "framer-motion";
+
+import AlertMessage from "../../features/authentication/views/AlertMessage";
 
 import Header from "./components/Header";
 
-const ScreenAuthentication: React.FC = (props) => {
+const ScreenAuthentication: React.FC = () => {
   return (
-    <>
+    <div className="bg-gradient-to-br from-white to-primary-color--tint-1 w-screen h-screen flex flex-col">
       <Header />
-      <div className="flex justify-center items-center pt-10">
-        <AnimatePresence>
+      <div className="relative">
+        <AlertMessage />
+        <div className="flex justify-center items-center pt-10">
           <Outlet />
-        </AnimatePresence>
+        </div>
       </div>
-    </>
+    </div>
   );
 };
 

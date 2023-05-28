@@ -1,12 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useState, useEffect } from "react";
-import { AnimatePresence } from "framer-motion";
+import { useState, useCallback } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+
+import useOutsideRef from "../hooks/useOutsideRef";
 
 import Header from "../components/Header";
-import ListUser from "../components/ListUser";
 import TransferForm from "../components/TransferForm";
 import UserNav from "../components/UserNav";
-import Navigation from "../components/Navigation";
 
 import { authActions } from "../../authentication/slice/authSlice";
 
@@ -27,11 +27,15 @@ const Transfer: React.FC = () => {
 
   const [showUserNav, setShowUserNav] = useState<boolean>(false);
 
-  const handleShowUserNav = () => {
-    setShowUserNav((prev) => !prev);
-  };
+  const [userNavRef, userHeaderRef] = useOutsideRef(() => {
+    setShowUserNav(false);
+  });
 
-  const handleLogout = () => {
+  const handleShowUserNav = useCallback(() => {
+    setShowUserNav((prev) => !prev);
+  }, []);
+
+  const handleLogout = useCallback(() => {
     document.cookie = `access_token= ; expires= ${new Date(
       new Date().getTime()
     ).toUTCString()}`;
@@ -41,25 +45,38 @@ const Transfer: React.FC = () => {
 
     socketClient.disconnect();
     dispatch(authActions.setUnauthenticated());
-  };
+  }, []);
 
   return (
-    <div className="bg-main-bg h-screen">
-      <div className="h-full grid grid-cols-3-for-transferLayout grid-rows-2-for-transferLayout">
-        <Header
-          showUserNav={showUserNav}
-          onHandleShowUserNav={handleShowUserNav}
-          userInfo={userInfo}
-          clientId={socketClient.clientId}
-        />
-        <AnimatePresence>
-          {showUserNav && (
-            <UserNav key="modal" onLogout={handleLogout} userInfo={userInfo} />
-          )}
-        </AnimatePresence>
-        <Navigation />
+    <div className="bg-fafafa h-screen">
+      <div className="h-full flex flex-col items-center">
+        <motion.div
+          initial={{ opacity: 0, y: -50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.75 }}
+          className="max-w-7xl w-full mx-auto my-0 relative"
+        >
+          <Header
+            ref={userHeaderRef}
+            showUserNav={showUserNav}
+            onHandleShowUserNav={handleShowUserNav}
+            userInfo={userInfo}
+            clientId={socketClient.clientId}
+          />
+          <AnimatePresence>
+            {showUserNav && (
+              <UserNav
+                ref={userNavRef}
+                key="modal"
+                onLogout={handleLogout}
+                userInfo={userInfo}
+                clientId={socketClient.clientId}
+                onlineUsers={onlineUsers}
+              />
+            )}
+          </AnimatePresence>
+        </motion.div>
         <TransferForm />
-        <ListUser onlineUsers={onlineUsers} />
       </div>
     </div>
   );
