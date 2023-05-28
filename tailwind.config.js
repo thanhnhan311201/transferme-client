@@ -31,10 +31,12 @@ module.exports = {
         "primary-color--shade": "#135bad",
         333: "#333",
         555: "#555",
+        777: "#777",
         "4caf50": "#4caf50",
         eef2f3: "#eef2f3",
         e5ede8: "#e5ede8",
         fdfdfd: "fdfdfd",
+        fafafa: "#fafafa",
       },
       gridTemplateColumns: {
         "3-for-transferLayout": "250px auto 300px",

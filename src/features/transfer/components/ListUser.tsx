@@ -17,7 +17,7 @@ const ListUser: React.FC<{
     >
       <div className="w-full rounded-xl p-4">
         <div className="flex flex-col w-full gap-3">
-          <span className="text-3c4043 font-medium text-lg">Users</span>
+          <span className="text-3c4043 font-medium text-lg">Devices</span>
           <div>
             <AnimatePresence>
               {props.onlineUsers.length === 0 ? (
@@ -28,7 +28,7 @@ const ListUser: React.FC<{
                   transition={{ duration: 0.5 }}
                   className="text-sm"
                 >
-                  No user found
+                  No device found
                 </motion.p>
               ) : (
                 <ul className="flex flex-col gap-2">
