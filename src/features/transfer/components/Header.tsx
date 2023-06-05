@@ -33,7 +33,7 @@ const Header = React.forwardRef<
         </div>
       </div>
       <div className="flex items-center gap-4">
-        <div className="p-1 rounded-full border-4 border-solid border-transparent cursor-pointer hover:border-e0e9f8">
+        <div className="rounded-full border-4 border-solid border-transparent cursor-pointer hover:border-e0e9f8">
           <IconContext.Provider
             value={{
               style: {

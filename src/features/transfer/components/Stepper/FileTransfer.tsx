@@ -46,6 +46,7 @@ const FileTransfer: React.FC<{
           sx={{
             padding: "8px 0",
             color: "#1f1f1f",
+            flexGrow: 1,
           }}
         >
           <strong>{`${fileInstance.file!.name} (${formatFileSize(

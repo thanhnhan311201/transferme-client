@@ -12,8 +12,8 @@ const Header = () => {
       transition={{ duration: 0.75 }}
       className="flex justify-between items-center bg-inherit py-4 px-24"
     >
-      <Link to="/" className="w-48">
-        <img className="w-full" src={logo} alt="TransferMe Logo" />
+      <Link to="/" className="h-6">
+        <img className="h-full" src={logo} alt="TransferMe Logo" />
       </Link>
       <nav className="flex items-center gap-8">
         <Link
