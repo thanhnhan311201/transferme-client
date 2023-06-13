@@ -45,7 +45,7 @@ const Transfer: React.FC = () => {
 
     socketClient.disconnect();
     dispatch(authActions.setUnauthenticated());
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className="bg-fafafa h-screen">

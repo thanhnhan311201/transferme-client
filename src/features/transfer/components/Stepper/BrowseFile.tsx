@@ -2,7 +2,6 @@ import React from "react";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 import { AiFillFileText } from "react-icons/ai";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { FaTrashAlt } from "react-icons/fa";
 import { IconContext } from "react-icons";
 import { useState, useEffect } from "react";
@@ -10,7 +9,7 @@ import Button from "@mui/material/Button";
 import { motion, AnimatePresence } from "framer-motion";
 
 import fileInstance from "../../utils/cache-file";
-import { formatFileSize, MAX_FILE_SIZE } from "../../utils/general";
+import { formatFileSize } from "../../utils/general";
 
 const BrowseFile: React.FC<{
   onHandleAllowToContinue: (isAllow: boolean) => void;
@@ -72,130 +71,132 @@ const BrowseFile: React.FC<{
           maxHeight: "13rem",
         }}
       >
-        {!isFileUploaded && !fileInstance.file && !isLoading && (
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-            className="flex justify-center items-center flex-col py-4"
-          >
-            <Box
-              sx={{
-                marginBottom: "15px",
-                color: "#1f1f1f",
-              }}
+        <AnimatePresence>
+          {!isFileUploaded && !fileInstance.file && !isLoading && (
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
+              className="flex justify-center items-center flex-col py-4"
             >
-              <span>Browse file</span>
-            </Box>
-            <Button
-              sx={{
-                padding: 0,
-                borderRadius: "0.5rem",
-                fontWeight: 400,
-                textTransform: "none",
-                fontSize: "1rem",
-              }}
+              <Box
+                sx={{
+                  marginBottom: "15px",
+                  color: "#1f1f1f",
+                }}
+              >
+                <span>Browse file</span>
+              </Box>
+              <Button
+                sx={{
+                  padding: 0,
+                  borderRadius: "0.5rem",
+                  fontWeight: 400,
+                  textTransform: "none",
+                  fontSize: "1rem",
+                }}
+              >
+                <input
+                  type="file"
+                  name="transfer-file"
+                  id="transfer-file"
+                  className="hidden"
+                  onChange={handleUploadFile}
+                  value=""
+                />
+                <label htmlFor="transfer-file">
+                  <div className="py-2 px-4 bg-white text-1f1f1f cursor-pointer shadow-btn rounded-lg hover:shadow-user-nav">
+                    <div className="flex items-center gap-2">
+                      <IconContext.Provider
+                        value={{
+                          style: {
+                            color: "1f1f1f",
+                            width: "1rem",
+                            height: "1rem",
+                          },
+                        }}
+                      >
+                        <AiFillFileText />
+                      </IconContext.Provider>
+                      <span className="text-base text-1f1f1f">Browse File</span>
+                    </div>
+                  </div>
+                </label>
+              </Button>
+            </motion.div>
+          )}
+          {!isFileUploaded && !fileInstance.file && isLoading && (
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
             >
-              <input
-                type="file"
-                name="transfer-file"
-                id="transfer-file"
-                className="hidden"
-                onChange={handleUploadFile}
-                value=""
-              />
-              <label htmlFor="transfer-file">
-                <div className="py-2 px-4 bg-white text-1f1f1f cursor-pointer shadow-btn rounded-lg hover:shadow-user-nav">
-                  <div className="flex items-center gap-2">
+              <CircularProgress />
+            </motion.div>
+          )}
+          {isFileUploaded && fileInstance.file && !isLoading && (
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <Box
+                sx={{
+                  padding: "1rem",
+                  borderRadius: "0.5rem",
+                  backgroundColor: "#ebebeb",
+                  color: "#1f1f1f",
+                  border: `2px solid ${error ? "red" : "#fff"}`,
+                }}
+              >
+                <Box
+                  sx={{
+                    width: "10rem",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "0.75rem",
+                  }}
+                >
+                  <span className="text-sm font-normal text-ellipsis whitespace-nowrap overflow-hidden">
+                    {fileInstance.file!.name}
+                  </span>
+                  <span className="text-sm font-normal text-0000008a">
+                    {formatFileSize(fileInstance.file!.size)}
+                  </span>
+                </Box>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "flex-end",
+                    cursor: "pointer",
+                  }}
+                  onClick={handleDeleteFile}
+                >
+                  <Box
+                    sx={{
+                      padding: "0.5rem",
+                      borderRadius: "50%",
+                      "&:hover": {
+                        backgroundColor: "#fff",
+                      },
+                    }}
+                  >
                     <IconContext.Provider
                       value={{
                         style: {
-                          color: "1f1f1f",
                           width: "1rem",
                           height: "1rem",
                         },
                       }}
                     >
-                      <AiFillFileText />
+                      <FaTrashAlt />
                     </IconContext.Provider>
-                    <span className="text-base text-1f1f1f">Browse File</span>
-                  </div>
-                </div>
-              </label>
-            </Button>
-          </motion.div>
-        )}
-        {!isFileUploaded && !fileInstance.file && isLoading && (
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <CircularProgress />
-          </motion.div>
-        )}
-        {isFileUploaded && fileInstance.file && !isLoading && (
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <Box
-              sx={{
-                padding: "1rem",
-                borderRadius: "0.5rem",
-                backgroundColor: "#ebebeb",
-                color: "#1f1f1f",
-                border: `2px solid ${error ? "red" : "#fff"}`,
-              }}
-            >
-              <Box
-                sx={{
-                  width: "10rem",
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "0.75rem",
-                }}
-              >
-                <span className="text-sm font-normal text-ellipsis whitespace-nowrap overflow-hidden">
-                  {fileInstance.file!.name}
-                </span>
-                <span className="text-sm font-normal text-0000008a">
-                  {formatFileSize(fileInstance.file!.size)}
-                </span>
-              </Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "flex-end",
-                  cursor: "pointer",
-                }}
-                onClick={handleDeleteFile}
-              >
-                <Box
-                  sx={{
-                    padding: "0.5rem",
-                    borderRadius: "50%",
-                    "&:hover": {
-                      backgroundColor: "#fff",
-                    },
-                  }}
-                >
-                  <IconContext.Provider
-                    value={{
-                      style: {
-                        width: "1rem",
-                        height: "1rem",
-                      },
-                    }}
-                  >
-                    <FaTrashAlt />
-                  </IconContext.Provider>
+                  </Box>
                 </Box>
               </Box>
-            </Box>
-          </motion.div>
-        )}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </Box>
     </React.Fragment>
   );

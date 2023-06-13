@@ -1,8 +1,10 @@
 import TextField from "@mui/material/TextField";
+import Box from "@mui/material/Box";
 import { Button, Divider } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import { NavLink } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
+import { BsGithub } from "react-icons/bs";
 import { IconContext } from "react-icons";
 import { motion } from "framer-motion";
 
@@ -14,6 +16,7 @@ const LoginForm: React.FC<{
   email: IUserInputResult;
   password: IUserInputResult;
   onGoogleLogin: () => void;
+  onGitHubLogin: () => void;
   onLogin: (e: React.FormEvent<HTMLFormElement>) => void;
   isProcessLogin: LOGIN_STATUS;
 }> = (props) => {
@@ -119,28 +122,59 @@ const LoginForm: React.FC<{
         >
           or
         </Divider>
-        <Button
-          onClick={() => props.onGoogleLogin()}
-          variant="outlined"
+        <Box
           sx={{
-            textTransform: "none",
-            borderRadius: "24px",
-            height: "3.5rem",
+            display: "flex",
+            flexDirection: "column",
+            gap: ".75rem",
           }}
         >
-          <IconContext.Provider
-            value={{
-              style: {
-                verticalAlign: "middle",
-                width: "1.5rem",
-                height: "1.5rem",
-                marginRight: "0.5rem",
-              },
+          <Button
+            onClick={() => props.onGoogleLogin()}
+            variant="outlined"
+            sx={{
+              textTransform: "none",
+              borderRadius: "24px",
+              height: "3.5rem",
             }}
           >
-            <FcGoogle /> Sign in with Google
-          </IconContext.Provider>
-        </Button>
+            <IconContext.Provider
+              value={{
+                style: {
+                  verticalAlign: "middle",
+                  width: "1.5rem",
+                  height: "1.5rem",
+                  marginRight: "0.5rem",
+                },
+              }}
+            >
+              <FcGoogle /> Sign in with Google
+            </IconContext.Provider>
+          </Button>
+          <Button
+            onClick={() => props.onGitHubLogin()}
+            variant="outlined"
+            sx={{
+              textTransform: "none",
+              borderRadius: "24px",
+              height: "3.5rem",
+            }}
+          >
+            <IconContext.Provider
+              value={{
+                style: {
+                  verticalAlign: "middle",
+                  width: "1.5rem",
+                  height: "1.5rem",
+                  marginRight: "0.5rem",
+                  color: "black",
+                },
+              }}
+            >
+              <BsGithub /> Sign in with GitHub
+            </IconContext.Provider>
+          </Button>
+        </Box>
       </form>
       <p className="text-center text-base">
         New to TransferMe?

@@ -8,16 +8,14 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 
 import receiverInstance from "../../utils/receiver-instance";
 
-import { IUserInfo } from "../../../../config";
-
 const UserOption: React.FC<{
   onHandleAllowToContinue: (isAllow: boolean) => void;
   onlineUsers: { id: string; clientId: string; picture: string }[];
 }> = (props) => {
-  const [user, setuser] = useState<string>(receiverInstance.receiver);
+  const [user, setUser] = useState<string>(receiverInstance.receiver);
 
   const handleChange = (e: SelectChangeEvent) => {
-    setuser(e.target.value);
+    setUser(e.target.value);
 
     if (e.target.value) {
       receiverInstance.receiver = e.target.value;

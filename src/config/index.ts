@@ -12,7 +12,13 @@ export const BASE_URL_SERVER = devEnv
   ? "http://localhost:8080"
   : (process.env.REACT_APP_BASE_SERVER as string);
 
-export { CLIENT_ID, CLIENT_SECRET, REDIRECT_URI } from "./constants/google";
+export {
+  CLIENT_ID as GOOGLE_CLIENT_ID,
+  CLIENT_SECRET as GOOGLE_CLIENT_SECRET,
+  REDIRECT_URI as GOOGLE_REDIRECT_URI,
+} from "./constants/google";
+
+export { CLIENT_ID as GITHUB_CLIENT_ID } from "./constants/github";
 
 export { type IUserInfo } from "./interface";
 

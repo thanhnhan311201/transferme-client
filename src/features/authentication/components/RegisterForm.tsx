@@ -1,10 +1,12 @@
 import React from "react";
 
 import TextField from "@mui/material/TextField";
+import Box from "@mui/material/Box";
 import { Button, Divider } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import { NavLink } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
+import { BsGithub } from "react-icons/bs";
 import { IconContext } from "react-icons";
 import { motion } from "framer-motion";
 
@@ -18,6 +20,7 @@ const RegisterForm: React.FC<{
   password: IUserInputResult;
   confirmPassword: IUserInputResult;
   onGoogleLogin: () => void;
+  onGitHubLogin: () => void;
   onSignup: (e: React.FormEvent<HTMLFormElement>) => void;
   isProcessSignup: SIGNUP_STATUS;
 }> = (props) => {
@@ -26,11 +29,11 @@ const RegisterForm: React.FC<{
       initial={{ opacity: 0, x: -100 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.5 }}
-      className="w-96  rounded-xl"
+      className="w-96 rounded-xl"
     >
       <form
         onSubmit={props.onSignup}
-        className="flex flex-col px-6 py-8 rounded-xl shadow-lg bg-white"
+        className="flex flex-col px-6 py-8 mb-8 rounded-xl shadow-lg bg-white"
       >
         <div className="mb-8 flex justify-between items-start">
           <div>
@@ -187,29 +190,60 @@ const RegisterForm: React.FC<{
         >
           or
         </Divider>
-        <Button
-          onClick={() => props.onGoogleLogin()}
-          variant="outlined"
+        <Box
           sx={{
-            textTransform: "none",
-            borderRadius: "24px",
+            display: "flex",
+            flexDirection: "column",
+            gap: ".75rem",
             marginBottom: "1.5rem",
-            height: "3.5rem",
           }}
         >
-          <IconContext.Provider
-            value={{
-              style: {
-                verticalAlign: "middle",
-                width: "1.5rem",
-                height: "1.5rem",
-                marginRight: "0.5rem",
-              },
+          <Button
+            onClick={() => props.onGoogleLogin()}
+            variant="outlined"
+            sx={{
+              textTransform: "none",
+              borderRadius: "24px",
+              height: "3.5rem",
             }}
           >
-            <FcGoogle /> Sign in with Google
-          </IconContext.Provider>
-        </Button>
+            <IconContext.Provider
+              value={{
+                style: {
+                  verticalAlign: "middle",
+                  width: "1.5rem",
+                  height: "1.5rem",
+                  marginRight: "0.5rem",
+                },
+              }}
+            >
+              <FcGoogle /> Sign in with Google
+            </IconContext.Provider>
+          </Button>
+          <Button
+            onClick={() => props.onGitHubLogin()}
+            variant="outlined"
+            sx={{
+              textTransform: "none",
+              borderRadius: "24px",
+              height: "3.5rem",
+            }}
+          >
+            <IconContext.Provider
+              value={{
+                style: {
+                  verticalAlign: "middle",
+                  width: "1.5rem",
+                  height: "1.5rem",
+                  marginRight: "0.5rem",
+                  color: "black",
+                },
+              }}
+            >
+              <BsGithub /> Sign in with GitHub
+            </IconContext.Provider>
+          </Button>
+        </Box>
         <p className="text-center text-base">
           Already on TransferMe?
           <NavLink className="text-blue-500 font-bold" to="/auth/login">
