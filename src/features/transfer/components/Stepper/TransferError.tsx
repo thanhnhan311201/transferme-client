@@ -44,6 +44,7 @@ const TransferError: React.FC<{ onHandleReset: () => void }> = (props) => {
         </IconContext.Provider>
         <Box
           sx={{
+            flexGrow: 1,
             display: "flex",
             flexDirection: "column",
             gap: "0.25rem",

@@ -120,7 +120,7 @@ const FileTransferStepper: React.FC = () => {
                 >
                   <motion.div
                     key="step_item"
-                    className="mb-10"
+                    className="mb-8"
                     initial={{ opacity: 0, y: 50 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.25 }}
@@ -200,7 +200,7 @@ const FileTransferStepper: React.FC = () => {
         </Stepper>
       </Box>
       {transferStatus === SOCKET_EVENTS.REFUSE_REQUEST && (
-        <Box sx={{ width: "100%" }}>
+        <Box sx={{ width: "75%" }}>
           <TransferError
             onHandleReset={() =>
               dispatch(transferActions.availableToTransfer())

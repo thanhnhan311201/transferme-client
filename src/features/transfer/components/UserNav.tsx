@@ -24,7 +24,7 @@ const UserNav = React.forwardRef<
       initial={{ opacity: 0, x: 125, y: -100, scale: 0 }}
       animate={{ opacity: 1, x: 0, y: 0, scale: 1 }}
       exit={{ opacity: 0, x: 125, y: -100, scale: 0 }}
-      className="bg-modal-user w-96 shadow-user-nav p-2 rounded-3xl absolute top-16 right-4 z-50"
+      className="bg-modal-user w-88 shadow-user-nav p-2 rounded-3xl absolute top-16 right-4 z-50"
     >
       <div className="bg-white w-full p-4 rounded-3xl mb-2">
         <div className="flex gap-4 items-center">
@@ -41,7 +41,9 @@ const UserNav = React.forwardRef<
             <div className="text-3c4043 font-medium text-sm">
               {props.userInfo.name}
             </div>
-            <div className="text-5f6368 text-xs">{props.userInfo.email}</div>
+            <div className="text-5f6368 text-xs truncate">
+              {props.userInfo.email}
+            </div>
           </div>
         </div>
       </div>
