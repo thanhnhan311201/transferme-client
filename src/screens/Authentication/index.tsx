@@ -6,7 +6,7 @@ import Header from "./components/Header";
 
 const ScreenAuthentication: React.FC = () => {
   return (
-    <div className="bg-gradient-to-br from-white to-primary-color--tint-1 w-screen h-screen flex flex-col">
+    <div className="bg-gradient-to-br from-white to-primary-color--tint-1 min-h-screen flex flex-col">
       <Header />
       <div className="relative">
         <AlertMessage />

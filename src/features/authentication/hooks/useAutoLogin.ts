@@ -57,7 +57,7 @@ const useAutoLogin = () => {
         new Date().getTime()
       ).toUTCString()}`;
     }
-  }, []);
+  }, [dispatch, navigate]);
 };
 
 export default useAutoLogin;

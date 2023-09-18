@@ -16,7 +16,7 @@ import { useGoogleLoginSuccess } from "../hooks";
 import { useInput } from "../hooks";
 import { ValidationType } from "../hooks";
 
-import { REDIRECT_URI } from "../../../config";
+import { GOOGLE_REDIRECT_URI, GITHUB_CLIENT_ID } from "../../../config";
 import { transferActions } from "../../transfer/slice/transferSlice";
 
 const Login: React.FC = () => {
@@ -31,16 +31,28 @@ const Login: React.FC = () => {
   useEffect(() => {
     dispatch(loginActions.setNotLogin());
     dispatch(signupActions.setNotSignup());
-  }, []);
+
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const codeParam = urlParams.get("code");
+    console.log(codeParam);
+  }, [dispatch]);
 
   const email = useInput(ValidationType.IS_EMAIL_VALID);
   const password = useInput(ValidationType.IS_PASSWORD_VALID);
+
+  const handleGitHubLogin = useCallback(() => {
+    localStorage.setItem("loginWith", "GitHub");
+    window.location.assign(
+      `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}`
+    );
+  }, []);
 
   const handleGoogleLogin = useGoogleLogin({
     onSuccess: handleSuccess,
     onError: (error) => console.log("Login Failed:", error),
     flow: "auth-code",
-    redirect_uri: REDIRECT_URI,
+    redirect_uri: GOOGLE_REDIRECT_URI,
   });
 
   const handleLogin = useCallback(
@@ -92,6 +104,7 @@ const Login: React.FC = () => {
       email={email}
       password={password}
       onGoogleLogin={handleGoogleLogin}
+      onGitHubLogin={handleGitHubLogin}
       onLogin={handleLogin}
       isProcessLogin={isProcessLogin}
     />
