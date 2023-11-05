@@ -28,6 +28,7 @@ const useGoogleLoginSuccess = () => {
       document.cookie = `user_id=${response.user.id}; expires= ${new Date(
         new Date().getTime() + TOKEN_EXPIRATION_TIME * 1000
       ).toUTCString()}`;
+      console.log(document.cookie)
       dispatch(
         authActions.setAuthenticated({
           id: response.user.id,
@@ -37,7 +38,7 @@ const useGoogleLoginSuccess = () => {
         })
       );
       dispatch(transferActions.availableToTransfer());
-      socketClient.connect();
+      socketClient.connect({ token: response.token });
       navigate("/transfer");
     } catch (error) {
       console.log(error);

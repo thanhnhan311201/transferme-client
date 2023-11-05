@@ -17,7 +17,7 @@ function App() {
 
   useEffect(() => {
     autoLogin();
-  }, [autoLogin]);
+  }, []);
 
   // useEffect(() => {
   //   const handleCloseTab = (e: BeforeUnloadEvent) => {

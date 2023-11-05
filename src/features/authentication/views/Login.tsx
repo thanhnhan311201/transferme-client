@@ -87,7 +87,7 @@ const Login: React.FC = () => {
 
         dispatch(loginActions.setLoginSuccess());
 
-        socketClient.connect();
+        socketClient.connect({token: response.token});
         dispatch(authActions.setAuthenticated(response.user));
         dispatch(transferActions.availableToTransfer());
         navigate("/transfer");

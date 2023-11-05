@@ -36,7 +36,7 @@ const useAutoLogin = () => {
 
         dispatch(authActions.setAuthenticated(response.user));
         dispatch(transferActions.availableToTransfer());
-        socketClient.connect();
+        socketClient.connect({ token: response.token });
         navigate("/transfer");
       } else {
         dispatch(authActions.setUnauthenticated());

@@ -1,15 +1,15 @@
 const devEnv: boolean = process.env.NODE_ENV === "development";
 
 export const BASE_URL = devEnv
-  ? "http://localhost:3000"
+  ? "http://transferme.local.com:3000"
   : (process.env.REACT_APP_BASE_URL as string);
 
 export const BASE_URL_API = devEnv
-  ? "http://localhost:8080/api/v1"
+  ? "http://transferme.local.com:8080/api/v1"
   : (process.env.REACT_APP_BASE_URL_API as string);
 
 export const BASE_URL_SERVER = devEnv
-  ? "http://localhost:8080"
+  ? "http://transferme.local.com:8080"
   : (process.env.REACT_APP_BASE_SERVER as string);
 
 export {

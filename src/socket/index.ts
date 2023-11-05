@@ -15,9 +15,12 @@ class SocketClient {
   private _isCancel: boolean = false;
   private _clientId: string = "";
 
-  connect() {
+  connect(params: { token: string }) {
     this._socket = io(BASE_URL_SERVER, {
       withCredentials: true,
+      auth: {
+        token: params.token
+      }
     });
 
     transferEventListener(this._socket);
