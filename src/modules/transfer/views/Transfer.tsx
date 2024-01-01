@@ -1,0 +1,77 @@
+import { useState, useCallback } from "react";
+import socketClient from "@/socket";
+
+import { AnimatePresence, motion } from "framer-motion";
+
+import { useAppDispatch, useAppSelector } from "@/states";
+import useOutsideRef from "../hooks/useOutsideRef";
+import { authActions } from "@/modules/authentication/slice/authSlice";
+
+import Header from "../components/Header";
+import TransferForm from "../components/TransferForm";
+import UserNav from "../components/UserNav";
+
+const Transfer: React.FC = () => {
+  const { onlineUsers } = useAppSelector((state) => state.socket);
+  const { userInfo } = useAppSelector((state) => state.auth);
+
+  const dispatch = useAppDispatch();
+
+  const [showUserNav, setShowUserNav] = useState<boolean>(false);
+
+  const [userNavRef, userHeaderRef] = useOutsideRef(() => {
+    setShowUserNav(false);
+  });
+
+  const handleShowUserNav = useCallback(() => {
+    setShowUserNav((prev) => !prev);
+  }, []);
+
+  const handleLogout = useCallback(() => {
+    document.cookie = `access_token= ; expires= ${new Date(
+      new Date().getTime()
+    ).toUTCString()}`;
+    document.cookie = `user_id= ; expires= ${new Date(
+      new Date().getTime()
+    ).toUTCString()}`;
+
+    socketClient.disconnect();
+    dispatch(authActions.setUnauthenticated());
+  }, [dispatch]);
+
+  return (
+    <div className="bg-fafafa h-screen">
+      <div className="h-full flex flex-col items-center">
+        <motion.div
+          initial={{ opacity: 0, y: -50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.75 }}
+          className="max-w-7xl w-full mx-auto my-0 relative"
+        >
+          <Header
+            ref={userHeaderRef}
+            showUserNav={showUserNav}
+            onHandleShowUserNav={handleShowUserNav}
+            userInfo={userInfo}
+            clientId={socketClient.clientId}
+          />
+          <AnimatePresence>
+            {showUserNav && (
+              <UserNav
+                ref={userNavRef}
+                key="modal"
+                onLogout={handleLogout}
+                userInfo={userInfo}
+                clientId={socketClient.clientId}
+                onlineUsers={onlineUsers}
+              />
+            )}
+          </AnimatePresence>
+        </motion.div>
+        <TransferForm />
+      </div>
+    </div>
+  );
+};
+
+export default Transfer;

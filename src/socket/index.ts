@@ -2,12 +2,11 @@ import io, { type Socket } from "socket.io-client";
 
 import { dispatch } from "../states";
 import { socketActions } from "./slice.socket";
-import { authActions } from "../features/authentication/slice/authSlice";
-import { transferActions } from "../features/transfer/slice/transferSlice";
-
+import { transferActions } from "@/modules/transfer/slice/transferSlice";
+import { setUnauthenticated } from "@/modules/authentication/controller/auth.slice";
 import transferEventListener from "./transfer.listener.socket";
 
-import { BASE_URL_SERVER } from "../config";
+import { BASE_URL_SERVER } from "@/config";
 import { SOCKET_EVENTS } from "./config.socket";
 
 class SocketClient {
@@ -36,7 +35,7 @@ class SocketClient {
       ).toUTCString()}`;
 
       dispatch(socketActions.setDevices([]));
-      dispatch(authActions.setUnauthenticated());
+      dispatch(setUnauthenticated());
     });
 
     this._socket.on("error", (error) => {
@@ -56,7 +55,7 @@ class SocketClient {
 
       this._socket = null;
       dispatch(socketActions.setDevices([]));
-      dispatch(authActions.setUnauthenticated());
+      dispatch(setUnauthenticated());
     });
   }
 

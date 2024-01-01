@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 
-import AlertMessage from "../../features/authentication/views/AlertMessage";
+import AlertMessage from "@/modules/authentication/views/AlertMessage";
 
 import Header from "./components/Header";
 

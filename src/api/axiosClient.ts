@@ -3,7 +3,8 @@ import axios, {
   type AxiosResponse,
 } from "axios";
 import queryString from "query-string";
-import { BASE_URL_API } from "../config";
+
+import { BASE_URL_API } from "@/config";
 
 // Request middleware
 const handleRequest = (config: InternalAxiosRequestConfig) => {

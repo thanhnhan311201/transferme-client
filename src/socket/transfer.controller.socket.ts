@@ -1,17 +1,15 @@
-import { dispatch } from "../states";
-import { socketActions } from "./slice.socket";
-import { transferActions } from "../features/transfer/slice/transferSlice";
-
-import fileInstance from "../features/transfer/utils/cache-file";
-
 import socketClient from ".";
+import { dispatch } from "@/states";
+import { socketActions } from "./slice.socket";
+import { transferActions } from "@/modules/transfer/slice/transferSlice";
 
-import { sleep } from "../utils";
+import fileInstance from "@/modules/transfer/utils/cache-file";
 
+import { sleep } from "@/utils";
 import { SOCKET_EVENTS } from "./config.socket";
-import StreamSlicer from "../utils/stream/slicer.stream";
-import StreamSender from "../utils/stream/sender.stream";
-import streamReceiver from "../utils/stream/receiver.stream";
+import StreamSlicer from "@/utils/stream/slicer.stream";
+import StreamSender from "@/utils/stream/sender.stream";
+import streamReceiver from "@/utils/stream/receiver.stream";
 namespace transferController {
   export const handleNewConnection = (payload: {
     action: string;

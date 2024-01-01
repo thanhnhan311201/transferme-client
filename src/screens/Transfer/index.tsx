@@ -1,18 +1,14 @@
-import { useSelector } from "react-redux";
-
 import { AnimatePresence } from "framer-motion";
 
-import { RootState } from "../../states";
+import { useAppSelector } from "@/states";
 
-import { SOCKET_EVENTS } from "../../socket/config.socket";
+import Transfer from "@/modules/transfer/views/Transfer";
+import ReceivingWindow from "@/modules/transfer/views/ReceivingWindow";
 
-import Transfer from "../../features/transfer/views/Transfer";
-import ReceivingWindow from "../../features/transfer/views/ReceivingWindow";
+import { SOCKET_EVENTS } from "@/socket/config.socket";
 
 const ScreenTransfer: React.FC = () => {
-  const transferStatus = useSelector(
-    (state: RootState) => state.transfer.transferStatus
-  );
+  const { transferStatus } = useAppSelector((state) => state.transfer);
 
   return (
     <div>

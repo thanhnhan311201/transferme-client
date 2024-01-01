@@ -1,17 +1,16 @@
-import { useSelector } from "react-redux";
 import { useEffect } from "react";
 
 import PublicRoutes from "./routes/PublicRoutes";
 import ProtectedRoutes from "./routes/ProtectedRoutes";
 
 // import socketClient from "./socket";
+import { useAppSelector } from "./states";
 
-import { AUTHENTICATION_STATUS } from "./features/authentication/slice/authSlice";
-import { useAutoLogin } from "./features/authentication/hooks";
-import { RootState } from "./states";
+import { AUTHENTICATION_STATUS } from "./modules/authentication/utils/auth.constant";
+import { useAutoLogin } from "./modules/authentication/hooks";
 
 function App() {
-  const authStatus = useSelector((state: RootState) => state.auth.authStatus);
+  const { authStatus } = useAppSelector((state) => state.auth);
 
   const autoLogin = useAutoLogin();
 

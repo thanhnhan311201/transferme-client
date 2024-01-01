@@ -1,8 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
+
 import { motion } from "framer-motion";
 
-import logo from "../../../images/logo_4.png";
+import logo from "@public/images/logo_4.png"
 
 const Header = () => {
   return (
