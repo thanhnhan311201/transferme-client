@@ -1,63 +1,43 @@
 import axiosClient from "@/api/axiosClient";
-
-// interface IProfile {
-//   email: string;
-//   family_name: string;
-//   given_name: string;
-//   id: string;
-//   locale: string;
-//   name: string;
-//   picture: string;
-//   verified_email: boolean;
-// }
-
-interface IAuthResponse {
-  status: string;
-  code: number;
-  token: string;
-  user: { email: string; name: string; id: string; picture: string };
-}
-
-interface IResponse {
-  status: string;
-  code: number;
-  message: string;
-}
+import {
+  ILoginRequestParam,
+  ILoginWithGoogleRequestParam,
+  ISignUpRequestParam,
+  IVerifyEmailRequestParam,
+  IVerifyTokenRequestParam,
+} from "../types/requestParam.interface";
+import { ICommonResponse } from "../types/responseParam.interface";
 
 namespace AuthAPI {
-  export const login = (userLoginInfo: { email: string; password: string }) => {
+  export const login = (params: ILoginRequestParam) => {
     const url = "/user/login";
-    const requestBody = JSON.stringify(userLoginInfo);
-    return axiosClient.post<IAuthResponse>(url, requestBody);
+    const requestBody = JSON.stringify(params);
+
+    return axiosClient.post<ILoginRequestParam>(url, requestBody);
   };
 
-  export const signup = (userSignupInfo: {
-    email: string;
-    username: string;
-    password: string;
-    confirmPassword: string;
-  }) => {
+  export const signup = (params: ISignUpRequestParam) => {
     const url = "/user/signup";
-    const requestBody = JSON.stringify(userSignupInfo);
-    return axiosClient.post<any, IResponse>(url, requestBody);
+    const requestBody = JSON.stringify(params);
+    return axiosClient.post<ICommonResponse>(url, requestBody);
   };
 
-  export const loginWithGoogle = (authCode: string) => {
+  export const loginWithGoogle = (params: ILoginWithGoogleRequestParam) => {
     const url = "/user/google";
-    const requestBody = JSON.stringify({ authCode: authCode });
-    return axiosClient.post<any, IAuthResponse>(url, requestBody);
+    const requestBody = JSON.stringify({ authCode: params.authCode });
+    return axiosClient.post<ILoginWithGoogleRequestParam>(url, requestBody);
   };
 
-  export const verifyToken = (token: string) => {
+  export const verifyToken = (params: IVerifyTokenRequestParam) => {
     const url = "/user/verify-token";
-    const requestBody = JSON.stringify({ token: token });
-    return axiosClient.post<any, IAuthResponse>(url, requestBody);
+    const requestBody = JSON.stringify({ token: params.token });
+    return axiosClient.post<IVerifyTokenRequestParam>(url, requestBody);
   };
 
-  export const verifyEmail = (email: string) => {
+  export const verifyEmail = (params: IVerifyEmailRequestParam) => {
     const url = "/user/verify-email";
-    const requestBody = JSON.stringify({ email: email });
-    return axiosClient.post<any, IResponse>(url, requestBody);
+    const requestBody = JSON.stringify({ email: params.email });
+    return axiosClient.post<IVerifyEmailRequestParam>(url, requestBody);
   };
 }
 
