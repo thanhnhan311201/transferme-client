@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 
 import { useAppDispatch, useAppSelector } from "@/states";
 import useOutsideRef from "../hooks/useOutsideRef";
-import { authActions } from "@/modules/authentication/slice/authSlice";
+import { setUnauthenticated } from "@/modules/authentication/controller/auth.slice";
 
 import Header from "../components/Header";
 import TransferForm from "../components/TransferForm";
@@ -36,7 +36,7 @@ const Transfer: React.FC = () => {
     ).toUTCString()}`;
 
     socketClient.disconnect();
-    dispatch(authActions.setUnauthenticated());
+    dispatch(setUnauthenticated());
   }, [dispatch]);
 
   return (

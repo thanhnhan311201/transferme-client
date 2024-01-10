@@ -2,7 +2,7 @@ import io, { type Socket } from "socket.io-client";
 
 import { dispatch } from "../states";
 import { socketActions } from "./slice.socket";
-import { transferActions } from "@/modules/transfer/slice/transferSlice";
+import { transfering, availableToTransfer } from "@/modules/transfer/controller/transfer.slice";
 import { setUnauthenticated } from "@/modules/authentication/controller/auth.slice";
 import transferEventListener from "./transfer.listener.socket";
 
@@ -77,9 +77,9 @@ class SocketClient {
   replyToRequest(confirm: boolean) {
     this.socket.emit(SOCKET_EVENTS.REPLY_TO_REQUEST, confirm);
     if (confirm) {
-      dispatch(transferActions.transfering());
+      dispatch(transfering());
     } else {
-      dispatch(transferActions.availableToTransfer());
+      dispatch(availableToTransfer());
     }
   }
 

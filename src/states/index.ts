@@ -6,14 +6,14 @@ import {
 } from "react-redux";
 
 import authReducer from "@/modules/authentication/controller/auth.slice";
+import transferReducer from "@/modules/transfer/controller/transfer.slice";
 import socketSlice from "@/socket/slice.socket";
-import transferSlice from "@/modules/transfer/slice/transferSlice";
 
 const store = configureStore({
   reducer: {
     auth: authReducer,
     socket: socketSlice.reducer,
-    transfer: transferSlice.reducer,
+    transfer: transferReducer,
   },
 });
 

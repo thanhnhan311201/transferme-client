@@ -6,7 +6,7 @@ import {
   SIGNUP_STATUS,
 } from "../utils/auth.constant";
 
-interface SliceState {
+interface ISliceState {
   authStatus: string;
   userInfo: {
     id: string;
@@ -18,11 +18,9 @@ interface SliceState {
   signupStatus: SIGNUP_STATUS;
 }
 
-interface SliceState {}
-
 const SLICE_NAME = "auth";
 
-const initialState: SliceState = {
+const initialState: ISliceState = {
   authStatus: AUTHENTICATION_STATUS.UNAUTHENTICATE,
   userInfo: { id: "", email: "", name: "", picture: "" },
   loginStatus: LOGIN_STATUS.IDLE,

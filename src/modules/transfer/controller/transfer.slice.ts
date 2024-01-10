@@ -2,18 +2,21 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import { SOCKET_EVENTS } from "@/socket/config.socket";
 
-interface SliceState {
+interface ISliceState {
   transferStatus: string;
   sender: string;
   progress: number;
 }
 
+const initialState: ISliceState = {
+  transferStatus: SOCKET_EVENTS.AVAILABLE,
+  progress: 0,
+  sender: "",
+};
+
 const transferSlice = createSlice({
   name: "transfer",
-  initialState: {
-    transferStatus: SOCKET_EVENTS.AVAILABLE,
-    progress: 0,
-  } as SliceState,
+  initialState: initialState,
   reducers: {
     transferSuccess: (state) => ({
       ...state,
@@ -52,6 +55,16 @@ const transferSlice = createSlice({
   },
 });
 
-export const transferActions = transferSlice.actions;
+export const {
+  availableToTransfer,
+  refuseTransfer,
+  setProgress,
+  transferError,
+  transferSuccess,
+  transfering,
+  waitForAccept,
+  waitForRecipientReceiveFile,
+} = transferSlice.actions;
 
-export default transferSlice;
+const transferReducer = transferSlice.reducer;
+export default transferReducer;

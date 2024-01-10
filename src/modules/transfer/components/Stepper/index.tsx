@@ -16,7 +16,7 @@ import FileTransfer from "./FileTransfer";
 import TransferError from "./TransferError";
 
 import socketClient from "@/socket";
-import { transferActions } from "../../slice/transferSlice";
+import { availableToTransfer } from "../../controller/transfer.slice";
 import { useAppDispatch, useAppSelector } from "@/states";
 
 import fileInstance from "../../utils/cache-file";
@@ -198,7 +198,7 @@ const FileTransferStepper: React.FC = () => {
         <Box sx={{ width: "75%" }}>
           <TransferError
             onHandleReset={() =>
-              dispatch(transferActions.availableToTransfer())
+              dispatch(availableToTransfer())
             }
           />
         </Box>

@@ -5,7 +5,7 @@ import { useAppDispatch } from "@/states";
 import socketClient from "@/socket";
 import { setUnauthenticated, setUnauthenticating, setAuthenticated } from "../controller/auth.slice";
 import { AuthAPI } from "@/api";
-import { transferActions } from "@/modules/transfer/slice/transferSlice";
+import { availableToTransfer } from "@/modules/transfer/controller/transfer.slice";
 
 const useAutoLogin = () => {
   const dispatch = useAppDispatch();
@@ -33,7 +33,7 @@ const useAutoLogin = () => {
         }
 
         dispatch(setAuthenticated(response.user));
-        dispatch(transferActions.availableToTransfer());
+        dispatch(availableToTransfer());
         socketClient.connect({ token: response.token });
         navigate("/transfer");
       } else {

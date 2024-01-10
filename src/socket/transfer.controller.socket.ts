@@ -1,7 +1,15 @@
 import socketClient from ".";
 import { dispatch } from "@/states";
 import { socketActions } from "./slice.socket";
-import { transferActions } from "@/modules/transfer/slice/transferSlice";
+import {
+  waitForAccept,
+  transfering,
+  waitForRecipientReceiveFile,
+  setProgress,
+  refuseTransfer,
+  transferSuccess,
+  transferError,
+} from "@/modules/transfer/controller/transfer.slice";
 
 import fileInstance from "@/modules/transfer/utils/cache-file";
 
@@ -27,11 +35,11 @@ namespace transferController {
   };
 
   export const handleNewRequestTransfer = (senderEmail: string) => {
-    dispatch(transferActions.waitForAccept(senderEmail));
+    dispatch(waitForAccept(senderEmail));
   };
 
   export const handleAcceptRequest = () => {
-    dispatch(transferActions.transfering());
+    dispatch(transfering());
     if (!fileInstance.file) {
       return;
     } else {
@@ -59,9 +67,9 @@ namespace transferController {
             countChunkId,
           });
           if (countChunkId === totalChunk) {
-            dispatch(transferActions.waitForRecipientReceiveFile());
+            dispatch(waitForRecipientReceiveFile());
           } else {
-            dispatch(transferActions.setProgress(countChunkId / totalChunk));
+            dispatch(setProgress(countChunkId / totalChunk));
           }
           countChunkId++;
         }
@@ -84,7 +92,7 @@ namespace transferController {
   };
 
   export const handleRefuseRequest = () => {
-    dispatch(transferActions.refuseTransfer());
+    dispatch(refuseTransfer());
   };
 
   export const handleReceiveFile = async (file: {
@@ -117,12 +125,12 @@ namespace transferController {
           type: file.fileType,
         });
 
-        dispatch(transferActions.transferSuccess());
+        dispatch(transferSuccess());
         streamReceiver.downloadFile(newFile);
       }
     }
 
-    dispatch(transferActions.setProgress(file.countChunkId / file.totalChunk));
+    dispatch(setProgress(file.countChunkId / file.totalChunk));
     socketClient.socket.emit(SOCKET_EVENTS.ACK_RECEIVE_FILE, {
       done: isDone,
       receivedChunk: file.countChunkId,
@@ -142,7 +150,7 @@ namespace transferController {
   }) => {
     const { done, receivedChunk, totalChunk } = ack;
     if (done) {
-      dispatch(transferActions.transferSuccess());
+      dispatch(transferSuccess());
     }
   };
 
@@ -152,7 +160,7 @@ namespace transferController {
       streamReceiver.controller = undefined;
     }
     socketClient.isCancel = true;
-    dispatch(transferActions.transferError());
+    dispatch(transferError());
   };
 }
 

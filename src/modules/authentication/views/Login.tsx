@@ -5,11 +5,18 @@ import socketClient from "@/socket";
 
 import { AuthAPI } from "@/api";
 import { useAppSelector, useAppDispatch } from "@/states";
-import { transferActions } from "@/modules/transfer/slice/transferSlice";
+import { availableToTransfer } from "@/modules/transfer/controller/transfer.slice";
 import { useGoogleLoginSuccess } from "../hooks";
 import { useInput } from "../hooks";
 import { ValidationType } from "../hooks";
-import { setIdleStatusLogin, setIdleStatusSignup, processLogin, setLoginSuccess, setLoginFail, setAuthenticated } from "../controller/auth.slice";
+import {
+  setIdleStatusLogin,
+  setIdleStatusSignup,
+  processLogin,
+  setLoginSuccess,
+  setLoginFail,
+  setAuthenticated,
+} from "../controller/auth.slice";
 
 import LoginForm from "../components/LoginForm";
 
@@ -82,7 +89,7 @@ const Login: React.FC = () => {
 
         socketClient.connect({ token: response.token });
         dispatch(setAuthenticated(response.user));
-        dispatch(transferActions.availableToTransfer());
+        dispatch(availableToTransfer());
         navigate("/transfer");
       } catch (error) {
         email.inputRef.current!.focus();

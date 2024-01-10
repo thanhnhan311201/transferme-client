@@ -6,7 +6,7 @@ import { useAppDispatch } from "@/states";
 import { AuthAPI } from "@/api";
 import { setAuthenticated } from "../controller/auth.slice";
 import socketClient from "@/socket";
-import { transferActions } from "@/modules/transfer/slice/transferSlice";
+import { availableToTransfer } from "@/modules/transfer/controller/transfer.slice";
 
 import { TOKEN_EXPIRATION_TIME } from "@/config";
 
@@ -36,7 +36,7 @@ const useGoogleLoginSuccess = () => {
           picture: response.user.picture,
         })
       );
-      dispatch(transferActions.availableToTransfer());
+      dispatch(availableToTransfer());
       socketClient.connect({ token: response.token });
       navigate("/transfer");
     } catch (error) {

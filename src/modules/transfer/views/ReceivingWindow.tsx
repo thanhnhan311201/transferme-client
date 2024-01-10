@@ -11,7 +11,11 @@ import LinearProgress from "@mui/material/LinearProgress";
 import { BiTransferAlt } from "react-icons/bi";
 import { IconContext } from "react-icons";
 
-import { transferActions } from "../slice/transferSlice";
+import {
+  transferError,
+  availableToTransfer,
+  transfering,
+} from "../controller/transfer.slice";
 import { useAppDispatch, useAppSelector } from "@/states";
 
 import TransferProgressWithLabel from "../components/Stepper/TransferProgress";
@@ -32,15 +36,15 @@ const ReceivingWindow: React.FC = () => {
 
   const handleCancel = () => {
     socketClient.cancelTransfer();
-    dispatch(transferActions.transferError());
+    dispatch(transferError());
   };
 
   const handleReset = () => {
-    dispatch(transferActions.availableToTransfer());
+    dispatch(availableToTransfer());
   };
 
   const handleAccept = () => {
-    dispatch(transferActions.transfering());
+    dispatch(transfering());
     socketClient.replyToRequest(true);
   };
 
