@@ -1,9 +1,8 @@
 import React, { lazy } from "react";
-
-import { IRoute } from "@/types/route.type";
+import { RouteObject } from "react-router-dom";
 
 const Home = lazy(() => import("@/modules/home/index"));
 
-export const homeRoutes: IRoute[] = [
-  { path: "/", key: "home", element: <Home /> },
+export const homeRoutes: RouteObject[] = [
+  { path: "/", element: <Home /> },
 ];

@@ -1,13 +1,12 @@
-import React, { lazy } from "react";
+import { lazy } from "react";
 
-import { IRoute } from "@/types/route.type";
+import { RouteObject } from "react-router-dom";
 
 const Transfer = lazy(() => import("@/modules/transfer/views/Transfer"));
 
-export const transferRoutes: IRoute[] = [
+export const transferRoutes: RouteObject[] = [
   {
     path: "/transfer",
-    key: "transfer",
     element: <Transfer />,
   },
 ];

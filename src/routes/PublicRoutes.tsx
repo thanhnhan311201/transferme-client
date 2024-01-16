@@ -14,7 +14,7 @@ const PublicRoutes: React.FC = () => {
       <Routes>
         {Array.isArray(publicRoutes) &&
           publicRoutes.map((route) => (
-            <Route key={route.key} path={route.path} element={route.element} />
+            <Route key={route.path} path={route.path} element={route.element} />
           ))}
         <Route path="*" element={<Navigate to={"/"} />} />
       </Routes>

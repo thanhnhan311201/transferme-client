@@ -13,7 +13,7 @@ const ProtectedRoutes: React.FC = () => {
       <Routes>
         {Array.isArray(protectedRoutes) &&
           protectedRoutes.map((route) => (
-            <Route key={route.key} path={route.path} element={route.element} />
+            <Route key={route.path} path={route.path} element={route.element} />
           ))}
         <Route path="*" element={<Navigate to={"/transfer"} />} />
       </Routes>
