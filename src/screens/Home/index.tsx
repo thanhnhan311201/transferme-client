@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 import Header from "./components/Header";
 
-import HomePage from "@public/images/home-page.png"
+import HomePage from "@public/images/home-page.png";
 
 const ScreenHome: React.FC = () => {
   return (
