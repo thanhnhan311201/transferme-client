@@ -1,6 +1,6 @@
 import { useCallback, useReducer, useEffect, useRef, useState } from "react";
 
-import { AuthAPI } from "@/api";
+import { verifyEmail } from "../controller/auth.action";
 
 import { emailRegex } from "@/utils";
 
@@ -188,9 +188,9 @@ const useInput = (
       validateType === ValidationType.IS_EMAIL_VALID &&
       inputState.isValidated
     ) {
-      const verifyEmail = async () => {
+      const verifyEmailInput = async () => {
         try {
-          const response = await AuthAPI.verifyEmail(inputState.value);
+          const response = await verifyEmail({ email: inputState.value });
         } catch (error: any) {
           if (error.code === 422) {
             setValResult({
@@ -200,7 +200,7 @@ const useInput = (
           }
         }
       };
-      verifyEmail();
+      verifyEmailInput();
     }
   }, [inputState.value, validateType, inputState.isValidated]);
 

@@ -59,7 +59,10 @@ const authSlice = createSlice({
       ...state,
       loginStatus: LOGIN_STATUS.LOGIN_SUCCESS,
     }),
-    setIdleStatusLogin: (state) => ({ ...state, loginStatus: LOGIN_STATUS.IDLE }),
+    setIdleStatusLogin: (state) => ({
+      ...state,
+      loginStatus: LOGIN_STATUS.IDLE,
+    }),
 
     processSignup: (state) => ({
       ...state,
@@ -73,7 +76,10 @@ const authSlice = createSlice({
       ...state,
       signupStatus: SIGNUP_STATUS.SIGNUP_SUCCESS,
     }),
-    setIdleStatusSignup: (state) => ({ ...state, signupStatus: SIGNUP_STATUS.IDLE }),
+    setIdleStatusSignup: (state) => ({
+      ...state,
+      signupStatus: SIGNUP_STATUS.IDLE,
+    }),
   },
 });
 

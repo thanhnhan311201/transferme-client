@@ -3,3 +3,9 @@ export interface CommonProps {
   children?: React.ReactNode
   style?: React.CSSProperties
 }
+
+export enum PROMISE_STATUS {
+  PENDING = 'pending',
+  FULFILLED = 'fulfilled',
+  REJECTED = 'rejected'
+}

@@ -1,16 +1,24 @@
 // common response param
 export interface ICommonResponse {
   status: string;
-  code: number;
   message: string;
+}
+
+// signup response param
+export interface ISignupResponseParam {
+  status: string;
+  data: {
+    user: { email: string; name: string; id: string; picture: string };
+  };
 }
 
 // login response param
 export interface ILoginResponseParam {
   status: string;
-  code: number;
-  token: string;
-  user: { email: string; name: string; id: string; picture: string };
+  data: {
+    token: string;
+    user: { email: string; name: string; id: string; picture: string };
+  };
 }
 
 // login with google response param

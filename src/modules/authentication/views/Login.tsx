@@ -3,9 +3,9 @@ import { useGoogleLogin } from "@react-oauth/google";
 import { useNavigate } from "react-router-dom";
 import socketClient from "@/socket";
 
-import { AuthAPI } from "@/api";
 import { useAppSelector, useAppDispatch } from "@/states";
 import { availableToTransfer } from "@/modules/transfer/controller/transfer.slice";
+import { login } from "../controller/auth.action";
 import { useGoogleLoginSuccess } from "../hooks";
 import { useInput } from "../hooks";
 import { ValidationType } from "../hooks";
@@ -22,6 +22,8 @@ import LoginForm from "../components/Forms/LoginForm";
 import AuthLayout from "../components/Layout";
 
 import { GOOGLE_REDIRECT_URI, GITHUB_CLIENT_ID } from "@/config";
+import { PROMISE_STATUS } from "@/types/common.type";
+import { ILoginResponseParam } from "../types/responseParam.interface";
 
 const Login: React.FC = () => {
   const { loginStatus } = useAppSelector((state) => state.auth);
@@ -75,23 +77,41 @@ const Login: React.FC = () => {
 
         dispatch(processLogin());
 
-        const response = await AuthAPI.login({
-          email: email.value,
-          password: password.value,
-        });
-        document.cookie = `access_token=${response.token}; expires= ${new Date(
-          new Date().getTime() + 3599 * 1000
-        ).toUTCString()}`;
-        document.cookie = `user_id=${response.user.id}; expires= ${new Date(
-          new Date().getTime() + 3599 * 1000
-        ).toUTCString()}`;
+        const response = await dispatch(
+          login({
+            email: email.value,
+            password: password.value,
+          })
+        );
 
-        dispatch(setLoginSuccess());
+        if (
+          response &&
+          response.meta.requestStatus === PROMISE_STATUS.FULFILLED
+        ) {
+          document.cookie = `access_token=${
+            (response.payload as ILoginResponseParam).data.token
+          }; expires= ${new Date(
+            new Date().getTime() + 3599 * 1000
+          ).toUTCString()}`;
+          document.cookie = `user_id=${
+            (response.payload as ILoginResponseParam).data.user.id
+          }; expires= ${new Date(
+            new Date().getTime() + 3599 * 1000
+          ).toUTCString()}`;
 
-        socketClient.connect({ token: response.token });
-        dispatch(setAuthenticated(response.user));
-        dispatch(availableToTransfer());
-        navigate("/transfer");
+          dispatch(setLoginSuccess());
+
+          socketClient.connect({
+            token: (response.payload as ILoginResponseParam).data.token,
+          });
+          dispatch(
+            setAuthenticated(
+              (response.payload as ILoginResponseParam).data.user
+            )
+          );
+          dispatch(availableToTransfer());
+          navigate("/transfer");
+        }
       } catch (error) {
         email.inputRef.current!.focus();
         dispatch(setLoginFail());

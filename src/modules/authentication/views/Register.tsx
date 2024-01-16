@@ -2,7 +2,6 @@ import { useCallback, useEffect } from "react";
 
 import { useGoogleLogin } from "@react-oauth/google";
 
-import { AuthAPI } from "@/api";
 import { useAppDispatch, useAppSelector } from "@/states";
 import { useGoogleLoginSuccess, useInput, ValidationType } from "../hooks";
 import {
@@ -12,11 +11,13 @@ import {
   setSignupSuccess,
   setSignupFail,
 } from "../controller/auth.slice";
+import { signup } from "../controller/auth.action";
 
 import RegisterForm from "../components/Forms/RegisterForm";
 import AuthLayout from "../components/Layout";
 
 import { GOOGLE_REDIRECT_URI, GITHUB_CLIENT_ID } from "@/config";
+import { PROMISE_STATUS } from "@/types/common.type";
 
 const Register: React.FC = () => {
   const handleSuccess = useGoogleLoginSuccess();
@@ -82,13 +83,19 @@ const Register: React.FC = () => {
 
         dispatch(processSignup());
 
-        const response = await AuthAPI.signup({
-          email: email.value,
-          username: username.value,
-          password: password.value,
-          confirmPassword: cfmPassword.value,
-        });
-        if (response.code === 201) {
+        const response = await dispatch(
+          signup({
+            email: email.value,
+            username: username.value,
+            password: password.value,
+            confirmPassword: cfmPassword.value,
+          })
+        );
+
+        if (
+          response &&
+          response.meta.requestStatus === PROMISE_STATUS.FULFILLED
+        ) {
           dispatch(setSignupSuccess());
           email.resetValue();
           username.resetValue();

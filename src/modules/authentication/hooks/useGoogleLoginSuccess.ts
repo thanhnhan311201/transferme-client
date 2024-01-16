@@ -3,12 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { CodeResponse } from "@react-oauth/google";
 
 import { useAppDispatch } from "@/states";
-import { AuthAPI } from "@/api";
 import { setAuthenticated } from "../controller/auth.slice";
 import socketClient from "@/socket";
 import { availableToTransfer } from "@/modules/transfer/controller/transfer.slice";
+import { loginWithGoogle } from "../controller/auth.action";
 
 import { TOKEN_EXPIRATION_TIME } from "@/config";
+import { PROMISE_STATUS } from "@/types/common.type";
+import { ILoginWithGoogleResponseParam } from "../types/responseParam.interface";
 
 const useGoogleLoginSuccess = () => {
   const dispatch = useAppDispatch();
@@ -21,24 +23,42 @@ const useGoogleLoginSuccess = () => {
     >
   ) => {
     try {
-      const response = await AuthAPI.loginWithGoogle(codeResponse.code);
-      document.cookie = `access_token=${response.token}; expires= ${new Date(
-        new Date().getTime() + TOKEN_EXPIRATION_TIME * 1000
-      ).toUTCString()}`;
-      document.cookie = `user_id=${response.user.id}; expires= ${new Date(
-        new Date().getTime() + TOKEN_EXPIRATION_TIME * 1000
-      ).toUTCString()}`;
-      dispatch(
-        setAuthenticated({
-          id: response.user.id,
-          email: response.user.email,
-          name: response.user.name,
-          picture: response.user.picture,
-        })
+      const response = await dispatch(
+        loginWithGoogle({ authCode: codeResponse.code })
       );
-      dispatch(availableToTransfer());
-      socketClient.connect({ token: response.token });
-      navigate("/transfer");
+
+      if (
+        response &&
+        response.meta.requestStatus === PROMISE_STATUS.FULFILLED
+      ) {
+        document.cookie = `access_token=${
+          (response.payload as ILoginWithGoogleResponseParam).data.token
+        }; expires= ${new Date(
+          new Date().getTime() + TOKEN_EXPIRATION_TIME * 1000
+        ).toUTCString()}`;
+        document.cookie = `user_id=${
+          (response.payload as ILoginWithGoogleResponseParam).data.user.id
+        }; expires= ${new Date(
+          new Date().getTime() + TOKEN_EXPIRATION_TIME * 1000
+        ).toUTCString()}`;
+        dispatch(
+          setAuthenticated({
+            id: (response.payload as ILoginWithGoogleResponseParam).data.user
+              .id,
+            email: (response.payload as ILoginWithGoogleResponseParam).data.user
+              .email,
+            name: (response.payload as ILoginWithGoogleResponseParam).data.user
+              .name,
+            picture: (response.payload as ILoginWithGoogleResponseParam).data
+              .user.picture,
+          })
+        );
+        dispatch(availableToTransfer());
+        socketClient.connect({
+          token: (response.payload as ILoginWithGoogleResponseParam).data.token,
+        });
+        navigate("/transfer");
+      }
     } catch (error) {
       console.log(error);
     }

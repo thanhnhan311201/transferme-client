@@ -3,9 +3,17 @@ import { useNavigate } from "react-router-dom";
 
 import { useAppDispatch } from "@/states";
 import socketClient from "@/socket";
-import { setUnauthenticated, setUnauthenticating, setAuthenticated } from "../controller/auth.slice";
-import { AuthAPI } from "@/api";
+import {
+  setUnauthenticated,
+  setUnauthenticating,
+  setAuthenticated,
+} from "../controller/auth.slice";
 import { availableToTransfer } from "@/modules/transfer/controller/transfer.slice";
+import { verifyToken } from "../controller/auth.action";
+import { PROMISE_STATUS } from "@/types/common.type";
+
+import { IVerifyTokenRequestParam } from "../types/requestParam.interface";
+import { IVerifyEmailResponseParam } from "../types/responseParam.interface";
 
 const useAutoLogin = () => {
   const dispatch = useAppDispatch();
@@ -20,9 +28,13 @@ const useAutoLogin = () => {
       );
       if (tokenCookie) {
         const accessToken = tokenCookie.split("=")[1];
-        const response = await AuthAPI.verifyToken(accessToken);
+        const response = await dispatch(verifyToken({ token: accessToken }));
 
-        if (!(response.code === 200 && response.status === "success")) {
+        if (
+          !(
+            response && response.meta.requestStatus === PROMISE_STATUS.FULFILLED
+          )
+        ) {
           document.cookie = `access_token= ; expires= ${new Date(
             new Date().getTime()
           ).toUTCString()}`;
@@ -32,9 +44,15 @@ const useAutoLogin = () => {
           return dispatch(setUnauthenticated());
         }
 
-        dispatch(setAuthenticated(response.user));
+        dispatch(
+          setAuthenticated(
+            (response.payload as IVerifyEmailResponseParam).data.user
+          )
+        );
         dispatch(availableToTransfer());
-        socketClient.connect({ token: response.token });
+        socketClient.connect({
+          token: (response.payload as IVerifyEmailResponseParam).data.token,
+        });
         navigate("/transfer");
       } else {
         dispatch(setUnauthenticated());
@@ -46,7 +64,6 @@ const useAutoLogin = () => {
         ).toUTCString()}`;
       }
     } catch (error) {
-      console.log(error);
       dispatch(setUnauthenticated());
       document.cookie = `access_token= ; expires= ${new Date(
         new Date().getTime()
