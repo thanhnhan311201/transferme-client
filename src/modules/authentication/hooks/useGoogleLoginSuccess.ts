@@ -27,7 +27,6 @@ const useGoogleLoginSuccess = () => {
         loginWithGoogle({ authCode: codeResponse.code })
       );
 
-      console.log(response);
       if (
         response &&
         response.meta.requestStatus === PROMISE_STATUS.FULFILLED
