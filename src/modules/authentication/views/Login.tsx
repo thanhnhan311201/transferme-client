@@ -89,12 +89,12 @@ const Login: React.FC = () => {
           response.meta.requestStatus === PROMISE_STATUS.FULFILLED
         ) {
           document.cookie = `access_token=${
-            (response.payload as ILoginResponseParam).data.token
+            (response.payload as ILoginResponseParam["data"]).token
           }; expires= ${new Date(
             new Date().getTime() + 3599 * 1000
           ).toUTCString()}`;
           document.cookie = `user_id=${
-            (response.payload as ILoginResponseParam).data.user.id
+            (response.payload as ILoginResponseParam["data"]).user.id
           }; expires= ${new Date(
             new Date().getTime() + 3599 * 1000
           ).toUTCString()}`;
@@ -102,11 +102,11 @@ const Login: React.FC = () => {
           dispatch(setLoginSuccess());
 
           socketClient.connect({
-            token: (response.payload as ILoginResponseParam).data.token,
+            token: (response.payload as ILoginResponseParam["data"]).token,
           });
           dispatch(
             setAuthenticated(
-              (response.payload as ILoginResponseParam).data.user
+              (response.payload as ILoginResponseParam["data"]).user
             )
           );
           dispatch(availableToTransfer());

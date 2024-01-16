@@ -46,12 +46,12 @@ const useAutoLogin = () => {
 
         dispatch(
           setAuthenticated(
-            (response.payload as IVerifyEmailResponseParam).data.user
+            (response.payload as IVerifyEmailResponseParam["data"]).user
           )
         );
         dispatch(availableToTransfer());
         socketClient.connect({
-          token: (response.payload as IVerifyEmailResponseParam).data.token,
+          token: (response.payload as IVerifyEmailResponseParam["data"]).token,
         });
         navigate("/transfer");
       } else {

@@ -27,35 +27,37 @@ const useGoogleLoginSuccess = () => {
         loginWithGoogle({ authCode: codeResponse.code })
       );
 
+      console.log(response);
       if (
         response &&
         response.meta.requestStatus === PROMISE_STATUS.FULFILLED
       ) {
         document.cookie = `access_token=${
-          (response.payload as ILoginWithGoogleResponseParam).data.token
+          (response.payload as ILoginWithGoogleResponseParam["data"]).token
         }; expires= ${new Date(
           new Date().getTime() + TOKEN_EXPIRATION_TIME * 1000
         ).toUTCString()}`;
         document.cookie = `user_id=${
-          (response.payload as ILoginWithGoogleResponseParam).data.user.id
+          (response.payload as ILoginWithGoogleResponseParam["data"]).user.id
         }; expires= ${new Date(
           new Date().getTime() + TOKEN_EXPIRATION_TIME * 1000
         ).toUTCString()}`;
         dispatch(
           setAuthenticated({
-            id: (response.payload as ILoginWithGoogleResponseParam).data.user
+            id: (response.payload as ILoginWithGoogleResponseParam["data"]).user
               .id,
-            email: (response.payload as ILoginWithGoogleResponseParam).data.user
-              .email,
-            name: (response.payload as ILoginWithGoogleResponseParam).data.user
-              .name,
-            picture: (response.payload as ILoginWithGoogleResponseParam).data
+            email: (response.payload as ILoginWithGoogleResponseParam["data"])
+              .user.email,
+            name: (response.payload as ILoginWithGoogleResponseParam["data"])
+              .user.name,
+            picture: (response.payload as ILoginWithGoogleResponseParam["data"])
               .user.picture,
           })
         );
         dispatch(availableToTransfer());
         socketClient.connect({
-          token: (response.payload as ILoginWithGoogleResponseParam).data.token,
+          token: (response.payload as ILoginWithGoogleResponseParam["data"])
+            .token,
         });
         navigate("/transfer");
       }
