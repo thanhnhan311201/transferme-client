@@ -1,12 +1,13 @@
-import NewPassForm from "../components/NewPassForm";
-import {
-  GoogleLogin,
-  CredentialResponse,
-  useGoogleLogin,
-} from "@react-oauth/google";
+import NewPassForm from "../components/Forms/NewPassForm";
+
+import AuthLayout from "../components/Layout";
 
 const NewPass: React.FC = () => {
-  return <NewPassForm />;
+  return (
+    <AuthLayout>
+      <NewPassForm />;
+    </AuthLayout>
+  );
 };
 
 export default NewPass;

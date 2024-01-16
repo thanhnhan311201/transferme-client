@@ -18,10 +18,10 @@ import {
 } from "../controller/transfer.slice";
 import { useAppDispatch, useAppSelector } from "@/states";
 
-import TransferProgressWithLabel from "../components/Stepper/TransferProgress";
+import TransferProgressWithLabel from "./Stepper/TransferProgress";
 
 import { SOCKET_EVENTS } from "@/socket/config.socket";
-import transferFiles from "@public/lotties/transfer-files.json";
+import transferFiles from "/lotties/transfer-files.json";
 
 const ReceivingWindow: React.FC = () => {
   const { transferStatus } = useAppSelector((state) => state.transfer);

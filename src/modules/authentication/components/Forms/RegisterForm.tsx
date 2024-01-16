@@ -10,8 +10,8 @@ import { FcGoogle } from "react-icons/fc";
 import { BsGithub } from "react-icons/bs";
 import { IconContext } from "react-icons";
 
-import { SIGNUP_STATUS } from "../utils/auth.constant";
-import { type IUserInputResult } from "../hooks";
+import { SIGNUP_STATUS } from "../../utils/auth.constant";
+import { type IUserInputResult } from "../../hooks";
 
 const RegisterForm: React.FC<{
   email: IUserInputResult;

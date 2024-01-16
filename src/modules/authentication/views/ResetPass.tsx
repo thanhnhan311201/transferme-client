@@ -1,7 +1,13 @@
-import ResetPassForm from "../components/ResetPassForm";
+import ResetPassForm from "../components/Forms/ResetPassForm";
+
+import AuthLayout from "../components/Layout";
 
 const ResetPass: React.FC = () => {
-  return <ResetPassForm />;
+  return (
+    <AuthLayout>
+      <ResetPassForm />
+    </AuthLayout>
+  );
 };
 
 export default ResetPass;

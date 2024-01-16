@@ -13,7 +13,8 @@ import {
   setSignupFail,
 } from "../controller/auth.slice";
 
-import RegisterForm from "../components/RegisterForm";
+import RegisterForm from "../components/Forms/RegisterForm";
+import AuthLayout from "../components/Layout";
 
 import { GOOGLE_REDIRECT_URI, GITHUB_CLIENT_ID } from "@/config";
 
@@ -102,16 +103,18 @@ const Register: React.FC = () => {
   );
 
   return (
-    <RegisterForm
-      email={email}
-      username={username}
-      password={password}
-      confirmPassword={cfmPassword}
-      onSignup={handleSignup}
-      onGoogleLogin={handleGoogleLogin}
-      onGitHubLogin={handleGitHubLogin}
-      signupStatus={signupStatus}
-    />
+    <AuthLayout>
+      <RegisterForm
+        email={email}
+        username={username}
+        password={password}
+        confirmPassword={cfmPassword}
+        onSignup={handleSignup}
+        onGoogleLogin={handleGoogleLogin}
+        onGitHubLogin={handleGitHubLogin}
+        signupStatus={signupStatus}
+      />
+    </AuthLayout>
   );
 };
 

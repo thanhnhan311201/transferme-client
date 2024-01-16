@@ -9,7 +9,7 @@ import { IconContext } from "react-icons";
 
 import { type IUserInfo } from "@/config";
 
-import logo from "@public/images/logo_4.png"
+import logo from "/images/logo_4.png"
 
 const scaleVariants = {
   normal: { scale: 1 },

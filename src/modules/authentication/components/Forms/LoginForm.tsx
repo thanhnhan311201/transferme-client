@@ -9,8 +9,8 @@ import { BsGithub } from "react-icons/bs";
 import { IconContext } from "react-icons";
 import CircularProgress from "@mui/material/CircularProgress";
 
-import { LOGIN_STATUS } from "../utils/auth.constant";
-import { type IUserInputResult } from "../hooks";
+import { LOGIN_STATUS } from "../../utils/auth.constant";
+import { type IUserInputResult } from "../../hooks";
 
 const LoginForm: React.FC<{
   email: IUserInputResult;

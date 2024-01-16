@@ -10,10 +10,14 @@ import { setUnauthenticated } from "@/modules/authentication/controller/auth.sli
 import Header from "../components/Header";
 import TransferForm from "../components/TransferForm";
 import UserNav from "../components/UserNav";
+import ReceivingWindow from "../components/ReceivingWindow";
+
+import { SOCKET_EVENTS } from "@/socket/config.socket";
 
 const Transfer: React.FC = () => {
   const { onlineUsers } = useAppSelector((state) => state.socket);
   const { userInfo } = useAppSelector((state) => state.auth);
+  const { transferStatus } = useAppSelector((state) => state.transfer);
 
   const dispatch = useAppDispatch();
 
@@ -40,35 +44,43 @@ const Transfer: React.FC = () => {
   }, [dispatch]);
 
   return (
-    <div className="bg-fafafa h-screen">
-      <div className="h-full flex flex-col items-center">
-        <motion.div
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.75 }}
-          className="max-w-7xl w-full mx-auto my-0 relative"
-        >
-          <Header
-            ref={userHeaderRef}
-            showUserNav={showUserNav}
-            onHandleShowUserNav={handleShowUserNav}
-            userInfo={userInfo}
-            clientId={socketClient.clientId}
-          />
-          <AnimatePresence>
-            {showUserNav && (
-              <UserNav
-                ref={userNavRef}
-                key="modal"
-                onLogout={handleLogout}
-                userInfo={userInfo}
-                clientId={socketClient.clientId}
-                onlineUsers={onlineUsers}
-              />
-            )}
-          </AnimatePresence>
-        </motion.div>
-        <TransferForm />
+    <div>
+      <AnimatePresence>
+        {transferStatus !== SOCKET_EVENTS.AVAILABLE &&
+          transferStatus !== SOCKET_EVENTS.REFUSE_REQUEST && (
+            <ReceivingWindow />
+          )}
+      </AnimatePresence>
+      <div className="bg-fafafa h-screen">
+        <div className="h-full flex flex-col items-center">
+          <motion.div
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.75 }}
+            className="max-w-7xl w-full mx-auto my-0 relative"
+          >
+            <Header
+              ref={userHeaderRef}
+              showUserNav={showUserNav}
+              onHandleShowUserNav={handleShowUserNav}
+              userInfo={userInfo}
+              clientId={socketClient.clientId}
+            />
+            <AnimatePresence>
+              {showUserNav && (
+                <UserNav
+                  ref={userNavRef}
+                  key="modal"
+                  onLogout={handleLogout}
+                  userInfo={userInfo}
+                  clientId={socketClient.clientId}
+                  onlineUsers={onlineUsers}
+                />
+              )}
+            </AnimatePresence>
+          </motion.div>
+          <TransferForm />
+        </div>
       </div>
     </div>
   );

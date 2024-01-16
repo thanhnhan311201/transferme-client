@@ -1,25 +1,17 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useRoutes } from "react-router-dom";
 
-import ScreenAuthentication from "../screens/Authentication";
-import ScreenHome from "../screens/Home";
-
-import Login from "../modules/authentication/views/Login";
-import Register from "../modules/authentication/views/Register";
-import ResetPass from "../modules/authentication/views/ResetPass";
-import NewPass from "../modules/authentication/views/NewPass";
-import ResetToken from "../modules/authentication/views/ResetToken";
+import { homeRoutes } from "@/modules/home/route";
+import { authRoutes } from "@/modules/authentication/route";
 
 const PublicRoutes: React.FC = () => {
+  const publicRoutes = [...homeRoutes, ...authRoutes];
+
   return (
     <Routes>
-      <Route path="/" element={<ScreenHome />} />
-      <Route path="/auth" element={<ScreenAuthentication />}>
-        <Route path="login" element={<Login />} />
-        <Route path="signup" element={<Register />} />
-        <Route path="reset" element={<ResetPass />} />
-        <Route path="newpass" element={<NewPass />} />
-        <Route path="reset-token" element={<ResetToken />} />
-      </Route>
+      {Array.isArray(publicRoutes) &&
+        publicRoutes.map((route) => (
+          <Route key={route.key} path={route.path} element={route.element} />
+        ))}
       <Route path="*" element={<Navigate to={"/"} />} />
     </Routes>
   );

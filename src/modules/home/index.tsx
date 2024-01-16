@@ -4,9 +4,9 @@ import { motion } from "framer-motion";
 
 import Header from "./components/Header";
 
-import HomePage from "@public/images/home-page.png";
+import HomePage from "/images/home-page.png";
 
-const ScreenHome: React.FC = () => {
+const Home: React.FC = () => {
   return (
     <div className="bg-gradient-to-br from-white to-primary-color--tint-2 w-screen h-screen flex flex-col">
       <Header />
@@ -51,4 +51,4 @@ const ScreenHome: React.FC = () => {
   );
 };
 
-export default ScreenHome;
+export default Home;

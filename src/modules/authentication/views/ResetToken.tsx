@@ -1,12 +1,13 @@
-import ResetTokenForm from "../components/ResetTokenForm";
-import {
-  GoogleLogin,
-  CredentialResponse,
-  useGoogleLogin,
-} from "@react-oauth/google";
+import ResetTokenForm from "../components/Forms/ResetTokenForm";
+
+import AuthLayout from "../components/Layout";
 
 const ResetToken: React.FC = () => {
-  return <ResetTokenForm />;
+  return (
+    <AuthLayout>
+      <ResetTokenForm />
+    </AuthLayout>
+  );
 };
 
 export default ResetToken;

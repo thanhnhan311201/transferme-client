@@ -18,7 +18,8 @@ import {
   setAuthenticated,
 } from "../controller/auth.slice";
 
-import LoginForm from "../components/LoginForm";
+import LoginForm from "../components/Forms/LoginForm";
+import AuthLayout from "../components/Layout";
 
 import { GOOGLE_REDIRECT_URI, GITHUB_CLIENT_ID } from "@/config";
 
@@ -100,14 +101,16 @@ const Login: React.FC = () => {
   );
 
   return (
-    <LoginForm
-      email={email}
-      password={password}
-      onGoogleLogin={handleGoogleLogin}
-      onGitHubLogin={handleGitHubLogin}
-      onLogin={handleLogin}
-      loginStatus={loginStatus}
-    />
+    <AuthLayout>
+      <LoginForm
+        email={email}
+        password={password}
+        onGoogleLogin={handleGoogleLogin}
+        onGitHubLogin={handleGitHubLogin}
+        onLogin={handleLogin}
+        loginStatus={loginStatus}
+      />
+    </AuthLayout>
   );
 };
 

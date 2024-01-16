@@ -1,9 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
-import logo from "@public/images/logo_4.png"
+import logo from "/images/logo_4.png"
 
 const Header = () => {
   return (
@@ -11,7 +11,7 @@ const Header = () => {
       initial={{ opacity: 0, y: -50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.75 }}
-      className="max-w-7xl w-full mx-auto flex justify-between items-center bg-inherit py-4 px-24"
+      className="flex justify-between items-center bg-inherit py-4 px-24"
     >
       <Link to="/" className="h-6">
         <img className="h-full" src={logo} alt="TransferMe Logo" />
