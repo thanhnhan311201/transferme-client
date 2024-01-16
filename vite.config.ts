@@ -17,6 +17,7 @@ export default ({ mode }) => {
     resolve: {
       alias: {
         "@": path.join(__dirname, "src"),
+        "@public": path.join(__dirname, "public"),
       },
     },
     server: {

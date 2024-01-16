@@ -9,6 +9,8 @@ import { useAppSelector } from "./states";
 import { AUTHENTICATION_STATUS } from "./modules/authentication/utils/auth.constant";
 import { useAutoLogin } from "./modules/authentication/hooks";
 
+import Loading from "./components/Loading";
+
 function App() {
   const { authStatus } = useAppSelector((state) => state.auth);
 
@@ -36,7 +38,7 @@ function App() {
       return <ProtectedRoutes />;
     case AUTHENTICATION_STATUS.AUTHENTICATING:
     default:
-      return <div>Loading</div>;
+      return <Loading />;
   }
 }
 
