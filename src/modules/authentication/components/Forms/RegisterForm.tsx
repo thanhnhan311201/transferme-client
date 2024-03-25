@@ -59,7 +59,7 @@ const RegisterForm: React.FC<{
             variant="outlined"
             placeholder="E.g. TransferMe"
             helperText={
-              props.username.errMessage ? props.username.errMessage : ""
+              props.username.errMessage ? props.username.errMessage : "Username must be letters, numbers and no more than 30 characters."
             }
             sx={{
               fontSize: "1rem",

@@ -1,20 +1,20 @@
 // common response param
 export interface ICommonResponse {
-  status: string;
+  statusCode: string;
   message: string;
 }
 
 // signup response param
 export interface ISignupResponseParam {
-  status: string;
+  statusCode: string;
   data: {
-    user: { email: string; name: string; id: string; picture: string };
+    user: { email: string; username: string; id: string; picture: string };
   };
 }
 
 // login response param
 export interface ILoginResponseParam {
-  status: string;
+  statusCode: string;
   data: {
     token: string;
     user: { email: string; name: string; id: string; picture: string };

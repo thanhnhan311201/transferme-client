@@ -82,19 +82,17 @@ const Login: React.FC = () => {
             email: email.value,
             password: password.value,
           })
-        );
+        ).unwrap();
 
-        if (
-          response &&
-          response.meta.requestStatus === PROMISE_STATUS.FULFILLED
-        ) {
+        console.log(response)
+        if (response) {
           document.cookie = `access_token=${
-            (response.payload as ILoginResponseParam["data"]).token
+            response.data.token
           }; expires= ${new Date(
             new Date().getTime() + 3599 * 1000
           ).toUTCString()}`;
           document.cookie = `user_id=${
-            (response.payload as ILoginResponseParam["data"]).user.id
+            response.data.user.id
           }; expires= ${new Date(
             new Date().getTime() + 3599 * 1000
           ).toUTCString()}`;
@@ -102,17 +100,14 @@ const Login: React.FC = () => {
           dispatch(setLoginSuccess());
 
           socketClient.connect({
-            token: (response.payload as ILoginResponseParam["data"]).token,
+            token: response.data.token,
           });
-          dispatch(
-            setAuthenticated(
-              (response.payload as ILoginResponseParam["data"]).user
-            )
-          );
+          dispatch(setAuthenticated(response.data.user));
           dispatch(availableToTransfer());
           navigate("/transfer");
         }
       } catch (error) {
+        console.log(error)
         email.inputRef.current!.focus();
         dispatch(setLoginFail());
       }

@@ -18,6 +18,12 @@ enum InputActionType {
   BLUR = "BLUR",
 }
 
+type validationOption = {
+  password?: string;
+  isCheckEmailExist?: boolean;
+  maxLength?: number;
+};
+
 interface IAction {
   type: InputActionType;
   payload: string;
@@ -153,10 +159,7 @@ const validateValue = (
   }
 };
 
-const useInput = (
-  validateType: ValidationType,
-  option?: { password?: string; isCheckEmailExist?: boolean }
-) => {
+const useInput = (validateType: ValidationType, option?: validationOption) => {
   const [inputState, dispatch] = useReducer(inputStateReducer, initialState);
   const [valResult, setValResult] = useState<{
     isValid: boolean;

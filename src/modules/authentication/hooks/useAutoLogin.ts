@@ -10,10 +10,6 @@ import {
 } from "../controller/auth.slice";
 import { availableToTransfer } from "@/modules/transfer/controller/transfer.slice";
 import { verifyToken } from "../controller/auth.action";
-import { PROMISE_STATUS } from "@/types/common.type";
-
-import { IVerifyTokenRequestParam } from "../types/requestParam.interface";
-import { IVerifyEmailResponseParam } from "../types/responseParam.interface";
 
 const useAutoLogin = () => {
   const dispatch = useAppDispatch();
@@ -28,13 +24,11 @@ const useAutoLogin = () => {
       );
       if (tokenCookie) {
         const accessToken = tokenCookie.split("=")[1];
-        const response = await dispatch(verifyToken({ token: accessToken }));
+        const response = await dispatch(
+          verifyToken({ token: accessToken })
+        ).unwrap();
 
-        if (
-          !(
-            response && response.meta.requestStatus === PROMISE_STATUS.FULFILLED
-          )
-        ) {
+        if (!response) {
           document.cookie = `access_token= ; expires= ${new Date(
             new Date().getTime()
           ).toUTCString()}`;
@@ -44,14 +38,10 @@ const useAutoLogin = () => {
           return dispatch(setUnauthenticated());
         }
 
-        dispatch(
-          setAuthenticated(
-            (response.payload as IVerifyEmailResponseParam["data"]).user
-          )
-        );
+        dispatch(setAuthenticated(response.data.user));
         dispatch(availableToTransfer());
         socketClient.connect({
-          token: (response.payload as IVerifyEmailResponseParam["data"]).token,
+          token: response.data.token,
         });
         navigate("/transfer");
       } else {

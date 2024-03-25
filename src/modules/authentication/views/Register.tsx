@@ -17,7 +17,6 @@ import RegisterForm from "../components/Forms/RegisterForm";
 import AuthLayout from "../components/Layout";
 
 import { GOOGLE_REDIRECT_URI, GITHUB_CLIENT_ID } from "@/config";
-import { PROMISE_STATUS } from "@/types/common.type";
 
 const Register: React.FC = () => {
   const handleSuccess = useGoogleLoginSuccess();
@@ -28,7 +27,9 @@ const Register: React.FC = () => {
   const email = useInput(ValidationType.IS_EMAIL_VALID, {
     isCheckEmailExist: true,
   });
-  const username = useInput(ValidationType.REQUIRED);
+  const username = useInput(ValidationType.REQUIRED, {
+    maxLength: 30,
+  });
   const password = useInput(ValidationType.IS_PASSWORD_VALID);
   const cfmPassword = useInput(ValidationType.IS_PASSWORD_MATCH, {
     password: password.value,
@@ -90,12 +91,9 @@ const Register: React.FC = () => {
             password: password.value,
             confirmPassword: cfmPassword.value,
           })
-        );
+        ).unwrap();
 
-        if (
-          response &&
-          response.meta.requestStatus === PROMISE_STATUS.FULFILLED
-        ) {
+        if (response) {
           dispatch(setSignupSuccess());
           email.resetValue();
           username.resetValue();

@@ -19,7 +19,7 @@ const handleResponse = (response: AxiosResponse) => {
 };
 
 const handleFailedResponse = (error: any) => {
-  throw error?.response.data;
+  return Promise.reject(error?.response.data);
 };
 
 // Create html client - axios client

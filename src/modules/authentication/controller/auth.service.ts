@@ -16,32 +16,32 @@ import {
 
 namespace AuthAPI {
   export const login = (params: ILoginRequestParam) => {
-    const url = "/user/login";
+    const url = "/auth/signin";
     const requestBody = JSON.stringify(params);
 
     return axiosClient.post<ILoginResponseParam>(url, requestBody);
   };
 
   export const signup = (params: ISignUpRequestParam) => {
-    const url = "/user/signup";
+    const url = "/auth/signup";
     const requestBody = JSON.stringify(params);
     return axiosClient.post<ISignupResponseParam>(url, requestBody);
   };
 
   export const loginWithGoogle = (params: ILoginWithGoogleRequestParam) => {
-    const url = "/user/google";
+    const url = "/auth/google";
     const requestBody = JSON.stringify({ authCode: params.authCode });
     return axiosClient.post<ILoginWithGoogleResponseParam>(url, requestBody);
   };
 
   export const verifyToken = (params: IVerifyTokenRequestParam) => {
-    const url = "/user/verify-token";
+    const url = "/auth/verify-token";
     const requestBody = JSON.stringify({ token: params.token });
     return axiosClient.post<IVerifyTokenResponseParam>(url, requestBody);
   };
 
   export const verifyEmail = (params: IVerifyEmailRequestParam) => {
-    const url = "/user/verify-email";
+    const url = "/auth/verify-email";
     const requestBody = JSON.stringify({ email: params.email });
     return axiosClient.post<IVerifyEmailResponseParam>(url, requestBody);
   };
