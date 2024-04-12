@@ -32,19 +32,10 @@ const Login: React.FC = () => {
 
   const handleSuccess = useGoogleLoginSuccess();
 
-  useEffect(() => {
-    dispatch(setIdleStatusLogin());
-    dispatch(setIdleStatusSignup());
-
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const codeParam = urlParams.get("code");
-  }, [dispatch]);
-
   const email = useInput(ValidationType.IS_EMAIL_VALID);
   const password = useInput(ValidationType.IS_PASSWORD_VALID);
 
-  const handleGitHubLogin = useCallback(() => {
+  const handleGitHubLogin = useCallback(async () => {
     localStorage.setItem("loginWith", "GitHub");
     window.location.assign(
       `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}`
@@ -84,15 +75,14 @@ const Login: React.FC = () => {
           })
         ).unwrap();
 
-        console.log(response)
         if (response) {
           document.cookie = `access_token=${
-            response.data.token
+            response.token
           }; expires= ${new Date(
             new Date().getTime() + 3599 * 1000
           ).toUTCString()}`;
           document.cookie = `user_id=${
-            response.data.user.id
+            response.user.id
           }; expires= ${new Date(
             new Date().getTime() + 3599 * 1000
           ).toUTCString()}`;
@@ -100,9 +90,9 @@ const Login: React.FC = () => {
           dispatch(setLoginSuccess());
 
           socketClient.connect({
-            token: response.data.token,
+            token: response.token,
           });
-          dispatch(setAuthenticated(response.data.user));
+          dispatch(setAuthenticated(response.user));
           dispatch(availableToTransfer());
           navigate("/transfer");
         }
@@ -114,6 +104,11 @@ const Login: React.FC = () => {
     },
     [email, password]
   );
+
+  useEffect(() => {
+    dispatch(setIdleStatusLogin());
+    dispatch(setIdleStatusSignup());
+  }, [dispatch]);
 
   return (
     <AuthLayout>

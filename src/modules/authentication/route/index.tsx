@@ -1,11 +1,18 @@
 import { lazy } from "react";
 import { RouteObject } from "react-router-dom";
 
-const Login = lazy(() => import("@/modules/authentication/views/Login"))
-const Register = lazy(() => import("@/modules/authentication/views/Register"))
-const ResetPass = lazy(() => import("@/modules/authentication/views/ResetPass"))
-const NewPass = lazy(() => import("@/modules/authentication/views/NewPass"))
-const ResetToken = lazy(() => import("@/modules/authentication/views/ResetToken"))
+const Login = lazy(() => import("@/modules/authentication/views/Login"));
+const Register = lazy(() => import("@/modules/authentication/views/Register"));
+const ResetPass = lazy(
+  () => import("@/modules/authentication/views/ResetPass")
+);
+const NewPass = lazy(() => import("@/modules/authentication/views/NewPass"));
+const ResetToken = lazy(
+  () => import("@/modules/authentication/views/ResetToken")
+);
+const GitHubAuth = lazy(
+  () => import("@/modules/authentication/views/GitHubAuth")
+);
 
 export const authRoutes: RouteObject[] = [
   {
@@ -27,5 +34,9 @@ export const authRoutes: RouteObject[] = [
   {
     path: "/auth/reset-token",
     element: <ResetToken />,
+  },
+  {
+    path: "/auth/login/github",
+    element: <GitHubAuth />,
   },
 ];

@@ -14,15 +14,18 @@ export interface ISignUpRequestParam {
 
 // login with google request param
 export interface ILoginWithGoogleRequestParam {
-  authCode: string
+  authCode: string;
 }
+
+export interface ILoginWithGitHubRequestParam
+  extends ILoginWithGoogleRequestParam {}
 
 // verify token request param
 export interface IVerifyTokenRequestParam {
-  token: string
+  token: string;
 }
 
 // verify email request param
 export interface IVerifyEmailRequestParam {
-  email: string
+  email: string;
 }

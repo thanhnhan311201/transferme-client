@@ -1,24 +1,30 @@
 // common response param
 export interface ICommonResponse {
   statusCode: string;
-  message: string;
 }
 
 // signup response param
+// export interface ISignupResponseParam {
+//   statusCode: string;
+//   data: {
+//     user: { email: string; username: string; id: string; picture: string };
+//   };
+// }
 export interface ISignupResponseParam {
-  statusCode: string;
-  data: {
-    user: { email: string; username: string; id: string; picture: string };
-  };
+  user: { email: string; username: string; id: string; picture: string };
 }
 
 // login response param
+// export interface ILoginResponseParam {
+//   statusCode: string;
+//   data: {
+//     token: string;
+//     user: { email: string; name: string; id: string; picture: string };
+//   };
+// }
 export interface ILoginResponseParam {
-  statusCode: string;
-  data: {
-    token: string;
-    user: { email: string; name: string; id: string; picture: string };
-  };
+  token: string;
+  user: { email: string; name: string; id: string; picture: string };
 }
 
 // login with google response param

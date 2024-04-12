@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { CodeResponse } from "@react-oauth/google";
 
 import { useAppDispatch } from "@/states";
-import { setAuthenticated } from "../controller/auth.slice";
+import { setAuthenticated, setLoginFail } from "../controller/auth.slice";
 import socketClient from "@/socket";
 import { availableToTransfer } from "@/modules/transfer/controller/transfer.slice";
 import { loginWithGoogle } from "../controller/auth.action";
@@ -27,33 +27,35 @@ const useGoogleLoginSuccess = () => {
         loginWithGoogle({ authCode: codeResponse.code })
       ).unwrap();
 
+      console.log(response)
       if (response) {
         document.cookie = `access_token=${
-          response.data.token
+          response.token
         }; expires= ${new Date(
           new Date().getTime() + TOKEN_EXPIRATION_TIME * 1000
         ).toUTCString()}`;
         document.cookie = `user_id=${
-          response.data.user.id
+          response.user.id
         }; expires= ${new Date(
           new Date().getTime() + TOKEN_EXPIRATION_TIME * 1000
         ).toUTCString()}`;
         dispatch(
           setAuthenticated({
-            id: response.data.user.id,
-            email: response.data.user.email,
-            name: response.data.user.name,
-            picture: response.data.user.picture,
+            id: response.user.id,
+            email: response.user.email,
+            name: response.user.name,
+            picture: response.user.picture,
           })
         );
         dispatch(availableToTransfer());
         socketClient.connect({
-          token: response.data.token,
+          token: response.token,
         });
         navigate("/transfer");
       }
     } catch (error) {
       console.log(error);
+      dispatch(setLoginFail());
     }
   };
 };

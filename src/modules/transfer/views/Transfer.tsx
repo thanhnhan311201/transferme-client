@@ -25,6 +25,7 @@ const Transfer: React.FC = () => {
 
   const [userNavRef, userHeaderRef] = useOutsideRef(() => {
     setShowUserNav(false);
+    
   });
 
   const handleShowUserNav = useCallback(() => {

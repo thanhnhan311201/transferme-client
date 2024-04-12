@@ -1,6 +1,7 @@
 import axiosClient from "@/api/axiosClient";
 import {
   ILoginRequestParam,
+  ILoginWithGitHubRequestParam,
   ILoginWithGoogleRequestParam,
   ISignUpRequestParam,
   IVerifyEmailRequestParam,
@@ -12,6 +13,7 @@ import {
   ILoginResponseParam,
   IVerifyEmailResponseParam,
   IVerifyTokenResponseParam,
+  ICommonResponse,
 } from "../types/responseParam.interface";
 
 namespace AuthAPI {
@@ -29,7 +31,7 @@ namespace AuthAPI {
   };
 
   export const loginWithGoogle = (params: ILoginWithGoogleRequestParam) => {
-    const url = "/auth/google";
+    const url = "/auth/google-login";
     const requestBody = JSON.stringify({ authCode: params.authCode });
     return axiosClient.post<ILoginWithGoogleResponseParam>(url, requestBody);
   };
@@ -44,6 +46,12 @@ namespace AuthAPI {
     const url = "/auth/verify-email";
     const requestBody = JSON.stringify({ email: params.email });
     return axiosClient.post<IVerifyEmailResponseParam>(url, requestBody);
+  };
+
+  export const loginWithGithub = (params: ILoginWithGitHubRequestParam) => {
+    const url = "/auth/github";
+    const requestBody = JSON.stringify({ authCode: params.authCode });
+    return axiosClient.post<ICommonResponse>(url, requestBody);
   };
 }
 

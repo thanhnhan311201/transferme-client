@@ -4,6 +4,7 @@ import AuthAPI from "./auth.service";
 
 import {
   ILoginRequestParam,
+  ILoginWithGitHubRequestParam,
   ILoginWithGoogleRequestParam,
   ISignUpRequestParam,
   IVerifyEmailRequestParam,
@@ -53,6 +54,15 @@ export const verifyEmail = createAsyncThunk(
   SLICE_NAME + "/verify-email",
   async (params: IVerifyEmailRequestParam) => {
     const response = await AuthAPI.verifyEmail(params);
+    return response.data;
+  }
+);
+
+// action login with github
+export const loginWithGithub = createAsyncThunk(
+  SLICE_NAME + "/login-with-github",
+  async (params: ILoginWithGitHubRequestParam) => {
+    const response = await AuthAPI.loginWithGithub(params);
     return response.data;
   }
 );

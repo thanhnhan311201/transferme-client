@@ -38,10 +38,10 @@ const useAutoLogin = () => {
           return dispatch(setUnauthenticated());
         }
 
-        dispatch(setAuthenticated(response.data.user));
+        dispatch(setAuthenticated(response.user));
         dispatch(availableToTransfer());
         socketClient.connect({
-          token: response.data.token,
+          token: response.token,
         });
         navigate("/transfer");
       } else {

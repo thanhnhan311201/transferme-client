@@ -45,6 +45,7 @@ const Register: React.FC = () => {
     window.location.assign(
       `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}`
     );
+    console.log('okeeeeee')
   }, []);
 
   const handleGoogleLogin = useGoogleLogin({
