@@ -17,7 +17,7 @@ import TransferError from "./TransferError";
 
 import socketClient from "@/socket";
 import { availableToTransfer } from "../../controller/transfer.slice";
-import { useAppDispatch, useAppSelector } from "@/states";
+import { useAppDispatch, useAppSelector } from "@/store";
 
 import fileInstance from "../../utils/cache-file";
 import receiverInstance from "../../utils/receiver-instance";

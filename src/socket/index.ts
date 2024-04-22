@@ -1,6 +1,6 @@
 import io, { type Socket } from "socket.io-client";
 
-import { dispatch } from "../states";
+import { dispatch } from "../store";
 import { socketActions } from "./slice.socket";
 import { transfering, availableToTransfer } from "@/modules/transfer/controller/transfer.slice";
 import { setUnauthenticated } from "@/modules/authentication/controller/auth.slice";
@@ -8,6 +8,7 @@ import transferEventListener from "./transfer.listener.socket";
 
 import { BASE_URL_SERVER } from "@/config";
 import { SOCKET_EVENTS } from "./config.socket";
+import { removeCredentialToken } from "@/modules/authentication/utils";
 
 class SocketClient {
   private _socket: Socket | null = null;
@@ -27,13 +28,7 @@ class SocketClient {
     this._socket.on("connect_error", (error) => {
       console.log(error);
 
-      document.cookie = `access_token= ; expires= ${new Date(
-        new Date().getTime()
-      ).toUTCString()}`;
-      document.cookie = `user_id= ; expires= ${new Date(
-        new Date().getTime()
-      ).toUTCString()}`;
-
+      removeCredentialToken()
       dispatch(socketActions.setDevices([]));
       dispatch(setUnauthenticated());
     });
@@ -46,13 +41,7 @@ class SocketClient {
     });
 
     this._socket.on("disconnect", (reason) => {
-      document.cookie = `access_token= ; expires= ${new Date(
-        new Date().getTime()
-      ).toUTCString()}`;
-      document.cookie = `user_id= ; expires= ${new Date(
-        new Date().getTime()
-      ).toUTCString()}`;
-
+      removeCredentialToken()
       this._socket = null;
       dispatch(socketActions.setDevices([]));
       dispatch(setUnauthenticated());

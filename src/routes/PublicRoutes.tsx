@@ -1,16 +1,15 @@
-import { Suspense } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 
 import { homeRoutes } from "@/modules/home/route";
 import { authRoutes } from "@/modules/authentication/route";
 
-import Loading from "@/components/Loading";
+import AppContainer from "@/components/AppContainer";
 
 const PublicRoutes: React.FC = () => {
   const publicRoutes = [...homeRoutes, ...authRoutes];
 
   return (
-    <Suspense fallback={<Loading loading={true} />}>
+    <AppContainer>
       <Routes>
         {Array.isArray(publicRoutes) &&
           publicRoutes.map((route) => (
@@ -18,7 +17,7 @@ const PublicRoutes: React.FC = () => {
           ))}
         <Route path="*" element={<Navigate to={"/"} />} />
       </Routes>
-    </Suspense>
+    </AppContainer>
   );
 };
 

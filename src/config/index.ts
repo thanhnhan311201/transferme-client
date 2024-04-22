@@ -20,8 +20,16 @@ export {
 
 export { CLIENT_ID as GITHUB_CLIENT_ID } from "./constants/github";
 
+export {
+  APP_ID as FB_APP_ID,
+  SDK_VERSION as FB_SDK_VERSION,
+} from "./constants/facebook";
+
 export { type IUserInfo } from "./interface";
 
-export const TOKEN_EXPIRATION_TIME = Number(
-  import.meta.env.VITE_TOKEN_EXPIRATION_TIME as string
+export const ACCESS_TOKEN_EXPIRATION_TIME = parseInt(
+  import.meta.env.VITE_ACCESS_TOKEN_EXPIRATION_TIME as string
+);
+export const REFRESH_TOKEN_EXPIRATION_TIME = parseInt(
+  import.meta.env.VITE_REFRESH_TOKEN_EXPIRATION_TIME as string
 );

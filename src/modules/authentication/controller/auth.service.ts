@@ -1,57 +1,60 @@
 import axiosClient from "@/api/axiosClient";
 import {
-  ILoginRequestParam,
-  ILoginWithGitHubRequestParam,
-  ILoginWithGoogleRequestParam,
+  ISigninRequestParam,
+  ISigninWithFacebookRequestParam,
+  ISigninWithGitHubRequestParam,
+  ISigninWithGoogleRequestParam,
   ISignUpRequestParam,
   IVerifyEmailRequestParam,
   IVerifyTokenRequestParam,
 } from "../types/requestParam.interface";
 import {
   ISignupResponseParam,
-  ILoginWithGoogleResponseParam,
-  ILoginResponseParam,
+  ISigninWithGoogleResponseParam,
+  ISigninResponseParam,
   IVerifyEmailResponseParam,
   IVerifyTokenResponseParam,
   ICommonResponse,
+  ISigninWithGitHubResponseParam,
+  ISigninWithFacebookResponseParam,
 } from "../types/responseParam.interface";
 
 namespace AuthAPI {
-  export const login = (params: ILoginRequestParam) => {
+  export const siginin = (params: ISigninRequestParam) => {
     const url = "/auth/signin";
-    const requestBody = JSON.stringify(params);
-
-    return axiosClient.post<ILoginResponseParam>(url, requestBody);
+    return axiosClient.post<any, ISigninResponseParam>(url, params);
   };
 
   export const signup = (params: ISignUpRequestParam) => {
     const url = "/auth/signup";
-    const requestBody = JSON.stringify(params);
-    return axiosClient.post<ISignupResponseParam>(url, requestBody);
+    return axiosClient.post<any, ISignupResponseParam>(url, params);
   };
 
-  export const loginWithGoogle = (params: ILoginWithGoogleRequestParam) => {
-    const url = "/auth/google-login";
-    const requestBody = JSON.stringify({ authCode: params.authCode });
-    return axiosClient.post<ILoginWithGoogleResponseParam>(url, requestBody);
+  export const signinWithGoogle = (params: ISigninWithGoogleRequestParam) => {
+    const url = "/auth/google";
+    return axiosClient.post<any, ISigninWithGoogleResponseParam>(url, params);
   };
 
   export const verifyToken = (params: IVerifyTokenRequestParam) => {
     const url = "/auth/verify-token";
-    const requestBody = JSON.stringify({ token: params.token });
-    return axiosClient.post<IVerifyTokenResponseParam>(url, requestBody);
+    return axiosClient.post<any, IVerifyTokenResponseParam>(url, params);
   };
 
   export const verifyEmail = (params: IVerifyEmailRequestParam) => {
     const url = "/auth/verify-email";
-    const requestBody = JSON.stringify({ email: params.email });
-    return axiosClient.post<IVerifyEmailResponseParam>(url, requestBody);
+    return axiosClient.post<any, IVerifyEmailResponseParam>(url, params);
   };
 
-  export const loginWithGithub = (params: ILoginWithGitHubRequestParam) => {
+  export const signinWithGithub = (params: ISigninWithGitHubRequestParam) => {
     const url = "/auth/github";
-    const requestBody = JSON.stringify({ authCode: params.authCode });
-    return axiosClient.post<ICommonResponse>(url, requestBody);
+    return axiosClient.post<any, ISigninWithGitHubResponseParam>(url, params);
+  };
+
+  export const signinWithFacebook = (
+    params: ISigninWithFacebookRequestParam
+  ) => {
+    const url = "/auth/facebook";
+    return axiosClient.post<any, ISigninWithFacebookResponseParam>(url, params);
   };
 }
 

@@ -1,15 +1,14 @@
-import { Suspense } from 'react'
 import { Routes, Route, Navigate } from "react-router";
 
 import { transferRoutes } from "@/modules/transfer/route";
 
-import Loading from '@/components/Loading';
+import AppContainer from "@/components/AppContainer";
 
 const ProtectedRoutes: React.FC = () => {
   const protectedRoutes = [...transferRoutes];
 
   return (
-    <Suspense fallback={<Loading loading={true} />}>
+    <AppContainer>
       <Routes>
         {Array.isArray(protectedRoutes) &&
           protectedRoutes.map((route) => (
@@ -17,7 +16,7 @@ const ProtectedRoutes: React.FC = () => {
           ))}
         <Route path="*" element={<Navigate to={"/transfer"} />} />
       </Routes>
-    </Suspense>
+    </AppContainer>
   );
 };
 

@@ -18,3 +18,15 @@ export const formatFileSize = (size: number) => {
   return `${size} B`;
 };
 
+export const getCookieValue = (key: string) => {
+  if (!key) {
+    return
+  }
+
+  const allCookies: string[] = document.cookie.split(";");
+  const value: string | undefined = allCookies.find((cookie) =>
+    cookie.trim().startsWith(key)
+  );
+
+  return value;
+};

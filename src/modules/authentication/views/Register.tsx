@@ -1,27 +1,27 @@
 import { useCallback, useEffect } from "react";
 
-import { useGoogleLogin } from "@react-oauth/google";
+import { toast } from "react-toastify";
+import { isEmpty } from "lodash";
 
-import { useAppDispatch, useAppSelector } from "@/states";
-import { useGoogleLoginSuccess, useInput, ValidationType } from "../hooks";
-import {
-  setIdleStatusLogin,
-  setIdleStatusSignup,
-  processSignup,
-  setSignupSuccess,
-  setSignupFail,
-} from "../controller/auth.slice";
-import { signup } from "../controller/auth.action";
+import { useAppDispatch } from "@/store";
+import { useInput, ValidationType } from "../hooks";
+import { useSignupMutation } from "../controller/auth.query";
 
 import RegisterForm from "../components/Forms/RegisterForm";
 import AuthLayout from "../components/Layout";
 
-import { GOOGLE_REDIRECT_URI, GITHUB_CLIENT_ID } from "@/config";
-
 const Register: React.FC = () => {
-  const handleSuccess = useGoogleLoginSuccess();
+  const [
+    signup,
+    {
+      data: signupResponse,
+      isError: isSignupFail,
+      isLoading: isSignupLoading,
+      isSuccess: isSignupSuccessful,
+      error: signupError,
+    },
+  ] = useSignupMutation();
 
-  const { signupStatus } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
 
   const email = useInput(ValidationType.IS_EMAIL_VALID, {
@@ -33,26 +33,6 @@ const Register: React.FC = () => {
   const password = useInput(ValidationType.IS_PASSWORD_VALID);
   const cfmPassword = useInput(ValidationType.IS_PASSWORD_MATCH, {
     password: password.value,
-  });
-
-  useEffect(() => {
-    dispatch(setIdleStatusLogin());
-    dispatch(setIdleStatusSignup());
-  }, [dispatch]);
-
-  const handleGitHubLogin = useCallback(() => {
-    localStorage.setItem("loginWith", "GitHub");
-    window.location.assign(
-      `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}`
-    );
-    console.log('okeeeeee')
-  }, []);
-
-  const handleGoogleLogin = useGoogleLogin({
-    onSuccess: handleSuccess,
-    onError: (error) => console.log("Login Failed:", error),
-    flow: "auth-code",
-    redirect_uri: GOOGLE_REDIRECT_URI,
   });
 
   const handleSignup = useCallback(
@@ -83,30 +63,43 @@ const Register: React.FC = () => {
           return;
         }
 
-        dispatch(processSignup());
-
-        const response = await dispatch(
-          signup({
-            email: email.value,
-            username: username.value,
-            password: password.value,
-            confirmPassword: cfmPassword.value,
-          })
-        ).unwrap();
-
-        if (response) {
-          dispatch(setSignupSuccess());
-          email.resetValue();
-          username.resetValue();
-          password.resetValue();
-          cfmPassword.resetValue();
-        }
+        signup({
+          username: username.value,
+          email: email.value,
+          password: password.value,
+          confirmPassword: cfmPassword.value,
+        });
       } catch (error: any) {
-        dispatch(setSignupFail());
+        email.inputRef.current!.focus();
+        toast.error(
+          error?.message ||
+            "There was an error during your account creation. Please double check input fields and try again."
+        );
       }
     },
     [email, username, password, cfmPassword]
   );
+
+  useEffect(() => {
+    if ((!isEmpty(signupError) || isSignupFail) && !signupResponse) {
+      email.inputRef.current!.focus();
+      toast.error(
+        (signupError as Error)?.message ||
+          "There was an error during your account creation. Please double check input fields and try again."
+      );
+    }
+    if (isSignupSuccessful) {
+      if (signupResponse) {
+        email.resetValue();
+        username.resetValue();
+        password.resetValue();
+        cfmPassword.resetValue();
+        toast.success(
+          "Your account has been successfully created. Please go to login page!"
+        );
+      }
+    }
+  }, [isSignupFail, isSignupSuccessful, signupError, signupResponse]);
 
   return (
     <AuthLayout>
@@ -116,9 +109,7 @@ const Register: React.FC = () => {
         password={password}
         confirmPassword={cfmPassword}
         onSignup={handleSignup}
-        onGoogleLogin={handleGoogleLogin}
-        onGitHubLogin={handleGitHubLogin}
-        signupStatus={signupStatus}
+        isSignupStatusLoading={isSignupLoading}
       />
     </AuthLayout>
   );

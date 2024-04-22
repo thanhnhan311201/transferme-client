@@ -4,20 +4,21 @@ import PublicRoutes from "./routes/PublicRoutes";
 import ProtectedRoutes from "./routes/ProtectedRoutes";
 
 // import socketClient from "./socket";
-import { useAppSelector } from "./states";
+import { useAppSelector } from "./store";
 
-import { AUTHENTICATION_STATUS } from "./modules/authentication/utils/auth.constant";
-import { useAutoLogin } from "./modules/authentication/hooks";
+import { AUTHENTICATION_STATUS } from "./modules/authentication/utils";
+import { useAutoSignin } from "./modules/authentication/hooks";
 
 import Loading from "./components/Loading";
+import { initFacebookSdk } from "./utils/facebookSDK";
 
 function App() {
   const { authStatus } = useAppSelector((state) => state.auth);
 
-  const autoLogin = useAutoLogin();
+  const autoSignin = useAutoSignin();
 
   useEffect(() => {
-    autoLogin();
+    autoSignin();
   }, []);
 
   // useEffect(() => {
@@ -30,6 +31,10 @@ function App() {
   //     window.removeEventListener("beforeunload", handleCloseTab);
   //   };
   // }, []);
+
+  useEffect(() => {
+    initFacebookSdk();
+  }, []);
 
   switch (authStatus) {
     case AUTHENTICATION_STATUS.UNAUTHENTICATE:

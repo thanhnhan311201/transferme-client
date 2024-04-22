@@ -1,37 +1,31 @@
 // common response param
 export interface ICommonResponse {
-  statusCode: string;
+  status: string;
 }
 
 // signup response param
-// export interface ISignupResponseParam {
-//   statusCode: string;
-//   data: {
-//     user: { email: string; username: string; id: string; picture: string };
-//   };
-// }
-export interface ISignupResponseParam {
-  user: { email: string; username: string; id: string; picture: string };
+export interface ISignupResponseParam extends ICommonResponse {}
+
+// signin response param
+export interface ISigninResponseParam {
+  status: string;
+  data: {
+    accessToken: string;
+    refreshToken: string;
+  };
 }
 
-// login response param
-// export interface ILoginResponseParam {
-//   statusCode: string;
-//   data: {
-//     token: string;
-//     user: { email: string; name: string; id: string; picture: string };
-//   };
-// }
-export interface ILoginResponseParam {
-  token: string;
-  user: { email: string; name: string; id: string; picture: string };
-}
+// signin with google response param
+export interface ISigninWithGoogleResponseParam extends ISigninResponseParam {}
 
-// login with google response param
-export interface ILoginWithGoogleResponseParam extends ILoginResponseParam {}
+// signin with github response param
+export interface ISigninWithGitHubResponseParam extends ISigninResponseParam {}
+
+// signin with facebook response param
+export interface ISigninWithFacebookResponseParam extends ISigninResponseParam {}
 
 // verify token response param
-export interface IVerifyTokenResponseParam extends ILoginResponseParam {}
+export interface IVerifyTokenResponseParam extends ISigninResponseParam {}
 
 // verify email response param
-export interface IVerifyEmailResponseParam extends ILoginResponseParam {}
+export interface IVerifyEmailResponseParam extends ISigninResponseParam {}

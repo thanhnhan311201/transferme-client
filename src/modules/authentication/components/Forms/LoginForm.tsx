@@ -4,21 +4,19 @@ import { motion } from "framer-motion";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import { Button, Divider } from "@mui/material";
-import { FcGoogle } from "react-icons/fc";
-import { BsGithub } from "react-icons/bs";
-import { IconContext } from "react-icons";
 import CircularProgress from "@mui/material/CircularProgress";
 
-import { LOGIN_STATUS } from "../../utils/auth.constant";
 import { type IUserInputResult } from "../../hooks";
+
+import FacebookSigninButton from "@/components/Buttons/FacebookSigninButton";
+import GitHubSigninButton from "@/components/Buttons/GitHubSigninButton";
+import GoogleSigninButton from "@/components/Buttons/GoogleSigninButton";
 
 const LoginForm: React.FC<{
   email: IUserInputResult;
   password: IUserInputResult;
-  onGoogleLogin: () => void;
-  onGitHubLogin: () => void;
   onLogin: (e: React.FormEvent<HTMLFormElement>) => void;
-  loginStatus: LOGIN_STATUS;
+  isLoginStatusLoading: boolean;
 }> = (props) => {
   return (
     <motion.div
@@ -37,9 +35,7 @@ const LoginForm: React.FC<{
             <p className="text-xs">Transfering faster than your love with ex</p>
           </div>
           <div className="flex">
-            {props.loginStatus === LOGIN_STATUS.PROCESS_LOGIN && (
-              <CircularProgress />
-            )}
+            {props.isLoginStatusLoading && <CircularProgress />}
           </div>
         </div>
         <div className="mb-4">
@@ -129,51 +125,9 @@ const LoginForm: React.FC<{
             gap: ".75rem",
           }}
         >
-          <Button
-            onClick={() => props.onGoogleLogin()}
-            variant="outlined"
-            sx={{
-              textTransform: "none",
-              borderRadius: "24px",
-              height: "3.5rem",
-            }}
-          >
-            <IconContext.Provider
-              value={{
-                style: {
-                  verticalAlign: "middle",
-                  width: "1.5rem",
-                  height: "1.5rem",
-                  marginRight: "0.5rem",
-                },
-              }}
-            >
-              <FcGoogle /> Sign in with Google
-            </IconContext.Provider>
-          </Button>
-          <Button
-            onClick={() => props.onGitHubLogin()}
-            variant="outlined"
-            sx={{
-              textTransform: "none",
-              borderRadius: "24px",
-              height: "3.5rem",
-            }}
-          >
-            <IconContext.Provider
-              value={{
-                style: {
-                  verticalAlign: "middle",
-                  width: "1.5rem",
-                  height: "1.5rem",
-                  marginRight: "0.5rem",
-                  color: "black",
-                },
-              }}
-            >
-              <BsGithub /> Sign in with GitHub
-            </IconContext.Provider>
-          </Button>
+          <GoogleSigninButton />
+          <FacebookSigninButton />
+          <GitHubSigninButton />
         </Box>
       </form>
       <p className="text-center text-base">

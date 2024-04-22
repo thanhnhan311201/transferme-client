@@ -1,53 +1,39 @@
 import { useCallback, useEffect } from "react";
-import { useGoogleLogin } from "@react-oauth/google";
 import { useNavigate } from "react-router-dom";
-import socketClient from "@/socket";
 
-import { useAppSelector, useAppDispatch } from "@/states";
+import { toast } from "react-toastify";
+import { isEmpty } from "lodash";
+
+import socketClient from "@/socket";
+import { useAppDispatch } from "@/store";
 import { availableToTransfer } from "@/modules/transfer/controller/transfer.slice";
-import { login } from "../controller/auth.action";
-import { useGoogleLoginSuccess } from "../hooks";
 import { useInput } from "../hooks";
 import { ValidationType } from "../hooks";
-import {
-  setIdleStatusLogin,
-  setIdleStatusSignup,
-  processLogin,
-  setLoginSuccess,
-  setLoginFail,
-  setAuthenticated,
-} from "../controller/auth.slice";
+import { setAuthenticated } from "../controller/auth.slice";
+import { useSigninMutation } from "../controller/auth.query";
 
 import LoginForm from "../components/Forms/LoginForm";
 import AuthLayout from "../components/Layout";
 
-import { GOOGLE_REDIRECT_URI, GITHUB_CLIENT_ID } from "@/config";
-import { PROMISE_STATUS } from "@/types/common.type";
-import { ILoginResponseParam } from "../types/responseParam.interface";
+import { updateCredentialTokens } from "../utils";
 
 const Login: React.FC = () => {
-  const { loginStatus } = useAppSelector((state) => state.auth);
+  const [
+    signin,
+    {
+      data: signinResponse,
+      isError: isSigninFail,
+      isLoading: isSigninLoading,
+      isSuccess: isSigninSuccessful,
+      error: signInError,
+    },
+  ] = useSigninMutation();
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const handleSuccess = useGoogleLoginSuccess();
-
   const email = useInput(ValidationType.IS_EMAIL_VALID);
   const password = useInput(ValidationType.IS_PASSWORD_VALID);
-
-  const handleGitHubLogin = useCallback(async () => {
-    localStorage.setItem("loginWith", "GitHub");
-    window.location.assign(
-      `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}`
-    );
-  }, []);
-
-  const handleGoogleLogin = useGoogleLogin({
-    onSuccess: handleSuccess,
-    onError: (error) => console.log("Login Failed:", error),
-    flow: "auth-code",
-    redirect_uri: GOOGLE_REDIRECT_URI,
-  });
 
   const handleLogin = useCallback(
     async (e: React.FormEvent<HTMLFormElement>) => {
@@ -66,59 +52,56 @@ const Login: React.FC = () => {
           return;
         }
 
-        dispatch(processLogin());
-
-        const response = await dispatch(
-          login({
-            email: email.value,
-            password: password.value,
-          })
-        ).unwrap();
-
-        if (response) {
-          document.cookie = `access_token=${
-            response.token
-          }; expires= ${new Date(
-            new Date().getTime() + 3599 * 1000
-          ).toUTCString()}`;
-          document.cookie = `user_id=${
-            response.user.id
-          }; expires= ${new Date(
-            new Date().getTime() + 3599 * 1000
-          ).toUTCString()}`;
-
-          dispatch(setLoginSuccess());
-
-          socketClient.connect({
-            token: response.token,
-          });
-          dispatch(setAuthenticated(response.user));
-          dispatch(availableToTransfer());
-          navigate("/transfer");
-        }
-      } catch (error) {
-        console.log(error)
+        signin({ email: email.value, password: password.value });
+      } catch (error: any) {
         email.inputRef.current!.focus();
-        dispatch(setLoginFail());
+        toast.error(
+          error?.message ||
+            "There was an error during login. Please double check your email or password and try again."
+        );
       }
     },
     [email, password]
   );
 
   useEffect(() => {
-    dispatch(setIdleStatusLogin());
-    dispatch(setIdleStatusSignup());
-  }, [dispatch]);
+    if ((!isEmpty(signInError) || isSigninFail) && !signinResponse) {
+      email.inputRef.current!.focus();
+      toast.error(
+        (signInError as Error)?.message ||
+          "There was an error during login. Please double check your email or password and try again."
+      );
+    }
+    if (isSigninSuccessful) {
+      if (signinResponse) {
+        updateCredentialTokens(
+          signinResponse.data.accessToken,
+          signinResponse.data.refreshToken
+        );
+        socketClient.connect({
+          token: signinResponse.data.accessToken,
+        });
+        dispatch(setAuthenticated());
+        dispatch(availableToTransfer());
+        navigate("/transfer");
+      }
+    }
+  }, [
+    isSigninFail,
+    isSigninSuccessful,
+    signInError,
+    signinResponse,
+    dispatch,
+    navigate,
+  ]);
 
   return (
     <AuthLayout>
       <LoginForm
         email={email}
         password={password}
-        onGoogleLogin={handleGoogleLogin}
-        onGitHubLogin={handleGitHubLogin}
         onLogin={handleLogin}
-        loginStatus={loginStatus}
+        isLoginStatusLoading={isSigninLoading}
       />
     </AuthLayout>
   );

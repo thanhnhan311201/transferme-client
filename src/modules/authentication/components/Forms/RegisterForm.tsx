@@ -6,22 +6,20 @@ import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import { Button, Divider } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
-import { FcGoogle } from "react-icons/fc";
-import { BsGithub } from "react-icons/bs";
-import { IconContext } from "react-icons";
 
-import { SIGNUP_STATUS } from "../../utils/auth.constant";
 import { type IUserInputResult } from "../../hooks";
+
+import GoogleSigninButton from "@/components/Buttons/GoogleSigninButton";
+import FacebookSigninButton from "@/components/Buttons/FacebookSigninButton";
+import GitHubSigninButton from "@/components/Buttons/GitHubSigninButton";
 
 const RegisterForm: React.FC<{
   email: IUserInputResult;
   username: IUserInputResult;
   password: IUserInputResult;
   confirmPassword: IUserInputResult;
-  onGoogleLogin: () => void;
-  onGitHubLogin: () => void;
   onSignup: (e: React.FormEvent<HTMLFormElement>) => void;
-  signupStatus: SIGNUP_STATUS;
+  isSignupStatusLoading: boolean;
 }> = (props) => {
   return (
     <motion.div
@@ -40,9 +38,7 @@ const RegisterForm: React.FC<{
             <p className="text-xs">Transfering faster than your love with ex</p>
           </div>
           <div className="flex">
-            {props.signupStatus === SIGNUP_STATUS.PROCESS_SIGNUP && (
-              <CircularProgress />
-            )}
+            {props.isSignupStatusLoading && <CircularProgress />}
           </div>
         </div>
         <div className="mb-4">
@@ -59,7 +55,9 @@ const RegisterForm: React.FC<{
             variant="outlined"
             placeholder="E.g. TransferMe"
             helperText={
-              props.username.errMessage ? props.username.errMessage : "Username must be letters, numbers and no more than 30 characters."
+              props.username.errMessage
+                ? props.username.errMessage
+                : "Username must be letters, numbers and no more than 30 characters."
             }
             sx={{
               fontSize: "1rem",
@@ -197,51 +195,9 @@ const RegisterForm: React.FC<{
             marginBottom: "1.5rem",
           }}
         >
-          <Button
-            onClick={() => props.onGoogleLogin()}
-            variant="outlined"
-            sx={{
-              textTransform: "none",
-              borderRadius: "24px",
-              height: "3.5rem",
-            }}
-          >
-            <IconContext.Provider
-              value={{
-                style: {
-                  verticalAlign: "middle",
-                  width: "1.5rem",
-                  height: "1.5rem",
-                  marginRight: "0.5rem",
-                },
-              }}
-            >
-              <FcGoogle /> Sign in with Google
-            </IconContext.Provider>
-          </Button>
-          <Button
-            onClick={() => props.onGitHubLogin()}
-            variant="outlined"
-            sx={{
-              textTransform: "none",
-              borderRadius: "24px",
-              height: "3.5rem",
-            }}
-          >
-            <IconContext.Provider
-              value={{
-                style: {
-                  verticalAlign: "middle",
-                  width: "1.5rem",
-                  height: "1.5rem",
-                  marginRight: "0.5rem",
-                  color: "black",
-                },
-              }}
-            >
-              <BsGithub /> Sign in with GitHub
-            </IconContext.Provider>
-          </Button>
+          <GoogleSigninButton />
+          <FacebookSigninButton />
+          <GitHubSigninButton />
         </Box>
         <p className="text-center text-base">
           Already on TransferMe?

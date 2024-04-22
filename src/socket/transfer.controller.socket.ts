@@ -1,5 +1,5 @@
 import socketClient from ".";
-import { dispatch } from "@/states";
+import { dispatch } from "@/store";
 import { socketActions } from "./slice.socket";
 import {
   waitForAccept,

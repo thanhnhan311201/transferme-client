@@ -3,7 +3,7 @@ import socketClient from "@/socket";
 
 import { AnimatePresence, motion } from "framer-motion";
 
-import { useAppDispatch, useAppSelector } from "@/states";
+import { useAppDispatch, useAppSelector } from "@/store";
 import useOutsideRef from "../hooks/useOutsideRef";
 import { setUnauthenticated } from "@/modules/authentication/controller/auth.slice";
 
@@ -13,6 +13,7 @@ import UserNav from "../components/UserNav";
 import ReceivingWindow from "../components/ReceivingWindow";
 
 import { SOCKET_EVENTS } from "@/socket/config.socket";
+import { removeCredentialToken } from "@/modules/authentication/utils";
 
 const Transfer: React.FC = () => {
   const { onlineUsers } = useAppSelector((state) => state.socket);
@@ -33,13 +34,7 @@ const Transfer: React.FC = () => {
   }, []);
 
   const handleLogout = useCallback(() => {
-    document.cookie = `access_token= ; expires= ${new Date(
-      new Date().getTime()
-    ).toUTCString()}`;
-    document.cookie = `user_id= ; expires= ${new Date(
-      new Date().getTime()
-    ).toUTCString()}`;
-
+    removeCredentialToken()
     socketClient.disconnect();
     dispatch(setUnauthenticated());
   }, [dispatch]);

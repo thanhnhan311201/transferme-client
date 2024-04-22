@@ -1,24 +1,38 @@
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+
+import { toast } from "react-toastify";
+import { motion } from "framer-motion";
+import { isEmpty } from "lodash";
 
 import { BsGithub } from "react-icons/bs";
 import Box from "@mui/material/Box";
 import LinearProgress from "@mui/material/LinearProgress";
-import { motion } from "framer-motion";
+import { IconContext } from "react-icons";
 
 import socketClient from "@/socket";
-import { useAppDispatch } from "@/states";
-import {
-  setIdleStatusLogin,
-  setIdleStatusSignup,
-} from "../controller/auth.slice";
+import { useAppDispatch } from "@/store";
+import { useSigninWithGithubMutation } from "../controller/auth.query";
+import { setAuthenticated } from "../controller/auth.slice";
+import { availableToTransfer } from "@/modules/transfer/controller/transfer.slice";
 
 import AuthLayout from "../components/Layout";
-import { IconContext } from "react-icons";
-import { loginWithGithub } from "../controller/auth.action";
+
+import { updateCredentialTokens } from "../utils";
 
 const GitHubAuth: React.FC = () => {
+  const [
+    signinWithGitHub,
+    {
+      data: signinWithGitHubResponse,
+      isError: isSigninWithGitHubFail,
+      isSuccess: isSigninWithGitHubSuccessful,
+      error: signInWithGitHubError,
+    },
+  ] = useSigninWithGithubMutation();
+
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     (async () => {
@@ -28,17 +42,51 @@ const GitHubAuth: React.FC = () => {
         const codeParam = urlParams.get("code");
 
         if (codeParam) {
-          const response = await dispatch(
-            loginWithGithub({
-              authCode: codeParam,
-            })
-          ).unwrap();
-
-          console.log(response);
+          signinWithGitHub({ authCode: codeParam });
+        } else {
+          navigate("/auth/login");
+          toast.error("There was an error during login. Please try again.");
         }
-      } catch (error) {}
+      } catch (error: any) {
+        toast.error(
+          error?.message || "There was an error during login. Please try again."
+        );
+      }
     })();
   }, [dispatch]);
+
+  useEffect(() => {
+    if (
+      (!isEmpty(signInWithGitHubError) || isSigninWithGitHubFail) &&
+      !signinWithGitHubResponse
+    ) {
+      toast.error(
+        (signInWithGitHubError as Error)?.message ||
+          "There was an error during login. Please try again."
+      );
+    }
+    if (isSigninWithGitHubSuccessful) {
+      if (signinWithGitHubResponse) {
+        updateCredentialTokens(
+          signinWithGitHubResponse.data.accessToken,
+          signinWithGitHubResponse.data.refreshToken
+        );
+        socketClient.connect({
+          token: signinWithGitHubResponse.data.accessToken,
+        });
+        dispatch(setAuthenticated());
+        dispatch(availableToTransfer());
+        navigate("/transfer");
+      }
+    }
+  }, [
+    isSigninWithGitHubFail,
+    isSigninWithGitHubSuccessful,
+    signInWithGitHubError,
+    signinWithGitHubResponse,
+    dispatch,
+    navigate,
+  ]);
 
   return (
     <AuthLayout>

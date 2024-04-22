@@ -16,7 +16,7 @@ import {
   availableToTransfer,
   transfering,
 } from "../controller/transfer.slice";
-import { useAppDispatch, useAppSelector } from "@/states";
+import { useAppDispatch, useAppSelector } from "@/store";
 
 import TransferProgressWithLabel from "./Stepper/TransferProgress";
 

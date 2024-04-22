@@ -1,8 +1,7 @@
 import { useCallback, useReducer, useEffect, useRef, useState } from "react";
 
-import { verifyEmail } from "../controller/auth.action";
-
 import { emailRegex } from "@/utils";
+import AuthAPI from "../controller/auth.service";
 
 export enum ValidationType {
   IS_EMAIL_VALID = "IS_EMAIL_VALID",
@@ -193,7 +192,7 @@ const useInput = (validateType: ValidationType, option?: validationOption) => {
     ) {
       const verifyEmailInput = async () => {
         try {
-          const response = await verifyEmail({ email: inputState.value });
+          const response = await AuthAPI.verifyEmail({ email: inputState.value });
         } catch (error: any) {
           if (error.code === 422) {
             setValResult({

@@ -1,5 +1,5 @@
-// login request param
-export interface ILoginRequestParam {
+// signin request param
+export interface ISigninRequestParam {
   email: string;
   password: string;
 }
@@ -12,13 +12,20 @@ export interface ISignUpRequestParam {
   confirmPassword: string;
 }
 
-// login with google request param
-export interface ILoginWithGoogleRequestParam {
+// signin with google request param
+export interface ISigninWithGoogleRequestParam {
   authCode: string;
 }
 
-export interface ILoginWithGitHubRequestParam
-  extends ILoginWithGoogleRequestParam {}
+export interface ISigninWithGitHubRequestParam
+  extends ISigninWithGoogleRequestParam {}
+
+export interface ISigninWithFacebookRequestParam {
+  facebookId: string;
+  email: string;
+  username: string;
+  profilePhoto: string;
+}
 
 // verify token request param
 export interface IVerifyTokenRequestParam {
