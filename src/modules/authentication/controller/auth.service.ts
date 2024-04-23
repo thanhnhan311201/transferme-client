@@ -56,6 +56,11 @@ namespace AuthAPI {
     const url = "/auth/facebook";
     return axiosClient.post<any, ISigninWithFacebookResponseParam>(url, params);
   };
+
+  export const signout = () => {
+    const url = "/auth/signout";
+    return axiosClient.post<any, ICommonResponse>(url);
+  };
 }
 
 export default AuthAPI;

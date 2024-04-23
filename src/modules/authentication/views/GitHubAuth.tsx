@@ -44,7 +44,7 @@ const GitHubAuth: React.FC = () => {
         if (codeParam) {
           signinWithGitHub({ authCode: codeParam });
         } else {
-          navigate("/auth/login");
+          navigate("/auth/signin");
           toast.error("There was an error during login. Please try again.");
         }
       } catch (error: any) {

@@ -19,7 +19,7 @@ const Header = () => {
       <nav className="flex items-center gap-8">
         <Link
           className="text-primary-color inline-block text-xl px-4 py-1 rounded-3xl bg-transparent hover:bg-white"
-          to="/auth/login"
+          to="/auth/signin"
         >
           Sign in
         </Link>

@@ -14,6 +14,7 @@ import ReceivingWindow from "../components/ReceivingWindow";
 
 import { SOCKET_EVENTS } from "@/socket/config.socket";
 import { removeCredentialToken } from "@/modules/authentication/utils";
+import AuthAPI from "@/modules/authentication/controller/auth.service";
 
 const Transfer: React.FC = () => {
   const { onlineUsers } = useAppSelector((state) => state.socket);
@@ -26,15 +27,15 @@ const Transfer: React.FC = () => {
 
   const [userNavRef, userHeaderRef] = useOutsideRef(() => {
     setShowUserNav(false);
-    
   });
 
   const handleShowUserNav = useCallback(() => {
     setShowUserNav((prev) => !prev);
   }, []);
 
-  const handleLogout = useCallback(() => {
-    removeCredentialToken()
+  const handleLogout = useCallback(async () => {
+    await AuthAPI.signout();
+    removeCredentialToken();
     socketClient.disconnect();
     dispatch(setUnauthenticated());
   }, [dispatch]);

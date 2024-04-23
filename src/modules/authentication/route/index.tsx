@@ -16,7 +16,7 @@ const GitHubAuth = lazy(
 
 export const authRoutes: RouteObject[] = [
   {
-    path: "/auth/login",
+    path: "/auth/signin",
     element: <Login />,
   },
   {
@@ -36,7 +36,7 @@ export const authRoutes: RouteObject[] = [
     element: <ResetToken />,
   },
   {
-    path: "/auth/login/github",
+    path: "/auth/signin/github",
     element: <GitHubAuth />,
   },
 ];

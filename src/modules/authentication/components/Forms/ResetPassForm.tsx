@@ -56,7 +56,7 @@ const ResetPassForm: React.FC = () => {
           Reset password
         </Button>
         <Button
-          onClick={() => navigate("/auth/login")}
+          onClick={() => navigate("/auth/signin")}
           variant="text"
           sx={{
             textTransform: "none",

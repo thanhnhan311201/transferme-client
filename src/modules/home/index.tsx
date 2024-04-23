@@ -26,7 +26,7 @@ const Home: React.FC = () => {
                 TransferMe is a simple, fast and secure way to share your data
               </p>
               <Link
-                to="/auth/login"
+                to="/auth/signin"
                 className="bg-gradient-to-br from-primary-color--tint-8 to-primary-color--shade inline-block text-white text-xl px-8 py-4 rounded-lg font-medium cursor-pointer"
               >
                 Start transfering

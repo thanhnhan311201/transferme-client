@@ -201,7 +201,7 @@ const RegisterForm: React.FC<{
         </Box>
         <p className="text-center text-base">
           Already on TransferMe?
-          <NavLink className="text-blue-500 font-bold" to="/auth/login">
+          <NavLink className="text-blue-500 font-bold" to="/auth/signin">
             {" "}
             Sign in
           </NavLink>
