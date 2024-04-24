@@ -50,7 +50,7 @@ const Transfer: React.FC = () => {
       </AnimatePresence>
       <div className="bg-fafafa h-screen">
         <div className="h-full flex flex-col items-center">
-          <motion.div
+          {/* <motion.div
             initial={{ opacity: 0, y: -50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.75 }}
@@ -75,7 +75,7 @@ const Transfer: React.FC = () => {
                 />
               )}
             </AnimatePresence>
-          </motion.div>
+          </motion.div> */}
           <TransferForm />
         </div>
       </div>

@@ -11,7 +11,7 @@ import { IconContext } from "react-icons";
 import Button from "@mui/material/Button";
 
 import fileInstance from "../../utils/cache-file";
-import { formatFileSize } from "../../utils/general";
+import { formatFileSize } from "@/utils";
 
 const BrowseFile: React.FC<{
   onHandleAllowToContinue: (isAllow: boolean) => void;

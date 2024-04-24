@@ -12,6 +12,10 @@ export const BASE_URL_SERVER = devEnv
   ? "http://transferme.local.com:8080"
   : (import.meta.env.VITE_BASE_SERVER as string);
 
+export const WEBSOCKET_URL = devEnv
+  ? "http://transferme.local.com:8080"
+  : (import.meta.env.VITE_WEBSOCKET_URL as string);
+
 export {
   CLIENT_ID as GOOGLE_CLIENT_ID,
   CLIENT_SECRET as GOOGLE_CLIENT_SECRET,

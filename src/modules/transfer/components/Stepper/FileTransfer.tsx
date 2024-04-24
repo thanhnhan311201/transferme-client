@@ -10,7 +10,7 @@ import { AiOutlineInfoCircle } from "react-icons/ai";
 import { IconContext } from "react-icons";
 
 import fileInstance from "../../utils/cache-file";
-import { formatFileSize } from "../../utils/general";
+import { formatFileSize } from "@/utils";
 
 const FileTransfer: React.FC<{
   isStartTransfer: boolean;

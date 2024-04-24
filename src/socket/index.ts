@@ -6,7 +6,7 @@ import { transfering, availableToTransfer } from "@/modules/transfer/controller/
 import { setUnauthenticated } from "@/modules/authentication/controller/auth.slice";
 import transferEventListener from "./transfer.listener.socket";
 
-import { BASE_URL_SERVER } from "@/config";
+import { WEBSOCKET_URL } from "@/config";
 import { SOCKET_EVENTS } from "./config.socket";
 import { removeCredentialToken } from "@/modules/authentication/utils";
 
@@ -16,7 +16,7 @@ class SocketClient {
   private _clientId: string = "";
 
   connect(params: { token: string }) {
-    this._socket = io(BASE_URL_SERVER, {
+    this._socket = io(WEBSOCKET_URL, {
       withCredentials: true,
       auth: {
         token: params.token

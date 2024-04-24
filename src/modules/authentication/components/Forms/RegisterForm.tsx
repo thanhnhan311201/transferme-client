@@ -9,9 +9,9 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 import { type IUserInputResult } from "../../hooks";
 
-import GoogleSigninButton from "@/components/Buttons/GoogleSigninButton";
-import FacebookSigninButton from "@/components/Buttons/FacebookSigninButton";
-import GitHubSigninButton from "@/components/Buttons/GitHubSigninButton";
+import GoogleSigninButton from "../Buttons/GoogleSigninButton";
+import FacebookSigninButton from "../Buttons/FacebookSigninButton";
+import GitHubSigninButton from "../Buttons/GitHubSigninButton";
 
 const RegisterForm: React.FC<{
   email: IUserInputResult;

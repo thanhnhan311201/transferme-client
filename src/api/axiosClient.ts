@@ -4,10 +4,17 @@ import axios, {
 } from "axios";
 import queryString from "query-string";
 
+import { accessTokenStorage } from "@/utils/JWTStorage";
+
 import { BASE_URL_API } from "@/config";
 
 // Request middleware
 const handleRequest = (config: InternalAxiosRequestConfig) => {
+  const token = accessTokenStorage.get();
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+
   return config;
 };
 

@@ -10,8 +10,10 @@ import {
 } from "../controller/auth.slice";
 import { availableToTransfer } from "@/modules/transfer/controller/transfer.slice";
 import AuthAPI from "../controller/auth.service";
+
 import { removeCredentialToken } from "../utils";
-import { getCookieValue } from "@/modules/transfer/utils/general";
+import { getCookieValue } from "@/utils";
+import { accessTokenStorage } from "@/utils/JWTStorage";
 
 const useAutoSignin = () => {
   const dispatch = useAppDispatch();
@@ -20,9 +22,8 @@ const useAutoSignin = () => {
   return useCallback(async () => {
     try {
       dispatch(setUnauthenticating());
-      const tokenCookie = getCookieValue("access_token")
-      if (tokenCookie) {
-        const accessToken = tokenCookie.split("=")[1];
+      const accessToken = accessTokenStorage.get()
+      if (accessToken) {
         const response = await AuthAPI.verifyToken({ token: accessToken });
         if (!response || response.status === "error") {
           removeCredentialToken()
