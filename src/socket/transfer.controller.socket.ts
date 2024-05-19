@@ -13,19 +13,32 @@ import {
 
 import fileInstance from "@/modules/transfer/utils/cache-file";
 
-import { sleep } from "@/utils";
 import { SOCKET_EVENTS } from "./config.socket";
 import StreamSlicer from "@/utils/stream/slicer.stream";
 import StreamSender from "@/utils/stream/sender.stream";
 import streamReceiver from "@/utils/stream/receiver.stream";
+import { setUser } from "@/modules/user/controller/user.slice";
+
+import { sleep } from "@/utils";
+import { IUserInfo } from "@/config";
+import { toast } from "react-toastify";
+
 namespace transferController {
   export const handleNewConnection = (payload: {
     action: string;
-    onlineUsers: { id: string; clientId: string; picture: string }[];
+    userInfo: IUserInfo | null
+    onlineUsers: { id: string; clientId: string; profilePhoto: string, username: string, email: string }[];
     clientId: string;
   }) => {
+    if (!payload) {
+      toast.error("Error")
+      return
+    }
     if (payload.action === "login") {
       socketClient.clientId = payload.clientId;
+      if (payload.userInfo) {
+        dispatch(setUser(payload.userInfo))
+      }
     }
     dispatch(socketActions.addDevice(payload.onlineUsers));
   };

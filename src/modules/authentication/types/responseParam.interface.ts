@@ -25,7 +25,7 @@ export interface ISigninWithGitHubResponseParam extends ISigninResponseParam {}
 export interface ISigninWithFacebookResponseParam extends ISigninResponseParam {}
 
 // verify token response param
-export interface IVerifyTokenResponseParam extends ISigninResponseParam {}
+export interface IVerifyTokenResponseParam extends ICommonResponse {}
 
 // verify email response param
 export interface IVerifyEmailResponseParam extends ISigninResponseParam {}

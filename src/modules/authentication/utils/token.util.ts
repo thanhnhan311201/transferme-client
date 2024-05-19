@@ -10,7 +10,7 @@ export const updateCredentialTokens = (
     toast.error("Credential token is null!");
     return;
   }
-
+  
   accessTokenStorage.set(accessToken);
   refreshTokenStorage.set(refreshToken);
 };

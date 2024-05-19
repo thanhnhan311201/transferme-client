@@ -27,11 +27,6 @@ export interface ISigninWithFacebookRequestParam {
   profilePhoto: string;
 }
 
-// verify token request param
-export interface IVerifyTokenRequestParam {
-  token: string;
-}
-
 // verify email request param
 export interface IVerifyEmailRequestParam {
   email: string;

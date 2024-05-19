@@ -6,7 +6,6 @@ import {
   ISigninWithGoogleRequestParam,
   ISignUpRequestParam,
   IVerifyEmailRequestParam,
-  IVerifyTokenRequestParam,
 } from "../types/requestParam.interface";
 import {
   ISignupResponseParam,
@@ -35,9 +34,9 @@ namespace AuthAPI {
     return axiosClient.post<any, ISigninWithGoogleResponseParam>(url, params);
   };
 
-  export const verifyToken = (params: IVerifyTokenRequestParam) => {
-    const url = "/auth/verify-token";
-    return axiosClient.post<any, IVerifyTokenResponseParam>(url, params);
+  export const verifyToken = () => {
+    const url = "/auth/verify-access-token";
+    return axiosClient.get<any, IVerifyTokenResponseParam>(url);
   };
 
   export const verifyEmail = (params: IVerifyEmailRequestParam) => {

@@ -11,7 +11,7 @@ import receiverInstance from "../../utils/receiver-instance";
 
 const UserOption: React.FC<{
   onHandleAllowToContinue: (isAllow: boolean) => void;
-  onlineUsers: { id: string; clientId: string; picture: string }[];
+  onlineUsers: { id: string; clientId: string; profilePhoto: string, username: string, email: string }[];
 }> = (props) => {
   const [user, setUser] = useState<string>(receiverInstance.receiver);
 

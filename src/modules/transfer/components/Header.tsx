@@ -65,7 +65,7 @@ const Header = React.forwardRef<
             >
               <img
                 className="rounded-full w-full z-0"
-                src={props.userInfo.picture}
+                src={props.userInfo.profilePhoto}
                 alt="User avatar"
                 referrerPolicy="no-referrer"
                 crossOrigin="anonymous"

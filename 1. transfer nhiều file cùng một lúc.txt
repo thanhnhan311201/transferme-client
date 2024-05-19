@@ -1,6 +1,0 @@
-1. transfer nhiều file cùng một lúc
-2. xử lý khi mà các buffer không đúng thứ tự
-3. xử lý cho phép truyền file cho nhiều thiết bị hoặc nhận file từ nhiều thiết bị cùng một lúc
-4. xử lý mã khóa 2 chiều
-5. fix bug còn tồn đọng
-6. xử lý responsive

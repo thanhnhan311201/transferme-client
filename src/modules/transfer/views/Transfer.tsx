@@ -5,23 +5,25 @@ import { AnimatePresence, motion } from "framer-motion";
 
 import { useAppDispatch, useAppSelector } from "@/store";
 import useOutsideRef from "../hooks/useOutsideRef";
-import { setUnauthenticated } from "@/modules/authentication/controller/auth.slice";
 
 import Header from "../components/Header";
 import TransferForm from "../components/TransferForm";
 import UserNav from "../components/UserNav";
 import ReceivingWindow from "../components/ReceivingWindow";
+import ListUser from "../components/ListUser";
 
 import { SOCKET_EVENTS } from "@/socket/config.socket";
-import { removeCredentialToken } from "@/modules/authentication/utils";
 import AuthAPI from "@/modules/authentication/controller/auth.service";
+import { removeCredentialToken } from "@/modules/authentication/utils";
+import { setUnauthenticated } from "@/modules/authentication/controller/auth.slice";
+import { removeUser } from "@/modules/user/controller/user.slice";
 
 const Transfer: React.FC = () => {
   const { onlineUsers } = useAppSelector((state) => state.socket);
-  const { userInfo } = useAppSelector((state) => state.auth);
+  const { userInfo } = useAppSelector((state) => state.user);
   const { transferStatus } = useAppSelector((state) => state.transfer);
 
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch()
 
   const [showUserNav, setShowUserNav] = useState<boolean>(false);
 
@@ -36,9 +38,10 @@ const Transfer: React.FC = () => {
   const handleLogout = useCallback(async () => {
     await AuthAPI.signout();
     removeCredentialToken();
-    socketClient.disconnect();
     dispatch(setUnauthenticated());
-  }, [dispatch]);
+    dispatch(removeUser());
+    socketClient.disconnect();
+  }, []);
 
   return (
     <div>
@@ -49,12 +52,12 @@ const Transfer: React.FC = () => {
           )}
       </AnimatePresence>
       <div className="bg-fafafa h-screen">
-        <div className="h-full flex flex-col items-center">
-          {/* <motion.div
+        <div className="h-full grid grid-cols-3-for-transferLayout grid-rows-2-for-transferLayout">
+          <motion.div
             initial={{ opacity: 0, y: -50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.75 }}
-            className="max-w-7xl w-full mx-auto my-0 relative"
+            className="max-w-7xl w-full mx-auto my-0 relative col-span-full"
           >
             <Header
               ref={userHeaderRef}
@@ -75,7 +78,8 @@ const Transfer: React.FC = () => {
                 />
               )}
             </AnimatePresence>
-          </motion.div> */}
+          </motion.div>
+          <ListUser onlineUsers={onlineUsers} />
           <TransferForm />
         </div>
       </div>

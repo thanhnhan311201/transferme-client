@@ -15,7 +15,7 @@ const UserNav = React.forwardRef<
     onLogout: () => void;
     userInfo: IUserInfo;
     clientId: string;
-    onlineUsers: { id: string; clientId: string; picture: string }[];
+    onlineUsers: { id: string; clientId: string; profilePhoto: string, username: string, email: string }[];
   }
 >((props, ref) => {
   return (
@@ -32,7 +32,7 @@ const UserNav = React.forwardRef<
           <div className="w-14">
             <img
               className="rounded-full w-full"
-              src={props.userInfo.picture}
+              src={props.userInfo.profilePhoto}
               alt="User avatar"
               referrerPolicy="no-referrer"
               crossOrigin="anonymous"
@@ -40,7 +40,7 @@ const UserNav = React.forwardRef<
           </div>
           <div className="grow">
             <div className="text-3c4043 font-medium text-sm">
-              {props.userInfo.name}
+              {props.userInfo.username}
             </div>
             <div className="text-5f6368 text-xs truncate">
               {props.userInfo.email}

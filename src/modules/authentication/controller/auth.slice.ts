@@ -9,7 +9,7 @@ interface ISliceState {
 const SLICE_NAME = "auth";
 
 const initialState: ISliceState = {
-  authStatus: AUTHENTICATION_STATUS.UNAUTHENTICATE,
+  authStatus: AUTHENTICATION_STATUS.UNAUTHENTICATED,
 };
 
 const authSlice = createSlice({
@@ -22,16 +22,16 @@ const authSlice = createSlice({
     }),
     setUnauthenticated: (state) => ({
       ...state,
-      authStatus: AUTHENTICATION_STATUS.UNAUTHENTICATE,
+      authStatus: AUTHENTICATION_STATUS.UNAUTHENTICATED,
     }),
-    setUnauthenticating: (state) => ({
+    authenticating: (state) => ({
       ...state,
       authStatus: AUTHENTICATION_STATUS.AUTHENTICATING,
     }),
   },
 });
 
-export const { setAuthenticated, setUnauthenticated, setUnauthenticating } =
+export const { setAuthenticated, setUnauthenticated, authenticating } =
   authSlice.actions;
 
 const authReducer = authSlice.reducer;

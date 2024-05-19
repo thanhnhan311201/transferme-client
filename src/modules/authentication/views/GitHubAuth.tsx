@@ -48,6 +48,7 @@ const GitHubAuth: React.FC = () => {
           toast.error("There was an error during login. Please try again.");
         }
       } catch (error: any) {
+        navigate("/auth/signin");
         toast.error(
           error?.message || "There was an error during login. Please try again."
         );
@@ -60,6 +61,7 @@ const GitHubAuth: React.FC = () => {
       (!isEmpty(signInWithGitHubError) || isSigninWithGitHubFail) &&
       !signinWithGitHubResponse
     ) {
+      navigate("/auth/signin");
       toast.error(
         (signInWithGitHubError as Error)?.message ||
           "There was an error during login. Please try again."

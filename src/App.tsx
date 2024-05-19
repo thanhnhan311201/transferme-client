@@ -37,7 +37,7 @@ function App() {
   }, []);
 
   switch (authStatus) {
-    case AUTHENTICATION_STATUS.UNAUTHENTICATE:
+    case AUTHENTICATION_STATUS.UNAUTHENTICATED:
       return <PublicRoutes />;
     case AUTHENTICATION_STATUS.AUTHENTICATED:
       return <ProtectedRoutes />;

@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 interface SliceState {
-  onlineUsers: { id: string; clientId: string; picture: string }[];
+  onlineUsers: { id: string; clientId: string; profilePhoto: string, email: string, username: string }[];
 }
 
 const socketSlice = createSlice({

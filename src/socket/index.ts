@@ -9,6 +9,9 @@ import transferEventListener from "./transfer.listener.socket";
 import { WEBSOCKET_URL } from "@/config";
 import { SOCKET_EVENTS } from "./config.socket";
 import { removeCredentialToken } from "@/modules/authentication/utils";
+import { removeUser } from "@/modules/user/controller/user.slice";
+import { toast } from "react-toastify";
+import AuthAPI from "@/modules/authentication/controller/auth.service";
 
 class SocketClient {
   private _socket: Socket | null = null;
@@ -19,32 +22,31 @@ class SocketClient {
     this._socket = io(WEBSOCKET_URL, {
       withCredentials: true,
       auth: {
-        token: params.token
-      }
+        token: params.token,
+      },
     });
 
     transferEventListener(this._socket);
 
-    this._socket.on("connect_error", (error) => {
-      console.log(error);
+    this._socket.on("connect_error", async (error) => {
+      toast.error(error.message);
 
-      removeCredentialToken()
+      await AuthAPI.signout();
+      removeCredentialToken();
       dispatch(socketActions.setDevices([]));
       dispatch(setUnauthenticated());
+      dispatch(removeUser());
     });
 
     this._socket.on("error", (error) => {
       if (error instanceof Error) {
-        console.log(error.message);
+        toast.error(error.message);
       }
-      console.log("Internal Servel Error");
+      toast.error("Internal Servel Error");
     });
 
     this._socket.on("disconnect", (reason) => {
-      removeCredentialToken()
       this._socket = null;
-      dispatch(socketActions.setDevices([]));
-      dispatch(setUnauthenticated());
     });
   }
 
@@ -93,7 +95,7 @@ class SocketClient {
     this._clientId = newId;
   }
 
-  disconnect() {
+  async disconnect() {
     dispatch(socketActions.setDevices([]));
     this._socket?.disconnect();
   }

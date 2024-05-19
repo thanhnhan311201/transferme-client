@@ -8,7 +8,7 @@ import { BsCircleFill } from "react-icons/bs";
 import { IUserInfo } from "@/config";
 
 const ListUser: React.FC<{
-  onlineUsers: { id: string; clientId: string; picture: string }[];
+  onlineUsers: { id: string; clientId: string; profilePhoto: string, username: string, email: string }[];
 }> = (props) => {
   return (
     <motion.div
@@ -40,13 +40,13 @@ const ListUser: React.FC<{
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.5 }}
-                      key={user.id}
+                      key={user.clientId}
                     >
                       <div className="flex items-center gap-3">
                         <div className="w-6 relative">
                           <img
                             className="rounded-full w-full z-0"
-                            src={user.picture}
+                            src={user.profilePhoto}
                             alt="User avatar"
                             referrerPolicy="no-referrer"
                             crossOrigin="anonymous"

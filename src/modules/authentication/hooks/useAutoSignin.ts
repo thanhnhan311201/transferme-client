@@ -5,15 +5,15 @@ import { useAppDispatch } from "@/store";
 import socketClient from "@/socket";
 import {
   setUnauthenticated,
-  setUnauthenticating,
+  authenticating,
   setAuthenticated,
 } from "../controller/auth.slice";
 import { availableToTransfer } from "@/modules/transfer/controller/transfer.slice";
 import AuthAPI from "../controller/auth.service";
 
 import { removeCredentialToken } from "../utils";
-import { getCookieValue } from "@/utils";
 import { accessTokenStorage } from "@/utils/JWTStorage";
+import { toast } from "react-toastify";
 
 const useAutoSignin = () => {
   const dispatch = useAppDispatch();
@@ -21,26 +21,28 @@ const useAutoSignin = () => {
 
   return useCallback(async () => {
     try {
-      dispatch(setUnauthenticating());
+      dispatch(authenticating());
       const accessToken = accessTokenStorage.get()
       if (accessToken) {
-        const response = await AuthAPI.verifyToken({ token: accessToken });
+        const response = await AuthAPI.verifyToken();
         if (!response || response.status === "error") {
+          dispatch(setUnauthenticated());
           removeCredentialToken()
-          return dispatch(setUnauthenticated());
+          return
         }
 
         dispatch(setAuthenticated());
         dispatch(availableToTransfer());
         socketClient.connect({
-          token: response.data.accessToken,
+          token: accessToken,
         });
         navigate("/transfer");
       } else {
         dispatch(setUnauthenticated());
         removeCredentialToken()
       }
-    } catch (error) {
+    } catch (error: any) {
+      toast.error(error.message)
       dispatch(setUnauthenticated());
       removeCredentialToken()
     }
