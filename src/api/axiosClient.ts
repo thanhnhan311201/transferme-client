@@ -1,41 +1,41 @@
 import axios, {
-  type InternalAxiosRequestConfig,
-  type AxiosResponse,
-} from "axios";
-import queryString from "query-string";
+	type InternalAxiosRequestConfig,
+	type AxiosResponse,
+} from 'axios';
+import queryString from 'query-string';
 
-import { accessTokenStorage } from "@/utils/JWTStorage";
+import { accessTokenStorage } from '@/utils/JWTStorage';
 
-import { BASE_URL_API } from "@/config";
+import { BASE_URL_API } from '@/config';
 
 // Request middleware
 const handleRequest = (config: InternalAxiosRequestConfig) => {
-  const token = accessTokenStorage.get();
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
+	const token = accessTokenStorage.get();
+	if (token) {
+		config.headers.Authorization = `Bearer ${token}`;
+	}
 
-  return config;
+	return config;
 };
 
 // Response middleware
 const handleResponse = (response: AxiosResponse) => {
-  if (response.status === 200 || response.status === 201) {
-    return response.data;
-  }
+	if (response.status === 200 || response.status === 201) {
+		return response.data;
+	}
 };
 
 const handleFailedResponse = (error: any) => {
-  return Promise.reject(error?.response.data);
+	return Promise.reject(error?.response.data);
 };
 
 // Create html client - axios client
 const axiosClient = axios.create({
-  baseURL: BASE_URL_API,
-  headers: {
-    "Content-Type": "application/json",
-  },
-  paramsSerializer: { serialize: (params) => queryString.stringify(params) },
+	baseURL: BASE_URL_API,
+	headers: {
+		'Content-Type': 'application/json',
+	},
+	paramsSerializer: { serialize: (params) => queryString.stringify(params) },
 });
 
 // Handle request

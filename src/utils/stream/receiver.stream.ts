@@ -1,31 +1,31 @@
 export class StreamReceiver {
-  // MAP<fileId, Controller>
+	// MAP<fileId, Controller>
 
-  constructor(
-    private _controller: ReadableStreamDefaultController<Uint8Array> | undefined
-  ) {}
+	constructor(
+		private _controller: ReadableStreamDefaultController<Uint8Array> | undefined
+	) {}
 
-  downloadFile = (blob: File) => {
-    const url = URL.createObjectURL(blob);
+	downloadFile = (blob: File) => {
+		const url = URL.createObjectURL(blob);
 
-    const downloadLink: HTMLAnchorElement = document.createElement("a");
-    downloadLink.href = url;
-    downloadLink.download = blob.name;
+		const downloadLink: HTMLAnchorElement = document.createElement('a');
+		downloadLink.href = url;
+		downloadLink.download = blob.name;
 
-    downloadLink.click();
+		downloadLink.click();
 
-    URL.revokeObjectURL(url);
-  };
+		URL.revokeObjectURL(url);
+	};
 
-  get controller(): ReadableStreamDefaultController<Uint8Array> | undefined {
-    return this._controller;
-  }
+	get controller(): ReadableStreamDefaultController<Uint8Array> | undefined {
+		return this._controller;
+	}
 
-  set controller(
-    newController: ReadableStreamDefaultController<Uint8Array> | undefined
-  ) {
-    this._controller = newController;
-  }
+	set controller(
+		newController: ReadableStreamDefaultController<Uint8Array> | undefined
+	) {
+		this._controller = newController;
+	}
 }
 
 const streamReceiver = new StreamReceiver(undefined);

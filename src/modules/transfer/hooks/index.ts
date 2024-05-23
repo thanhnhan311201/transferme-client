@@ -1,1 +1,1 @@
-export { default as useFileContext } from "./useFileContext";
+export { default as useFileContext } from './useFileContext';

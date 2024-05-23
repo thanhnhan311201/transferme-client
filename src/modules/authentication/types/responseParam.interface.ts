@@ -1,6 +1,6 @@
 // common response param
 export interface ICommonResponse {
-  status: string;
+	status: string;
 }
 
 // signup response param
@@ -8,11 +8,11 @@ export interface ISignupResponseParam extends ICommonResponse {}
 
 // signin response param
 export interface ISigninResponseParam {
-  status: string;
-  data: {
-    accessToken: string;
-    refreshToken: string;
-  };
+	status: string;
+	data: {
+		accessToken: string;
+		refreshToken: string;
+	};
 }
 
 // signin with google response param
@@ -22,7 +22,8 @@ export interface ISigninWithGoogleResponseParam extends ISigninResponseParam {}
 export interface ISigninWithGitHubResponseParam extends ISigninResponseParam {}
 
 // signin with facebook response param
-export interface ISigninWithFacebookResponseParam extends ISigninResponseParam {}
+export interface ISigninWithFacebookResponseParam
+	extends ISigninResponseParam {}
 
 // verify token response param
 export interface IVerifyTokenResponseParam extends ICommonResponse {}

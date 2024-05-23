@@ -1,38 +1,38 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
-import { AUTHENTICATION_STATUS } from "../utils";
+import { AUTHENTICATION_STATUS } from '../utils';
 
-interface ISliceState {
-  authStatus: string;
+interface AuthSliceState {
+	authStatus: string;
 }
 
-const SLICE_NAME = "auth";
+const SLICE_NAME = 'auth';
 
-const initialState: ISliceState = {
-  authStatus: AUTHENTICATION_STATUS.UNAUTHENTICATED,
+const initialState: AuthSliceState = {
+	authStatus: AUTHENTICATION_STATUS.UNAUTHENTICATED,
 };
 
 const authSlice = createSlice({
-  name: SLICE_NAME,
-  initialState: initialState,
-  reducers: {
-    setAuthenticated: (state) => ({
-      ...state,
-      authStatus: AUTHENTICATION_STATUS.AUTHENTICATED,
-    }),
-    setUnauthenticated: (state) => ({
-      ...state,
-      authStatus: AUTHENTICATION_STATUS.UNAUTHENTICATED,
-    }),
-    authenticating: (state) => ({
-      ...state,
-      authStatus: AUTHENTICATION_STATUS.AUTHENTICATING,
-    }),
-  },
+	name: SLICE_NAME,
+	initialState: initialState,
+	reducers: {
+		setAuthenticated: (state) => ({
+			...state,
+			authStatus: AUTHENTICATION_STATUS.AUTHENTICATED,
+		}),
+		setUnauthenticated: (state) => ({
+			...state,
+			authStatus: AUTHENTICATION_STATUS.UNAUTHENTICATED,
+		}),
+		authenticating: (state) => ({
+			...state,
+			authStatus: AUTHENTICATION_STATUS.AUTHENTICATING,
+		}),
+	},
 });
 
 export const { setAuthenticated, setUnauthenticated, authenticating } =
-  authSlice.actions;
+	authSlice.actions;
 
 const authReducer = authSlice.reducer;
 export default authReducer;

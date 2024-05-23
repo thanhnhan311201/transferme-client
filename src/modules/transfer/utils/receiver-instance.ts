@@ -1,15 +1,15 @@
 class Receiver {
-  constructor(private _receiver: string) {}
+	constructor(private _receiver: string) {}
 
-  get receiver() {
-    return this._receiver;
-  }
+	get receiver() {
+		return this._receiver;
+	}
 
-  set receiver(newDevice: string) {
-    this._receiver = newDevice;
-  }
+	set receiver(newDevice: string) {
+		this._receiver = newDevice;
+	}
 }
 
-const receiverInstance = new Receiver("");
+const receiverInstance = new Receiver('');
 
 export default receiverInstance;
