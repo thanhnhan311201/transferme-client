@@ -42,15 +42,16 @@ function App() {
 		initFacebookSdk();
 	}, []);
 
-	switch (authStatus) {
-		case AUTHENTICATION_STATUS.UNAUTHENTICATED:
-			return <PublicRoutes />;
-		case AUTHENTICATION_STATUS.AUTHENTICATED:
-			return <ProtectedRoutes />;
-		case AUTHENTICATION_STATUS.AUTHENTICATING:
-		default:
-			return <Loading />;
-	}
+	return <ProtectedRoutes />;
+	// switch (authStatus) {
+	// 	case AUTHENTICATION_STATUS.UNAUTHENTICATED:
+	// 		return <PublicRoutes />;
+	// 	case AUTHENTICATION_STATUS.AUTHENTICATED:
+	// 		return <ProtectedRoutes />;
+	// 	case AUTHENTICATION_STATUS.AUTHENTICATING:
+	// 	default:
+	// 		return <Loading />;
+	// }
 }
 
 export default App;
