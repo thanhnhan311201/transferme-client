@@ -14,9 +14,11 @@ import Loading from './components/Loading';
 import { initFacebookSdk } from './utils/facebookSDK';
 
 import { LOGIN_WITH } from './utils/constants.util';
+import { THEME_PROFILE } from './types/common.type';
 
 function App() {
 	const { authStatus } = useAppSelector((state) => state.auth);
+	const { themeProfile } = useAppSelector((state) => state.theme);
 
 	const autoSignin = useAutoSignin();
 
@@ -26,6 +28,14 @@ function App() {
 			autoSignin();
 		}
 	}, []);
+
+	useEffect(() => {
+		if (themeProfile === THEME_PROFILE.DARK) {
+			document.documentElement.setAttribute('data-theme', 'dark');
+		} else {
+			document.documentElement.setAttribute('data-theme', 'light');
+		}
+	}, [themeProfile]);
 
 	// useEffect(() => {
 	//   const handleCloseTab = (e: BeforeUnloadEvent) => {

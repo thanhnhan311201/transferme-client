@@ -1,14 +1,25 @@
-@import "@fontsource/roboto/300.css";
-@import "@fontsource/roboto/400.css";
-@import "@fontsource/roboto/500.css";
-@import "@fontsource/roboto/700.css";
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/inter/700.css";
+
+@import "@fontsource/nunito/700.css";
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --main-background-color: #f7f9fc;
+:root, [data-theme='light'] {
+  --main-bg: 20 23 24;
+  --content-bg: 254 254 254;
+  --border-color: 232 236 239;
+  --main-text-color: 20 23 24;
+}
+[data-theme='dark'] {
+  --main-bg: 20 23 24;
+  --content-bg: 35 38 39;
+  --border-color: 52 56 57;
+  --main-text-color: 254 254 254;
 }
 
 * {
@@ -23,7 +34,14 @@ html {
 
 body {
   margin: 0;
-  font-family: "Roboto", sans-serif;
+  font-family: "Inter", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* CONFIG */
+.transition-colors {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: linear;
+  transition-duration: .2s;
 }

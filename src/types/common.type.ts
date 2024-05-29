@@ -9,3 +9,8 @@ export enum PROMISE_STATUS {
 	FULFILLED = 'fulfilled',
 	REJECTED = 'rejected',
 }
+
+export enum THEME_PROFILE {
+	LIGHT = 'light',
+	DARK = 'dark',
+}
