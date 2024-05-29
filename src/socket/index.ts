@@ -2,15 +2,15 @@ import io, { type Socket } from 'socket.io-client';
 
 import { dispatch } from '../store';
 import { socketActions } from './slice.socket';
-// import {
-// 	transfering,
-// 	availableToTransfer,
-// } from '@/modules/transfer/controller/transfer.slice';
+import {
+	transfering,
+	availableToTransfer,
+} from '@/modules/transfer/controller/transfer.slice';
 import { setUnauthenticated } from '@/modules/authentication/controller/auth.slice';
 import transferEventListener from './transfer.listener.socket';
 
 import { WEBSOCKET_URL } from '@/config';
-// import { SOCKET_EVENTS } from './types';
+import { SOCKET_EVENTS } from './types';
 import { removeCredentialToken } from '@/modules/authentication/utils';
 import { removeUser } from '@/modules/user/controller/user.slice';
 import { toast } from 'react-toastify';
@@ -54,34 +54,34 @@ class SocketClient {
 		});
 	}
 
-	// transfer(): void {
-	//   this._socket?.emit(SOCKET_EVENTS.SUCCESS_TRANSFER);
-	// }
+	transfer(): void {
+		this._socket?.emit(SOCKET_EVENTS.SUCCESS_TRANSFER);
+	}
 
-	// get socket(): Socket {
-	//   if (!this._socket) {
-	//     throw new Error("Socket not initialize!");
-	//   }
-	//   return this._socket;
-	// }
+	get socket(): Socket {
+		if (!this._socket) {
+			throw new Error('Socket not initialize!');
+		}
+		return this._socket;
+	}
 
-	// requestSendFile(userId: string) {
-	//   this._socket?.emit(SOCKET_EVENTS.REQUEST_SEND_FILE, userId);
-	// }
+	requestSendFile(payload: { receivedClientId: string }) {
+		this._socket?.emit(SOCKET_EVENTS.REQUEST_SEND_FILE, payload);
+	}
 
-	// replyToRequest(confirm: boolean) {
-	//   this.socket.emit(SOCKET_EVENTS.REPLY_TO_REQUEST, confirm);
-	//   if (confirm) {
-	//     dispatch(transfering());
-	//   } else {
-	//     dispatch(availableToTransfer());
-	//   }
-	// }
+	replyToRequest(confirm: boolean) {
+		this.socket.emit(SOCKET_EVENTS.REPLY_TO_REQUEST, { confirm });
+		if (confirm) {
+			dispatch(transfering());
+		} else {
+			dispatch(availableToTransfer());
+		}
+	}
 
-	// cancelTransfer() {
-	//   this._isCancel = true;
-	//   this.socket.emit(SOCKET_EVENTS.CANCEL_TRANSFER);
-	// }
+	cancelTransfer() {
+		this._isCancel = true;
+		this.socket.emit(SOCKET_EVENTS.CANCEL_TRANSFER);
+	}
 
 	get isCancel(): boolean {
 		return this._isCancel;

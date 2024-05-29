@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import socketClient from '@/socket';
+import socketClient from '@/socket';
 
 import { motion } from 'framer-motion';
 import { Player } from '@lottiefiles/react-lottie-player';
@@ -32,11 +32,11 @@ const ReceivingWindow: React.FC = () => {
 	const dispatch = useAppDispatch();
 
 	const handleRefuse = () => {
-		// socketClient.replyToRequest(false);
+		socketClient.replyToRequest(false);
 	};
 
 	const handleCancel = () => {
-		// socketClient.cancelTransfer();
+		socketClient.cancelTransfer();
 		dispatch(transferError());
 	};
 
@@ -46,7 +46,7 @@ const ReceivingWindow: React.FC = () => {
 
 	const handleAccept = () => {
 		dispatch(transfering());
-		// socketClient.replyToRequest(true);
+		socketClient.replyToRequest(true);
 	};
 
 	return (

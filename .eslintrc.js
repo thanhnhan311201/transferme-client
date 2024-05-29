@@ -7,15 +7,15 @@ module.exports = {
 	},
 	plugins: ['@typescript-eslint/eslint-plugin'],
 	extends: [
-    'eslint:recommended',
+		'eslint:recommended',
 		'plugin:@typescript-eslint/recommended',
-    'plugin:prettier/recommended',
-    'plugin:react/recommended'
+		'plugin:prettier/recommended',
+		'plugin:react/recommended',
 	],
 	root: true,
 	env: {
 		browser: true,
-    es2021: true
+		es2021: true,
 	},
 	ignorePatterns: ['.eslintrc.js'],
 	rules: {
@@ -25,12 +25,13 @@ module.exports = {
 		'@typescript-eslint/no-explicit-any': 'off',
 		'@typescript-eslint/no-namespace': 'off',
 		'prettier/prettier': ['error', { endOfLine: 'auto' }],
-    'no-restricted-imports': [
-      'error',
-      {
-        'patterns': ['@mui/*/*/*']
-      }
-    ]
-		// 'no-unused-vars': ['error', { vars: 'all' }],
+		'no-restricted-imports': [
+			'error',
+			{
+				patterns: ['@mui/*/*/*'],
+			},
+		],
+		'no-unused-vars': 'off',
+		'no-constant-condition': 'off',
 	},
 };
