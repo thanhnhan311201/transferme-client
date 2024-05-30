@@ -3,17 +3,16 @@ import React from 'react';
 import classNames from 'classnames';
 
 import { IconContext } from 'react-icons';
-import { MdSunny } from 'react-icons/md';
-import { IoMoonOutline } from 'react-icons/io5';
+import { IoMoonOutline, IoSunnyOutline } from 'react-icons/io5';
+import { BsCircleFill } from 'react-icons/bs';
 
 import { useAppDispatch, useAppSelector } from '@/store';
-
-import { THEME_PROFILE } from '@/types/common.type';
 import {
 	toggleDarkTheme,
 	toggleLightTheme,
 } from '@/modules/common/state/theme.slice';
-import { BsCircleFill } from 'react-icons/bs';
+
+import { THEME_PROFILE } from '@/types/common.type';
 
 const UserProfile: React.FC = () => {
 	const { themeProfile } = useAppSelector((state) => state.theme);
@@ -25,7 +24,7 @@ const UserProfile: React.FC = () => {
 			<div className="shadow-[0_1.25rem_1.5rem_0_rgba(0,0,0,0.5)] w-full">
 				<div className="p-[1.25rem] rounded-xl bg-secondary-color w-full">
 					<div className="flex items-center gap-4">
-						<div className="relative basis-10 h-10">
+						<div className="relative basis-10 h-10 shrink-0">
 							<img
 								className="rounded-full w-full"
 								src="https://scontent.fsgn5-9.fna.fbcdn.net/v/t39.30808-1/437918699_3781431168759185_919186230840647234_n.jpg?stp=dst-jpg_p200x200&_nc_cat=102&ccb=1-7&_nc_sid=5f2048&_nc_ohc=YSAu2Ddpc6EQ7kNvgGePJYH&_nc_ht=scontent.fsgn5-9.fna&oh=00_AYAYOTLa2mjWjOH_la28r0CrNkXqLXjqpZX63E8CoOlTOA&oe=665D2BFF"
@@ -42,7 +41,6 @@ const UserProfile: React.FC = () => {
 										color: '#46ab5e',
 										bottom: -2,
 										right: -2,
-										zIndex: 2,
 										border: '4px solid #232627',
 										borderRadius: '50%',
 									},
@@ -51,9 +49,13 @@ const UserProfile: React.FC = () => {
 								<BsCircleFill />
 							</IconContext.Provider>
 						</div>
-						<div className="flex flex-col items-start justify-center gap-[.375rem] font-semibold font-['Inter'] truncate grow">
-							<div className="text-sm text-white">Phan Nguyễn Thành Nhân</div>
-							<div className="text-xs text-white--1">nhanpnt.dev@gmail.com</div>
+						<div className="flex flex-col items-start justify-center gap-[.375rem] font-semibold font-['Inter'] overflow-hidden grow">
+							<div className="text-sm text-white w-full truncate">
+								Phan Nguyễn Thành Nhân
+							</div>
+							<div className="text-xs text-white--1 w-full truncate">
+								nhanpnt.dev@gmail.com
+							</div>
 						</div>
 					</div>
 				</div>
@@ -85,7 +87,7 @@ const UserProfile: React.FC = () => {
 							},
 						}}
 					>
-						<MdSunny />
+						<IoSunnyOutline />
 					</IconContext.Provider>
 					<span className="transition-colors">Light</span>
 				</button>

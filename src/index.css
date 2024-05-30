@@ -45,3 +45,16 @@ body {
   transition-timing-function: linear;
   transition-duration: .2s;
 }
+
+.transfer-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.transfer-list::-webkit-scrollbar-track {
+  background: transparent
+}
+ 
+.transfer-list::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, rgb(0, 32, 95) 2.8%, rgb(132, 53, 142) 97.8%);
+  border-radius: 10px;
+}
