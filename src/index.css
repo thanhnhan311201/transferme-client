@@ -14,12 +14,30 @@
   --content-bg: 254 254 254;
   --border-color: 232 236 239;
   --main-text-color: 20 23 24;
+  --overlay: rgba(20, 23, 24, 0.75);
+  --modal: 254 254 254;
+
+  /* for setting dialog */
+  --setting-dialog__btn-color: 254 254 254;
+  --setting-dialog__btn-hover-color: 243 245 247;
+  --setting-dialog__btn-text-hover-color: 108 114 117;
+  --setting-dialog__appearance__btn-text-color: rgba(20, 23, 24, 0.5);
+  --setting-dialog__appearance__btn-text-selected-color: 35 38 39;
 }
 [data-theme='dark'] {
   --main-bg: 20 23 24;
   --content-bg: 35 38 39;
   --border-color: 52 56 57;
   --main-text-color: 254 254 254;
+  --overlay: rgba(35, 38, 39, 0.9);
+  --modal: 20 23 24;
+
+  /* for setting dialog */
+  --setting-dialog__btn-color: 20 23 24;
+  --setting-dialog__btn-hover-color: 35 38 39;
+  --setting-dialog__btn-text-hover-color: 254 254 254;
+  --setting-dialog__appearance__btn-text-color: rgba(232, 236, 239, 0.5);
+  --setting-dialog__appearance__btn-text-selected-color: 254 254 254;
 }
 
 * {
@@ -55,6 +73,14 @@ body {
 }
  
 .transfer-list::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, rgb(0, 32, 95) 2.8%, rgb(132, 53, 142) 97.8%);
+  /* background: linear-gradient(to bottom, rgb(95, 10, 135) 11.4%, rgb(164, 80, 139) 60.2%); */
+  /* background-color: rgba(232, 236, 239, 0.75); */
+  background: linear-gradient(to bottom, rgba(20, 23, 24, 0.75), rgb(142, 85, 234), rgba(20, 23, 24, 0.75));
   border-radius: 10px;
+}
+
+.font-base {
+  font-family: "Inter";
+  font-size: .875rem;
+  line-height: 1.25rem;
 }

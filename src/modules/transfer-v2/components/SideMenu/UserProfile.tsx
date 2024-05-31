@@ -49,7 +49,7 @@ const UserProfile: React.FC = () => {
 								<BsCircleFill />
 							</IconContext.Provider>
 						</div>
-						<div className="flex flex-col items-start justify-center gap-[.375rem] font-semibold font-['Inter'] overflow-hidden grow">
+						<div className="flex flex-col items-start justify-center gap-[.375rem] font-semibold font-base overflow-hidden grow">
 							<div className="text-sm text-white w-full truncate">
 								Phan Nguyễn Thành Nhân
 							</div>
@@ -68,7 +68,7 @@ const UserProfile: React.FC = () => {
 			>
 				<button
 					className={classNames(
-						"relative z-1 group flex justify-center items-center gap-3 font-['Inter'] h-10 basis-1/2 text-sm font-semibold hover:text-white",
+						'relative z-1 group flex justify-center items-center gap-3 font-base h-10 basis-1/2 font-semibold hover:text-white',
 						themeProfile === THEME_PROFILE.LIGHT ? 'text-white' : 'text-grey'
 					)}
 					onClick={() => dispatch(toggleLightTheme())}
@@ -93,7 +93,7 @@ const UserProfile: React.FC = () => {
 				</button>
 				<button
 					className={classNames(
-						"relative z-1 group flex justify-center items-center gap-3 font-['Inter'] h-10 basis-1/2 text-sm font-semibold hover:text-white",
+						'relative z-1 group flex justify-center items-center gap-3 font-base h-10 basis-1/2 font-semibold hover:text-white',
 						themeProfile === THEME_PROFILE.DARK ? 'text-white' : 'text-grey'
 					)}
 					onClick={() => dispatch(toggleDarkTheme())}

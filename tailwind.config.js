@@ -44,6 +44,15 @@ module.exports = {
 				'content-bg': "rgba(var(--content-bg))",
 				'main-text-color': "rgba(var(--main-text-color))",
 				'border-color': "rgba(var(--border-color))",
+				'overlay-color': "var(--overlay)",
+				'modal': "rgba(var(--modal))",
+
+				/* for setting dialog */
+				'setting-dialog__btn-color': 'rgba(var(--setting-dialog__btn-color))',
+				'setting-dialog__btn-hover-color': 'rgba(var(--setting-dialog__btn-hover-color))',
+				'setting-dialog__btn-text-hover-color': 'rgba(var(--setting-dialog__btn-text-hover-color))',
+				'setting-dialog__appearance__btn-text-color': 'var(--setting-dialog__appearance__btn-text-color)',
+				'setting-dialog__appearance__btn-text-selected-color': 'rgba(var(--setting-dialog__appearance__btn-text-selected-color))',
 
 				// general config
 				'primary-color': 'rgba(20 23 24)',
@@ -51,6 +60,10 @@ module.exports = {
 				'white': "rgba(254, 254, 254)",
 				'white--1': "rgba(232, 236, 239)",
 				'grey': "rgba(108, 114, 117)",
+				'accent-color-1': 'rgb(216 76 16)',
+
+				'primary-btn-color': "rgba(2, 121, 232)",
+				'border-btn-color-selected': 'rgba(0, 132, 255)',
 			},
 			gridTemplateColumns: {
 				'3-for-transferLayout': '250px auto 300px',
