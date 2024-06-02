@@ -23,6 +23,7 @@
   --setting-dialog__btn-text-hover-color: 108 114 117;
   --setting-dialog__appearance__btn-text-color: rgba(20, 23, 24, 0.5);
   --setting-dialog__appearance__btn-text-selected-color: 35 38 39;
+  --setting-dialog__input-bg-color: 243 245 247;
 }
 [data-theme='dark'] {
   --main-bg: 20 23 24;
@@ -38,6 +39,7 @@
   --setting-dialog__btn-text-hover-color: 254 254 254;
   --setting-dialog__appearance__btn-text-color: rgba(232, 236, 239, 0.5);
   --setting-dialog__appearance__btn-text-selected-color: 254 254 254;
+  --setting-dialog__input-bg-color: 35 38 39;
 }
 
 * {

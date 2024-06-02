@@ -26,11 +26,11 @@ const AppearanceTab: React.FC = () => {
 			<div className="shrink-0 font-['Inter'] text-3xl font-bold tracking-tight text-main-text-color">
 				Appearance
 			</div>
-			<div className="grow flex flex-col justify-start gap-5">
-				<div className="shrink-0 font-['Inter'] text-base font-semibold text-main-text-color">
-					Appearance
-				</div>
-				<div className="grow flex flex-col justify-start">
+			<div className="grow flex flex-col justify-start gap-8">
+				<div className="flex flex-col justify-start gap-5">
+					<div className="shrink-0 font-['Inter'] text-base font-semibold text-main-text-color">
+						Appearance
+					</div>
 					<div className="flex items-start justify-start gap-8 pr-12">
 						<button
 							className={classNames(

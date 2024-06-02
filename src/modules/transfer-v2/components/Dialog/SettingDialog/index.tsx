@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import classNames from 'classnames';
 
@@ -8,11 +8,12 @@ import { Si1Password } from 'react-icons/si';
 import { IoSunny } from 'react-icons/io5';
 import { MdDelete } from 'react-icons/md';
 
+import Dialog from '@/components/Dialog';
+
+import ProfileTab from './ProfileTab';
+import PasswordTab from './PasswordTab';
 import AppearanceTab from './AppearanceTab';
 import DeleteAccountTab from './DeleteAccountTab';
-import PasswordTab from './PasswordTab';
-import ProfileTab from './ProfileTab';
-import Dialog from '@/components/Dialog';
 
 export enum SETTING_CONFIG_KEY {
 	EDIT_PROFILE = 'edit_profile',
@@ -65,9 +66,15 @@ const SettingDialog: React.FC<{
 		}
 	}, [selectedSettingCfg]);
 
+	useEffect(() => {
+		if (!isOpen) {
+			setSelectedSettingCfg(SETTING_CONFIG_KEY.EDIT_PROFILE);
+		}
+	}, [isOpen]);
+
 	return (
 		<Dialog isOpen={isOpen} onClose={handleClose}>
-			<div className="w-[48rem] h-[47rem] rounded-3xl p-12 bg-modal">
+			<div className="w-[48rem] h-[40rem] rounded-3xl p-12 bg-modal">
 				<div className="flex w-full h-full">
 					<div className="shrink-0 w-[13.25rem] flex flex-col justify-start gap-3">
 						<div className="w-ful flex flex-col justify-start gap-2">
