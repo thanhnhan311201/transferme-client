@@ -11,12 +11,12 @@ import {
 import { setupListeners } from '@reduxjs/toolkit/query';
 import { GetDefaultMiddleware } from '@reduxjs/toolkit/dist/getDefaultMiddleware';
 
-import authReducer from '@/modules/authentication/controller/auth.slice';
-import userReducer from '@/modules/user/controller/user.slice';
-import transferReducer from '@/modules/transfer/controller/transfer.slice';
-import themeReducer from '@/modules/common/state/theme.slice';
+import authReducer from '@/modules/authentication/core/auth.slice';
+import userReducer from '@/modules/user/core/user.slice';
+import transferReducer from '@/modules/transfer/core/transfer.slice';
+import themeReducer from '@/modules/common/core/theme.slice';
 import socketSlice from '@/socket/slice.socket';
-import { AuthQueryService } from '@/modules/authentication/controller/auth.query';
+import { AuthQueryService } from '@/modules/authentication/core/auth.query';
 
 const middlewares: Middleware[] = [AuthQueryService.middleware];
 const reducers = {

@@ -16,7 +16,7 @@ import {
 	transferError,
 	availableToTransfer,
 	transfering,
-} from '../controller/transfer.slice';
+} from '../core/transfer.slice';
 import { useAppDispatch, useAppSelector } from '@/store';
 
 import TransferProgressWithLabel from './Stepper/TransferProgress';

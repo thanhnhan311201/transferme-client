@@ -1,0 +1,20 @@
+import React from 'react';
+
+import Header from './components/Header';
+
+import Login from '@/modules/authentication/views/Login';
+
+const LoginPage: React.FC = () => {
+	return (
+		<div className="bg-gradient-to-br from-white to-primary-color--tint-1 min-h-screen flex flex-col">
+			<Header />
+			<div className="relative">
+				<div className="flex justify-center items-center pt-10">
+					<Login />
+				</div>
+			</div>
+		</div>
+	);
+};
+
+export default LoginPage;

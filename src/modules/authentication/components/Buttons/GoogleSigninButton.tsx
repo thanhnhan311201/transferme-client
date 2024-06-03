@@ -11,9 +11,9 @@ import { Button } from '@mui/material';
 import { IconContext } from 'react-icons';
 
 import { useAppDispatch } from '@/store';
-import { setAuthenticated } from '@/modules/authentication/controller/auth.slice';
-import { availableToTransfer } from '@/modules/transfer/controller/transfer.slice';
-import { useSigninWithGoogleMutation } from '@/modules/authentication/controller/auth.query';
+import { setAuthenticated } from '@/modules/authentication/core/auth.slice';
+import { availableToTransfer } from '@/modules/transfer/core/transfer.slice';
+import { useSigninWithGoogleMutation } from '@/modules/authentication/core/auth.query';
 import socketClient from '@/socket';
 import { GOOGLE_REDIRECT_URI } from '@/config';
 

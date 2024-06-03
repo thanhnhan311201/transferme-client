@@ -6,10 +6,10 @@ import { toast } from 'react-toastify';
 import { isEmpty } from 'lodash';
 
 import { useInput, ValidationType } from '../hooks';
-import { useSignupMutation } from '../controller/auth.query';
+import { useSignupMutation } from '../core/auth.query';
 
 import RegisterForm from '../components/Forms/RegisterForm';
-import AuthLayout from '../components/Layout';
+
 import { LOGIN_WITH } from '@/utils/constants.util';
 
 const Register: React.FC = () => {
@@ -106,16 +106,14 @@ const Register: React.FC = () => {
 	}, []);
 
 	return (
-		<AuthLayout>
-			<RegisterForm
-				email={email}
-				username={username}
-				password={password}
-				confirmPassword={cfmPassword}
-				onSignup={handleSignup}
-				isSignupStatusLoading={isSignupLoading}
-			/>
-		</AuthLayout>
+		<RegisterForm
+			email={email}
+			username={username}
+			password={password}
+			confirmPassword={cfmPassword}
+			onSignup={handleSignup}
+			isSignupStatusLoading={isSignupLoading}
+		/>
 	);
 };
 

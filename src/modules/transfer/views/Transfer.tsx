@@ -14,10 +14,10 @@ import ReceivingWindow from '../components/ReceivingWindow';
 import ListUser from '../components/ListUser';
 
 import { TRANSFERRING_STATUS } from '../types/transferring-status.type';
-import AuthAPI from '@/modules/authentication/controller/auth.service';
+import AuthAPI from '@/modules/authentication/core/auth.service';
 import { removeCredentialToken } from '@/modules/authentication/utils';
-import { setUnauthenticated } from '@/modules/authentication/controller/auth.slice';
-import { removeUser } from '@/modules/user/controller/user.slice';
+import { setUnauthenticated } from '@/modules/authentication/core/auth.slice';
+import { removeUser } from '@/modules/user/core/user.slice';
 
 const Transfer: React.FC = () => {
 	const { onlineUsers } = useAppSelector((state) => state.socket);

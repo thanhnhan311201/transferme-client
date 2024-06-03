@@ -6,15 +6,15 @@ import { socketActions } from './slice.socket';
 // 	transfering,
 // 	availableToTransfer,
 // } from '@/modules/transfer/controller/transfer.slice';
-import { setUnauthenticated } from '@/modules/authentication/controller/auth.slice';
+import { setUnauthenticated } from '@/modules/authentication/core/auth.slice';
 import transferEventListener from './transfer.listener.socket';
 
 import { WEBSOCKET_URL } from '@/config';
 // import { SOCKET_EVENTS } from './types';
 import { removeCredentialToken } from '@/modules/authentication/utils';
-import { removeUser } from '@/modules/user/controller/user.slice';
+import { removeUser } from '@/modules/user/core/user.slice';
 import { toast } from 'react-toastify';
-import AuthAPI from '@/modules/authentication/controller/auth.service';
+import AuthAPI from '@/modules/authentication/core/auth.service';
 
 class SocketClient {
 	private _socket: Socket | null = null;

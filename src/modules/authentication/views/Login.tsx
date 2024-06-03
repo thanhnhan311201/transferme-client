@@ -7,14 +7,13 @@ import { isEmpty } from 'lodash';
 
 import socketClient from '@/socket';
 import { useAppDispatch } from '@/store';
-import { availableToTransfer } from '@/modules/transfer/controller/transfer.slice';
+import { availableToTransfer } from '@/modules/transfer/core/transfer.slice';
 import { useInput } from '../hooks';
 import { ValidationType } from '../hooks';
-import { setAuthenticated } from '../controller/auth.slice';
-import { useSigninMutation } from '../controller/auth.query';
+import { setAuthenticated } from '../core/auth.slice';
+import { useSigninMutation } from '../core/auth.query';
 
 import LoginForm from '../components/Forms/LoginForm';
-import AuthLayout from '../components/Layout';
 
 import { updateCredentialTokens } from '../utils';
 import { LOGIN_WITH } from '@/utils/constants.util';
@@ -102,14 +101,12 @@ const Login: React.FC = () => {
 	}, []);
 
 	return (
-		<AuthLayout>
-			<LoginForm
-				email={email}
-				password={password}
-				onLogin={handleLogin}
-				isLoginStatusLoading={isSigninLoading}
-			/>
-		</AuthLayout>
+		<LoginForm
+			email={email}
+			password={password}
+			onLogin={handleLogin}
+			isLoginStatusLoading={isSigninLoading}
+		/>
 	);
 };
 

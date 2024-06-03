@@ -2,14 +2,8 @@ import React from 'react';
 
 import NewPassForm from '../components/Forms/NewPassForm';
 
-import AuthLayout from '../components/Layout';
-
 const NewPass: React.FC = () => {
-	return (
-		<AuthLayout>
-			<NewPassForm />;
-		</AuthLayout>
-	);
+	return <NewPassForm />;
 };
 
 export default NewPass;

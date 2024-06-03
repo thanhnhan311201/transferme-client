@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import React from 'react';
 
-import PublicRoutes from './routes/PublicRoutes';
-import ProtectedRoutes from './routes/ProtectedRoutes';
+import PublicRoutes from './pages/public-pages/PublicRoutes';
+import PrivateRoutes from './pages/private-pages/PrivateRoutes';
 
 // import socketClient from "./socket";
 import { useAppSelector } from './store';
@@ -52,12 +52,12 @@ function App() {
 		initFacebookSdk();
 	}, []);
 
-	return <ProtectedRoutes />;
+	return <PrivateRoutes />;
 	// switch (authStatus) {
 	// 	case AUTHENTICATION_STATUS.UNAUTHENTICATED:
 	// 		return <PublicRoutes />;
 	// 	case AUTHENTICATION_STATUS.AUTHENTICATED:
-	// 		return <ProtectedRoutes />;
+	// 		return <PrivateRoutes />;
 	// 	case AUTHENTICATION_STATUS.AUTHENTICATING:
 	// 	default:
 	// 		return <Loading />;

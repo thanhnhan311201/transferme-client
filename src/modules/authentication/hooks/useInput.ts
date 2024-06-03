@@ -1,7 +1,7 @@
 import { useCallback, useReducer, useEffect, useRef, useState } from 'react';
 
 import { emailRegex } from '@/utils';
-import AuthAPI from '../controller/auth.service';
+import AuthAPI from '../core/auth.service';
 
 export enum ValidationType {
 	IS_EMAIL_VALID = 'IS_EMAIL_VALID',

@@ -9,10 +9,10 @@ import { Button } from '@mui/material';
 import { IconContext } from 'react-icons';
 import { FaFacebook } from 'react-icons/fa';
 
-import { useSigninWithFacebookMutation } from '@/modules/authentication/controller/auth.query';
+import { useSigninWithFacebookMutation } from '@/modules/authentication/core/auth.query';
 import { useAppDispatch } from '@/store';
-import { setAuthenticated } from '@/modules/authentication/controller/auth.slice';
-import { availableToTransfer } from '@/modules/transfer/controller/transfer.slice';
+import { setAuthenticated } from '@/modules/authentication/core/auth.slice';
+import { availableToTransfer } from '@/modules/transfer/core/transfer.slice';
 import socketClient from '@/socket';
 
 import { facebookSignin } from '@/utils/facebookSDK';

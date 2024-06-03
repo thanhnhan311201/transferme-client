@@ -7,9 +7,9 @@ import {
 	setUnauthenticated,
 	authenticating,
 	setAuthenticated,
-} from '../controller/auth.slice';
-import { availableToTransfer } from '@/modules/transfer/controller/transfer.slice';
-import AuthAPI from '../controller/auth.service';
+} from '../core/auth.slice';
+import { availableToTransfer } from '@/modules/transfer/core/transfer.slice';
+import AuthAPI from '../core/auth.service';
 
 import { removeCredentialToken } from '../utils';
 import { accessTokenStorage } from '@/utils/JWTStorage';

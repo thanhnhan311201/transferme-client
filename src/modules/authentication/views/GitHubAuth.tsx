@@ -13,11 +13,9 @@ import { IconContext } from 'react-icons';
 
 import socketClient from '@/socket';
 import { useAppDispatch } from '@/store';
-import { useSigninWithGithubMutation } from '../controller/auth.query';
-import { setAuthenticated } from '../controller/auth.slice';
-import { availableToTransfer } from '@/modules/transfer/controller/transfer.slice';
-
-import AuthLayout from '../components/Layout';
+import { useSigninWithGithubMutation } from '../core/auth.query';
+import { setAuthenticated } from '../core/auth.slice';
+import { availableToTransfer } from '@/modules/transfer/core/transfer.slice';
 
 import { updateCredentialTokens } from '../utils';
 
@@ -92,36 +90,34 @@ const GitHubAuth: React.FC = () => {
 	]);
 
 	return (
-		<AuthLayout>
-			<motion.div
-				initial={{ opacity: 0, y: -50 }}
-				animate={{ opacity: 1, y: 0 }}
-				transition={{ duration: 0.5 }}
-			>
-				<div className="flex flex-col justify-center items-center gap-4 px-6 py-8 rounded-xl shadow-lg bg-white">
-					<IconContext.Provider
-						value={{
-							style: {
-								width: '2rem',
-								height: '2rem',
-							},
-						}}
-					>
-						<BsGithub />
-					</IconContext.Provider>
-					<span className="text-xl font-medium">
-						The login process is being processed.
-					</span>
-					<span className="text-base">
-						You are being redirected to the home page, please do not leave the
-						page.
-					</span>
-					<Box sx={{ width: '100%' }}>
-						<LinearProgress color="info" />
-					</Box>
-				</div>
-			</motion.div>
-		</AuthLayout>
+		<motion.div
+			initial={{ opacity: 0, y: -50 }}
+			animate={{ opacity: 1, y: 0 }}
+			transition={{ duration: 0.5 }}
+		>
+			<div className="flex flex-col justify-center items-center gap-4 px-6 py-8 rounded-xl shadow-lg bg-white">
+				<IconContext.Provider
+					value={{
+						style: {
+							width: '2rem',
+							height: '2rem',
+						},
+					}}
+				>
+					<BsGithub />
+				</IconContext.Provider>
+				<span className="text-xl font-medium">
+					The login process is being processed.
+				</span>
+				<span className="text-base">
+					You are being redirected to the home page, please do not leave the
+					page.
+				</span>
+				<Box sx={{ width: '100%' }}>
+					<LinearProgress color="info" />
+				</Box>
+			</div>
+		</motion.div>
 	);
 };
 

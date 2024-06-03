@@ -17,7 +17,7 @@ import { socketActions } from './slice.socket';
 // import StreamSlicer from '@/utils/stream/slicer.stream';
 // import StreamSender from '@/utils/stream/sender.stream';
 // import streamReceiver from '@/utils/stream/receiver.stream';
-import { setUser } from '@/modules/user/controller/user.slice';
+import { setUser } from '@/modules/user/core/user.slice';
 
 // import { sleep } from '@/utils';
 import { IUserInfo } from '@/config';

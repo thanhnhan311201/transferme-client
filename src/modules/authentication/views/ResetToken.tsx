@@ -2,14 +2,8 @@ import React from 'react';
 
 import ResetTokenForm from '../components/Forms/ResetTokenForm';
 
-import AuthLayout from '../components/Layout';
-
 const ResetToken: React.FC = () => {
-	return (
-		<AuthLayout>
-			<ResetTokenForm />
-		</AuthLayout>
-	);
+	return <ResetTokenForm />;
 };
 
 export default ResetToken;
