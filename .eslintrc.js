@@ -33,4 +33,9 @@ module.exports = {
     ]
 		// 'no-unused-vars': ['error', { vars: 'all' }],
 	},
+	settings: {
+    "react": {
+      "version": "detect"
+    }
+  }
 };

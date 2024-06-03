@@ -8,10 +8,10 @@ import { FaRegPaperPlane } from 'react-icons/fa6';
 import { MdOutlineSettings } from 'react-icons/md';
 
 import { useAppDispatch } from '@/store';
+import { openUserSetting } from '@/modules/user/core/user.slice';
 
 import UserProfile from '@/modules/user/views/UserProfile';
 import TransferList from '@/modules/transfer-v2/views/TransferList';
-import { openUserSetting } from '@/modules/user/core/user.slice';
 
 const SideMenu: React.FC = () => {
 	const dispatch = useAppDispatch();
