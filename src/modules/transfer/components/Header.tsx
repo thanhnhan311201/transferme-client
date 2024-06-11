@@ -7,7 +7,7 @@ import { IoIosHelpCircleOutline } from 'react-icons/io';
 import { IoIosArrowDown } from 'react-icons/io';
 import { IconContext } from 'react-icons';
 
-import { type IUserInfo } from '@/config';
+import type { User } from '@/modules/user/@types';
 
 import logo from '/images/logo_4.png';
 
@@ -20,23 +20,23 @@ const scaleVariants = {
 const Header = React.forwardRef<
 	HTMLDivElement,
 	{
-		userInfo: IUserInfo | null;
+		userInfo: User | null;
 		showUserNav: boolean;
 		onHandleShowUserNav: () => void;
-		clientId: string;
+		clientId: string | null;
 	}
 >((props, ref) => {
 	return (
-		<div className="w-full flex justify-between items-center">
-			<div className="py-4 px-2">
-				<div className="h-6 pl-5 ">
+		<div className="flex w-full items-center justify-between">
+			<div className="px-2 py-4">
+				<div className="h-6 pl-5">
 					<Link to="/transfer" className="h-full">
 						<img className="h-full" src={logo} alt="logo" />
 					</Link>
 				</div>
 			</div>
 			<div className="flex items-center gap-4">
-				<div className="rounded-full border-4 border-solid border-transparent cursor-pointer hover:border-e0e9f8">
+				<div className="cursor-pointer rounded-full border-4 border-solid border-transparent hover:border-e0e9f8">
 					<IconContext.Provider
 						value={{
 							style: {
@@ -49,7 +49,7 @@ const Header = React.forwardRef<
 						<IoIosHelpCircleOutline />
 					</IconContext.Provider>
 				</div>
-				<div className="flex justify-end items-center py-2 mr-4 cursor-pointer">
+				<div className="mr-4 flex cursor-pointer items-center justify-end py-2">
 					<motion.div
 						variants={scaleVariants}
 						whileTap="tapped"
@@ -59,12 +59,12 @@ const Header = React.forwardRef<
 						<div
 							ref={ref}
 							onClick={props.onHandleShowUserNav}
-							className={`w-11 rounded-full border-4 hover:border-e0e9f8 border-solid relative ${
+							className={`relative w-11 rounded-full border-4 border-solid hover:border-e0e9f8 ${
 								props.showUserNav ? 'border-e0e9f8' : 'border-fafafa'
 							}`}
 						>
 							<img
-								className="rounded-full w-full z-0"
+								className="z-0 w-full rounded-full"
 								src={props.userInfo?.profilePhoto}
 								alt="User avatar"
 								referrerPolicy="no-referrer"

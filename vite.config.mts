@@ -24,7 +24,7 @@ export default ({ mode }) => {
     },
     server: {
       host: process.env.VITE_HOST,
-      port: Number(process.env.VITE_POST),
+      port: Number(process.env.VITE_PORT),
     },
     build: {
       outDir: "build",

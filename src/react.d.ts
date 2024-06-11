@@ -1,5 +1,5 @@
 declare namespace React {
 	function lazy<T extends ComponentType<any>>(
-		factory: () => Promise<{ default: T }>
+		factory: () => Promise<{ default: T }>,
 	): T;
 }

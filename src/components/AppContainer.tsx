@@ -1,5 +1,5 @@
-import React from 'react';
-import { Suspense } from 'react';
+import React, { Suspense } from 'react';
+
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -11,7 +11,7 @@ const AppContainer: React.FC<{ children: React.ReactNode }> = ({
 	return (
 		<Suspense
 			fallback={
-				<div className="flex flex-auto flex-col h-[100vh]">
+				<div className="flex h-[100vh] flex-auto flex-col">
 					<Loading loading={true} />
 				</div>
 			}
