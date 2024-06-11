@@ -1,5 +1,5 @@
+import React, { useContext } from 'react';
 import { FileContext } from '../context';
-import { useContext } from 'react';
 
 interface IContextValue {
 	uploadedFile: File | null;

@@ -1,5 +1,16 @@
-class CacheFile {
-	constructor(private _file: File | null) {}
+export class CacheFile {
+	private static instance: CacheFile | null = null;
+	private _file: File | null = null;
+
+	private constructor() {}
+
+	public static getInstance() {
+		if (CacheFile.instance === null) {
+			CacheFile.instance = new CacheFile();
+		}
+
+		return CacheFile.instance;
+	}
 
 	get file(): File | null {
 		return this._file;
@@ -7,32 +18,5 @@ class CacheFile {
 
 	set file(newFile: File | null) {
 		this._file = newFile;
-	}
-}
-
-const fileInstance = new CacheFile(null);
-
-export default fileInstance;
-
-export class CacheStream {
-	private static _instance: CacheStream;
-	private controller?: TransformStreamDefaultController;
-
-	private constructor() {}
-
-	static get instance() {
-		if (!CacheStream._instance) {
-			CacheStream._instance = new CacheStream();
-		}
-
-		return CacheStream._instance;
-	}
-
-	setController(controller: TransformStreamDefaultController) {
-		this.controller = controller;
-	}
-
-	getController() {
-		return this.controller;
 	}
 }

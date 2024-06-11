@@ -2,7 +2,7 @@ import React from 'react';
 
 import CircularProgress from '@mui/material/CircularProgress';
 import classNames from 'classnames';
-import { CommonProps } from '@/types/common.type';
+import { CommonProps } from '@/@types/common.type';
 import type { ElementType, ReactNode } from 'react';
 
 interface BaseLoadingProps extends CommonProps {
@@ -27,8 +27,8 @@ const DefaultLoading = (props: BaseLoadingProps) => {
 	return loading ? (
 		<Component
 			className={classNames(
-				!customLoader && 'flex items-center justify-center h-full',
-				className
+				!customLoader && 'flex h-full items-center justify-center',
+				className,
 			)}
 		>
 			{customLoader ? <>{customLoader}</> : <CircularProgress />}
@@ -51,10 +51,10 @@ const CoveredLoading = (props: BaseLoadingProps) => {
 		<Component className={classNames(loading ? 'relative' : '', className)}>
 			{children}
 			{loading && (
-				<div className="w-full h-full bg-white dark:bg-gray-800 dark:bg-opacity-60 bg-opacity-50 absolute inset-0" />
+				<div className="absolute inset-0 h-full w-full bg-white bg-opacity-50 dark:bg-gray-800 dark:bg-opacity-60" />
 			)}
 			{loading && (
-				<div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">
+				<div className="absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 transform">
 					{customLoader ? <>{customLoader}</> : <CircularProgress />}
 				</div>
 			)}

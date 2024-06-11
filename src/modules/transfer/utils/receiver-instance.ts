@@ -1,5 +1,16 @@
-class Receiver {
-	constructor(private _receiver: string) {}
+export class Receiver {
+	private static instance: Receiver | null = null;
+	private _receiver: string = '';
+
+	private constructor() {}
+
+	public static getInstance() {
+		if (Receiver.instance === null) {
+			Receiver.instance = new Receiver();
+		}
+
+		return Receiver.instance;
+	}
 
 	get receiver() {
 		return this._receiver;
@@ -9,7 +20,3 @@ class Receiver {
 		this._receiver = newDevice;
 	}
 }
-
-const receiverInstance = new Receiver('');
-
-export default receiverInstance;

@@ -22,15 +22,15 @@ const Navigation = () => {
 			className="overflow-hidden"
 		>
 			<div className="w-full p-4">
-				<div className="flex flex-col w-full">
+				<div className="flex w-full flex-col">
 					{featsNav.map((feat) => (
 						<NavLink key={feat.key} to={`/${feat.key}`}>
 							<div
-								className={`px-4 py-2 hover:bg-edf2fc flex justify-start cursor-pointer rounded-xl ${
+								className={`flex cursor-pointer justify-start rounded-xl px-4 py-2 hover:bg-edf2fc ${
 									activeNav === feat.key ? 'bg-e0e9f8' : 'bg-inherit'
 								}`}
 							>
-								<div className="flex gap-4 items-center text-1f1f1f">
+								<div className="flex items-center gap-4 text-1f1f1f">
 									<IconContext.Provider
 										value={{
 											style: {
@@ -46,7 +46,7 @@ const Navigation = () => {
 											<RiFileTransferLine />
 										)}
 									</IconContext.Provider>
-									<span className="font-medium font-sm">{feat.content}</span>
+									<span className="font-sm font-medium">{feat.content}</span>
 								</div>
 							</div>
 						</NavLink>

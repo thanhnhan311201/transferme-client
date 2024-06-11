@@ -7,7 +7,7 @@ import { IconContext } from 'react-icons';
 import { MdOutlineErrorOutline } from 'react-icons/md';
 import { TbReload } from 'react-icons/tb';
 
-import receiverInstance from '../../utils/receiver-instance';
+import { Receiver } from '../../utils/receiver-instance';
 
 const TransferError: React.FC<{ onHandleReset: () => void }> = (props) => {
 	return (
@@ -50,10 +50,10 @@ const TransferError: React.FC<{ onHandleReset: () => void }> = (props) => {
 						gap: '0.25rem',
 					}}
 				>
-					<p className="text-red-700 text-base font-medium">Error</p>
+					<p className="text-base font-medium text-red-700">Error</p>
 					<p className="text-sm">
-						<strong>{receiverInstance.receiver}</strong> refused to receive the
-						file.
+						<strong>{Receiver.getInstance().receiver}</strong> refused to
+						receive the file.
 					</p>
 				</Box>
 			</Box>

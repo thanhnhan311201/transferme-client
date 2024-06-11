@@ -10,8 +10,8 @@ import { FaTrashAlt } from 'react-icons/fa';
 import { IconContext } from 'react-icons';
 import Button from '@mui/material/Button';
 
-import fileInstance from '../../utils/cache-file';
-import { formatFileSize } from '@/utils';
+import { CacheFile } from '../../utils/cache-file';
+import { formatFileSize } from '@/helpers/general.helper';
 
 const BrowseFile: React.FC<{
 	onHandleAllowToContinue: (isAllow: boolean) => void;
@@ -22,7 +22,7 @@ const BrowseFile: React.FC<{
 
 	const handleUploadFile = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (!e.target.files) {
-			fileInstance.file = null;
+			CacheFile.getInstance().file = null;
 			props.onHandleAllowToContinue(false);
 			setError('File does not upload!');
 			setIsFileUploaded(false);
@@ -30,10 +30,10 @@ const BrowseFile: React.FC<{
 		}
 		const file = e.target.files[0];
 		if (file) {
-			fileInstance.file = file;
+			CacheFile.getInstance().file = file;
 			setIsLoading(true);
 		} else {
-			fileInstance.file = null;
+			CacheFile.getInstance().file = null;
 			props.onHandleAllowToContinue(false);
 			setError('The size of the file must be less than 1MB');
 			setIsFileUploaded(false);
@@ -43,11 +43,11 @@ const BrowseFile: React.FC<{
 	const handleDeleteFile = () => {
 		setIsFileUploaded(false);
 		props.onHandleAllowToContinue(false);
-		fileInstance.file = null;
+		CacheFile.getInstance().file = null;
 	};
 
 	useEffect(() => {
-		if (!fileInstance.file) {
+		if (!CacheFile.getInstance().file) {
 			setError('File does not upload!');
 			setIsFileUploaded(false);
 			props.onHandleAllowToContinue(false);
@@ -58,10 +58,10 @@ const BrowseFile: React.FC<{
 		setError('');
 		setIsFileUploaded(true);
 		props.onHandleAllowToContinue(true);
-	}, [fileInstance.file]);
+	}, [CacheFile.getInstance().file]);
 
 	return (
-		<React.Fragment>
+		<>
 			<Box
 				sx={{
 					border: '5px dashed #ebebeb',
@@ -74,12 +74,12 @@ const BrowseFile: React.FC<{
 				}}
 			>
 				<AnimatePresence>
-					{!isFileUploaded && !fileInstance.file && !isLoading && (
+					{!isFileUploaded && !CacheFile.getInstance().file && !isLoading && (
 						<motion.div
 							initial={{ opacity: 0, x: -50 }}
 							animate={{ opacity: 1, x: 0 }}
 							transition={{ duration: 0.5 }}
-							className="flex justify-center items-center flex-col py-4"
+							className="flex flex-col items-center justify-center py-4"
 						>
 							<Box
 								sx={{
@@ -107,7 +107,7 @@ const BrowseFile: React.FC<{
 									value=""
 								/>
 								<label htmlFor="transfer-file">
-									<div className="py-2 px-4 bg-white text-1f1f1f cursor-pointer shadow-btn rounded-lg hover:shadow-user-nav">
+									<div className="cursor-pointer rounded-lg bg-white px-4 py-2 text-1f1f1f shadow-btn hover:shadow-user-nav">
 										<div className="flex items-center gap-2">
 											<IconContext.Provider
 												value={{
@@ -127,7 +127,7 @@ const BrowseFile: React.FC<{
 							</Button>
 						</motion.div>
 					)}
-					{!isFileUploaded && !fileInstance.file && isLoading && (
+					{!isFileUploaded && !CacheFile.getInstance().file && isLoading && (
 						<motion.div
 							initial={{ opacity: 0, x: -50 }}
 							animate={{ opacity: 1, x: 0 }}
@@ -136,7 +136,7 @@ const BrowseFile: React.FC<{
 							<CircularProgress />
 						</motion.div>
 					)}
-					{isFileUploaded && fileInstance.file && !isLoading && (
+					{isFileUploaded && CacheFile.getInstance().file && !isLoading && (
 						<motion.div
 							initial={{ opacity: 0, x: -50 }}
 							animate={{ opacity: 1, x: 0 }}
@@ -159,11 +159,11 @@ const BrowseFile: React.FC<{
 										gap: '0.75rem',
 									}}
 								>
-									<span className="text-sm font-normal text-ellipsis whitespace-nowrap overflow-hidden">
-										{fileInstance.file!.name}
+									<span className="overflow-hidden text-ellipsis whitespace-nowrap text-sm font-normal">
+										{CacheFile.getInstance().file!.name}
 									</span>
 									<span className="text-sm font-normal text-0000008a">
-										{formatFileSize(fileInstance.file!.size)}
+										{formatFileSize(CacheFile.getInstance().file!.size)}
 									</span>
 								</Box>
 								<Box
@@ -200,7 +200,7 @@ const BrowseFile: React.FC<{
 					)}
 				</AnimatePresence>
 			</Box>
-		</React.Fragment>
+		</>
 	);
 };
 

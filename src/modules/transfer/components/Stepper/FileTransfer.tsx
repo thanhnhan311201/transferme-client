@@ -9,15 +9,15 @@ import { BiTransferAlt } from 'react-icons/bi';
 import { AiOutlineInfoCircle } from 'react-icons/ai';
 import { IconContext } from 'react-icons';
 
-import fileInstance from '../../utils/cache-file';
-import { formatFileSize } from '@/utils';
+import { CacheFile } from '../../utils/cache-file';
+import { formatFileSize } from '@/helpers/general.helper';
 
 const FileTransfer: React.FC<{
 	isStartTransfer: boolean;
 	onCancelTransfer: () => void;
 }> = (props) => {
 	return (
-		<React.Fragment>
+		<>
 			<Box
 				sx={{
 					padding: '1rem 1.5rem',
@@ -48,8 +48,8 @@ const FileTransfer: React.FC<{
 						flexGrow: 1,
 					}}
 				>
-					<strong>{`${fileInstance.file!.name} (${formatFileSize(
-						fileInstance.file!.size
+					<strong>{`${CacheFile.getInstance().file!.name} (${formatFileSize(
+						CacheFile.getInstance().file!.size,
 					)})`}</strong>{' '}
 					was loaded successfully and is ready for transfer!
 				</Box>
@@ -155,7 +155,7 @@ const FileTransfer: React.FC<{
 					</>
 				)}
 			</AnimatePresence>
-		</React.Fragment>
+		</>
 	);
 };
 

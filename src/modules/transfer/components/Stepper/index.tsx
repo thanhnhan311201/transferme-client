@@ -15,12 +15,12 @@ import UserOption from './UserOption';
 import FileTransfer from './FileTransfer';
 import TransferError from './TransferError';
 
-import socketClient from '@/socket';
-import { availableToTransfer } from '../../controller/transfer.slice';
+import { availableToTransfer } from '../../state/transfer.slice';
 import { useAppDispatch, useAppSelector } from '@/store';
+import { GatewayService } from '@/modules/gateway/gateway.service';
 
-import fileInstance from '../../utils/cache-file';
-import receiverInstance from '../../utils/receiver-instance';
+import { CacheFile } from '../../utils/cache-file';
+import { Receiver } from '../../utils/receiver-instance';
 
 import { TRANSFERRING_STATUS } from '../../types/transferring-status.type';
 
@@ -32,7 +32,7 @@ const steps = [
 
 const FileTransferStepper: React.FC = () => {
 	const { transferStatus } = useAppSelector((state) => state.transfer);
-	const { onlineUsers } = useAppSelector((state) => state.socket);
+	const { onlineDevices } = useAppSelector((state) => state.socket);
 
 	const [activeStep, setActiveStep] = React.useState(0);
 	const [isNext, setIsNext] = useState(false);
@@ -48,9 +48,9 @@ const FileTransferStepper: React.FC = () => {
 
 	const handleTransferFile = () => {
 		setIsStartTransfer(true);
-		socketClient.requestSendFile({
-			receivedClientId: receiverInstance.receiver,
-		});
+		GatewayService.getInstance().requestSendFile(
+			Receiver.getInstance().receiver,
+		);
 	};
 
 	const handleCancelTransfer = () => {
@@ -65,12 +65,13 @@ const FileTransferStepper: React.FC = () => {
 
 	useEffect(() => {
 		if (transferStatus === TRANSFERRING_STATUS.AVAILABLE) {
-			fileInstance.file = null;
-			receiverInstance.receiver = '';
+			CacheFile.getInstance().file = null;
+			Receiver.getInstance().receiver = '';
 			setActiveStep(0);
 			setIsNext(false);
 			setIsStartTransfer(false);
-			socketClient.isCancel = false;
+			GatewayService.getInstance().transferStatus =
+				TRANSFERRING_STATUS.AVAILABLE;
 		} else if (transferStatus === TRANSFERRING_STATUS.REFUSE_REQUEST) {
 			handleNext();
 		}
@@ -89,7 +90,7 @@ const FileTransferStepper: React.FC = () => {
 			<UserOption
 				key="user-option"
 				onHandleAllowToContinue={handleAllowToContinue}
-				onlineUsers={onlineUsers}
+				onlineDevices={onlineDevices}
 			/>,
 			<FileTransfer
 				key="file-transfer"
@@ -97,11 +98,11 @@ const FileTransferStepper: React.FC = () => {
 				onCancelTransfer={handleCancelTransfer}
 			/>,
 		];
-	}, [isStartTransfer, onlineUsers]);
+	}, [isStartTransfer, onlineDevices]);
 
 	useEffect(() => {
-		fileInstance.file = null;
-		receiverInstance.receiver = '';
+		CacheFile.getInstance().file = null;
+		Receiver.getInstance().receiver = '';
 	}, []);
 
 	return (

@@ -7,21 +7,15 @@ import { HiOutlineStatusOnline } from 'react-icons/hi';
 import { BsCircleFill } from 'react-icons/bs';
 import { IconContext } from 'react-icons';
 
-import { type IUserInfo } from '@/config';
+import type { User } from '@/modules/user/@types';
 
 const UserNav = React.forwardRef<
 	HTMLDivElement,
 	{
 		onLogout: () => void;
-		userInfo: IUserInfo | null;
-		clientId: string;
-		onlineUsers: {
-			id: string;
-			clientId: string;
-			profilePhoto: string;
-			username: string;
-			email: string;
-		}[];
+		userInfo: User | null;
+		clientId: string | null;
+		onlineDevices: (User & { clientId: string })[];
 	}
 >((props, ref) => {
 	return (
@@ -31,13 +25,13 @@ const UserNav = React.forwardRef<
 			initial={{ opacity: 0, x: 125, y: -100, scale: 0 }}
 			animate={{ opacity: 1, x: 0, y: 0, scale: 1 }}
 			exit={{ opacity: 0, x: 125, y: -100, scale: 0 }}
-			className="bg-modal-user w-88 shadow-user-nav p-2 rounded-3xl absolute top-16 right-4 z-50"
+			className="absolute right-4 top-16 z-50 w-88 rounded-3xl bg-modal-user p-2 shadow-user-nav"
 		>
-			<div className="bg-white w-full p-4 rounded-3xl mb-2">
-				<div className="flex gap-4 items-center">
+			<div className="mb-2 w-full rounded-3xl bg-white p-4">
+				<div className="flex items-center gap-4">
 					<div className="w-14">
 						<img
-							className="rounded-full w-full"
+							className="w-full rounded-full"
 							src={props.userInfo?.profilePhoto}
 							alt="User avatar"
 							referrerPolicy="no-referrer"
@@ -45,10 +39,10 @@ const UserNav = React.forwardRef<
 						/>
 					</div>
 					<div className="grow">
-						<div className="text-3c4043 font-medium text-sm">
+						<div className="text-sm font-medium text-3c4043">
 							{props.userInfo?.username}
 						</div>
-						<div className="text-5f6368 text-xs truncate">
+						<div className="truncate text-xs text-5f6368">
 							{props.userInfo?.email}
 						</div>
 					</div>
@@ -56,8 +50,8 @@ const UserNav = React.forwardRef<
 			</div>
 			<div className="flex flex-col gap-1">
 				<div className="flex flex-col border-b border-solid border-gray-200">
-					<div className="w-full px-4 py-2 flex gap-4 items-center">
-						<div className="w-14 flex justify-center">
+					<div className="flex w-full items-center gap-4 px-4 py-2">
+						<div className="flex w-14 justify-center">
 							<IconContext.Provider
 								value={{
 									style: {
@@ -70,13 +64,13 @@ const UserNav = React.forwardRef<
 							</IconContext.Provider>
 						</div>
 						<div className="grow">
-							<span className="text-46ab5e font-medium text-base">
+							<span className="text-base font-medium text-46ab5e">
 								{props.clientId}
 							</span>
 						</div>
 					</div>
-					<div className="w-full p-4 py-2 flex gap-4 items-center">
-						<div className="w-14 flex justify-center self-start">
+					<div className="flex w-full items-center gap-4 p-4 py-2">
+						<div className="flex w-14 justify-center self-start">
 							<IconContext.Provider
 								value={{
 									style: {
@@ -88,13 +82,13 @@ const UserNav = React.forwardRef<
 								<MdOutlineDevices />
 							</IconContext.Provider>
 						</div>
-						<div className="grow flex flex-col gap-1">
-							<span className="text-3c4043 font-medium text-base">
+						<div className="flex grow flex-col gap-1">
+							<span className="text-base font-medium text-3c4043">
 								Online Devices
 							</span>
 							<div>
 								<AnimatePresence>
-									{props.onlineUsers.length === 0 ? (
+									{props.onlineDevices.length === 0 ? (
 										<motion.p
 											initial={{ opacity: 0 }}
 											animate={{ opacity: 1 }}
@@ -106,13 +100,13 @@ const UserNav = React.forwardRef<
 										</motion.p>
 									) : (
 										<ul className="flex flex-col">
-											{props.onlineUsers.map((user) => (
+											{props.onlineDevices.map((device) => (
 												<motion.li
 													initial={{ opacity: 0 }}
 													animate={{ opacity: 1 }}
 													exit={{ opacity: 0 }}
 													transition={{ duration: 0.5 }}
-													key={user.id}
+													key={device.id}
 												>
 													<div className="flex items-center gap-3">
 														<IconContext.Provider
@@ -127,8 +121,8 @@ const UserNav = React.forwardRef<
 														>
 															<BsCircleFill />
 														</IconContext.Provider>
-														<div className="grow text-3c4043 font-normal text-sm py-1 truncate">
-															<span>{user.clientId}</span>
+														<div className="grow truncate py-1 text-sm font-normal text-3c4043">
+															<span>{device.clientId}</span>
 														</div>
 													</div>
 												</motion.li>
@@ -142,9 +136,9 @@ const UserNav = React.forwardRef<
 				</div>
 				<div
 					onClick={props.onLogout}
-					className="w-full p-4 hover:bg-e0e9f8 rounded-3xl cursor-pointer flex gap-4 items-center"
+					className="flex w-full cursor-pointer items-center gap-4 rounded-3xl p-4 hover:bg-e0e9f8"
 				>
-					<div className="w-14 flex justify-center">
+					<div className="flex w-14 justify-center">
 						<IconContext.Provider
 							value={{
 								style: {
@@ -157,7 +151,7 @@ const UserNav = React.forwardRef<
 						</IconContext.Provider>
 					</div>
 					<div className="grow">
-						<span className="text-3c4043 font-medium text-base">Log out</span>
+						<span className="text-base font-medium text-3c4043">Log out</span>
 					</div>
 				</div>
 			</div>

@@ -1,15 +1,15 @@
-import { FB_APP_ID, FB_SDK_VERSION } from '@/config';
+import { FACEBOOK_APP_ID, FACEBOOK_SDK_VERSION } from '@/config/env';
 
 export const initFacebookSdk = (): Promise<void> => {
 	return new Promise((resolve) => {
 		// Load the Facebook SDK asynchronously
 		(window as any).fbAsyncInit = () => {
 			(window as any).FB.init({
-				appId: FB_APP_ID,
+				appId: FACEBOOK_APP_ID,
 				cookie: true,
 				xfbml: true,
 				autoLogAppEvents: true,
-				version: 'v' + FB_SDK_VERSION,
+				version: 'v' + FACEBOOK_SDK_VERSION,
 			});
 
 			// Resolve the promise when SDK is loaded
