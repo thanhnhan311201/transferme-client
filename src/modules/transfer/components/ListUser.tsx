@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { BsCircleFill } from 'react-icons/bs';
 
 const ListUser: React.FC<{
-	onlineUsers: {
+	onlineDevices: {
 		id: string;
 		clientId: string;
 		profilePhoto: string;
@@ -22,11 +22,11 @@ const ListUser: React.FC<{
 			className="overflow-hidden p-4 pt-0"
 		>
 			<div className="w-full rounded-xl p-4">
-				<div className="flex flex-col w-full gap-3">
-					<span className="text-3c4043 font-medium text-lg">Devices</span>
+				<div className="flex w-full flex-col gap-3">
+					<span className="text-lg font-medium text-3c4043">Devices</span>
 					<div>
 						<AnimatePresence>
-							{props.onlineUsers.length === 0 ? (
+							{props.onlineDevices.length === 0 ? (
 								<motion.p
 									initial={{ opacity: 0 }}
 									animate={{ opacity: 1 }}
@@ -38,19 +38,19 @@ const ListUser: React.FC<{
 								</motion.p>
 							) : (
 								<ul className="flex flex-col gap-2">
-									{props.onlineUsers.map((user) => (
+									{props.onlineDevices.map((device) => (
 										<motion.li
 											initial={{ opacity: 0 }}
 											animate={{ opacity: 1 }}
 											exit={{ opacity: 0 }}
 											transition={{ duration: 0.5 }}
-											key={user.clientId}
+											key={device.clientId}
 										>
 											<div className="flex items-center gap-3">
-												<div className="w-6 relative">
+												<div className="relative w-6">
 													<img
-														className="rounded-full w-full z-0"
-														src={user.profilePhoto}
+														className="z-0 w-full rounded-full"
+														src={device.profilePhoto}
 														alt="User avatar"
 														referrerPolicy="no-referrer"
 														crossOrigin="anonymous"
@@ -73,8 +73,8 @@ const ListUser: React.FC<{
 														<BsCircleFill />
 													</IconContext.Provider>
 												</div>
-												<div className="text-3c4043 font-medium text-sm py-2 truncate">
-													<span>{user.clientId}</span>
+												<div className="truncate py-2 text-sm font-medium text-3c4043">
+													<span>{device.clientId}</span>
 												</div>
 											</div>
 										</motion.li>

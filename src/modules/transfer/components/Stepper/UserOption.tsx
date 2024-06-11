@@ -7,11 +7,11 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 
-import receiverInstance from '../../utils/receiver-instance';
+import { Receiver } from '../../utils/receiver-instance';
 
 const UserOption: React.FC<{
 	onHandleAllowToContinue: (isAllow: boolean) => void;
-	onlineUsers: {
+	onlineDevices: {
 		id: string;
 		clientId: string;
 		profilePhoto: string;
@@ -19,31 +19,31 @@ const UserOption: React.FC<{
 		email: string;
 	}[];
 }> = (props) => {
-	const [user, setUser] = useState<string>(receiverInstance.receiver);
+	const [user, setUser] = useState<string>(Receiver.getInstance().receiver);
 
 	const handleChange = (e: SelectChangeEvent) => {
 		setUser(e.target.value);
 
 		if (e.target.value) {
-			receiverInstance.receiver = e.target.value;
+			Receiver.getInstance().receiver = e.target.value;
 			props.onHandleAllowToContinue(true);
 		} else {
 			props.onHandleAllowToContinue(false);
-			receiverInstance.receiver = '';
+			Receiver.getInstance().receiver = '';
 		}
 	};
 
 	useEffect(() => {
-		if (!receiverInstance.receiver) {
+		if (!Receiver.getInstance().receiver) {
 			props.onHandleAllowToContinue(false);
 			return;
 		}
 
 		props.onHandleAllowToContinue(true);
-	}, [receiverInstance.receiver]);
+	}, [Receiver.getInstance().receiver]);
 
 	return (
-		<React.Fragment>
+		<>
 			<Box>
 				<FormControl fullWidth>
 					<InputLabel id="select-user-error-label">Select user *</InputLabel>
@@ -55,15 +55,15 @@ const UserOption: React.FC<{
 						onChange={handleChange}
 					>
 						<MenuItem value={''}>None</MenuItem>
-						{props.onlineUsers.map((user) => (
-							<MenuItem key={user.id} value={user.clientId}>
-								{user.clientId}
+						{props.onlineDevices.map((device) => (
+							<MenuItem key={device.id} value={device.clientId}>
+								{device.clientId}
 							</MenuItem>
 						))}
 					</Select>
 				</FormControl>
 			</Box>
-		</React.Fragment>
+		</>
 	);
 };
 

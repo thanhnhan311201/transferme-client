@@ -7,9 +7,9 @@ import { useAppSelector, useAppDispatch } from '@/store';
 import {
 	toggleDarkTheme,
 	toggleLightTheme,
-} from '@/modules/common/core/theme.slice';
+} from '@/modules/common/state/theme.slice';
 
-import { THEME_PROFILE } from '@/types/common.type';
+import { THEME_PROFILE } from '@/@types/common.type';
 
 const AppearanceTab: React.FC = () => {
 	const { themeProfile } = useAppSelector((state) => state.theme);
@@ -21,27 +21,27 @@ const AppearanceTab: React.FC = () => {
 			initial={{ opacity: 0 }}
 			animate={{ opacity: 1 }}
 			transition={{ duration: 0.5 }}
-			className="w-full h-full flex flex-col justify-start gap-8"
+			className="flex h-full w-full flex-col justify-start gap-8"
 		>
-			<div className="shrink-0 font-['Inter'] text-3xl font-bold tracking-tight text-main-text-color">
+			<div className="text-main-text-color shrink-0 font-['Inter'] text-3xl font-bold tracking-tight">
 				Appearance
 			</div>
-			<div className="grow flex flex-col justify-start gap-8">
+			<div className="flex grow flex-col justify-start gap-8">
 				<div className="flex flex-col justify-start gap-5">
-					<div className="shrink-0 font-['Inter'] text-base font-semibold text-main-text-color">
+					<div className="text-main-text-color shrink-0 font-['Inter'] text-base font-semibold">
 						Appearance
 					</div>
 					<div className="flex items-start justify-start gap-8 pr-12">
 						<button
 							className={classNames(
-								'basis-1/2 p-3 border-4 rounded-2xl text-left transition-colors font-base font-semibold',
+								'font-base basis-1/2 rounded-2xl border-4 p-3 text-left font-semibold transition-colors',
 								themeProfile === THEME_PROFILE.LIGHT
-									? 'bg-transparent border-border-btn-color-selected text-setting-dialog__appearance__btn-text-selected-color'
-									: 'bg-setting-dialog__btn-hover-color border-transparent text-setting-dialog__appearance__btn-text-color'
+									? 'border-border-btn-color-selected text-setting-dialog__appearance__btn-text-selected-color bg-transparent'
+									: 'bg-setting-dialog__btn-hover-color text-setting-dialog__appearance__btn-text-color border-transparent',
 							)}
 							onClick={() => dispatch(toggleLightTheme())}
 						>
-							<div className="w-full h-full flex flex-col justify-start gap-3">
+							<div className="flex h-full w-full flex-col justify-start gap-3">
 								<img
 									src="/images/theme-light.svg"
 									alt="theme-light"
@@ -56,14 +56,14 @@ const AppearanceTab: React.FC = () => {
 						</button>
 						<button
 							className={classNames(
-								'basis-1/2 p-3 border-4 rounded-2xl text-left transition-colors',
+								'basis-1/2 rounded-2xl border-4 p-3 text-left transition-colors',
 								themeProfile === THEME_PROFILE.DARK
-									? 'bg-transparent border-border-btn-color-selected text-setting-dialog__appearance__btn-text-selected-color'
-									: 'bg-setting-dialog__btn-hover-color border-transparent text-setting-dialog__appearance__btn-text-color'
+									? 'border-border-btn-color-selected text-setting-dialog__appearance__btn-text-selected-color bg-transparent'
+									: 'bg-setting-dialog__btn-hover-color text-setting-dialog__appearance__btn-text-color border-transparent',
 							)}
 							onClick={() => dispatch(toggleDarkTheme())}
 						>
-							<div className="w-full h-full flex flex-col justify-start gap-3">
+							<div className="flex h-full w-full flex-col justify-start gap-3">
 								<img
 									src="/images/theme-dark.svg"
 									alt="dark-light"

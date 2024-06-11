@@ -9,6 +9,7 @@ import { IoSunny } from 'react-icons/io5';
 import { MdDelete } from 'react-icons/md';
 
 import { useAppSelector, useAppDispatch } from '@/store';
+import { closeUserSettingDialog } from '../state/user.slice';
 
 import Dialog from '@/components/Dialog';
 
@@ -16,10 +17,9 @@ import ProfileTab from '../components/SettingDialog/ProfileTab';
 import PasswordTab from '../components/SettingDialog/PasswordTab';
 import AppearanceTab from '../components/SettingDialog/AppearanceTab';
 import DeleteAccountTab from '../components/SettingDialog/DeleteAccountTab';
-import { closeUserSetting } from '../core/user.slice';
 
 export enum SETTING_CONFIG_KEY {
-	EDIT_PROFILE = 'edit_profile',
+	PROFILE = 'profile',
 	PASSWORD = 'password',
 	APPEARANCE = 'appearance',
 	DELETE_ACCOUNT = 'delete_account',
@@ -27,8 +27,8 @@ export enum SETTING_CONFIG_KEY {
 
 const settingConfig = [
 	{
-		key: SETTING_CONFIG_KEY.EDIT_PROFILE,
-		title: 'Edit profile',
+		key: SETTING_CONFIG_KEY.PROFILE,
+		title: 'Profile',
 		icon: <FaUser />,
 	},
 	{
@@ -45,13 +45,13 @@ const settingConfig = [
 
 const UserSettingDialog: React.FC = () => {
 	const [selectedSettingCfg, setSelectedSettingCfg] =
-		useState<SETTING_CONFIG_KEY>(SETTING_CONFIG_KEY.EDIT_PROFILE);
+		useState<SETTING_CONFIG_KEY>(SETTING_CONFIG_KEY.PROFILE);
 
-	const { isOpenUserSetting } = useAppSelector((state) => state.user);
+	const { isOpenUserSettingDialog } = useAppSelector((state) => state.user);
 	const dispatch = useAppDispatch();
 
 	const handleCloseUserSettingDialog = useCallback(() => {
-		dispatch(closeUserSetting());
+		dispatch(closeUserSettingDialog());
 	}, []);
 
 	const handleSelectSettingCfg = (cfg: SETTING_CONFIG_KEY): void => {
@@ -60,7 +60,7 @@ const UserSettingDialog: React.FC = () => {
 
 	const renderedTab = useMemo(() => {
 		switch (selectedSettingCfg) {
-			case SETTING_CONFIG_KEY.EDIT_PROFILE:
+			case SETTING_CONFIG_KEY.PROFILE:
 				return <ProfileTab />;
 			case SETTING_CONFIG_KEY.PASSWORD:
 				return <PasswordTab />;
@@ -74,35 +74,38 @@ const UserSettingDialog: React.FC = () => {
 	}, [selectedSettingCfg]);
 
 	useEffect(() => {
-		if (!isOpenUserSetting) {
-			setSelectedSettingCfg(SETTING_CONFIG_KEY.EDIT_PROFILE);
+		if (!isOpenUserSettingDialog) {
+			setSelectedSettingCfg(SETTING_CONFIG_KEY.PROFILE);
 		}
-	}, [isOpenUserSetting]);
+	}, [isOpenUserSettingDialog]);
 
 	return (
-		<Dialog isOpen={isOpenUserSetting} onClose={handleCloseUserSettingDialog}>
-			<div className="w-[48rem] h-[40rem] rounded-3xl p-12 bg-modal">
-				<div className="flex w-full h-full">
-					<div className="shrink-0 w-[13.25rem] flex flex-col justify-start gap-3">
+		<Dialog
+			isOpen={isOpenUserSettingDialog}
+			onClose={handleCloseUserSettingDialog}
+		>
+			<div className="bg-modal h-[40rem] w-[48rem] rounded-3xl p-12">
+				<div className="flex h-full w-full">
+					<div className="flex w-[13.25rem] shrink-0 flex-col justify-start gap-3">
 						<div className="w-ful flex flex-col justify-start gap-2">
 							{settingConfig.map((cfg) => (
 								<button
 									key={cfg.key}
 									className={classNames(
-										'group flex items-center gap-3 w-full px-[.875rem] py-[.375rem] rounded-full border-2 font-base font-semibold transition-colors bg-setting-dialog__btn-color hover:bg-setting-dialog__btn-hover-color hover:text-setting-dialog__btn-text-hover-color',
+										'font-base bg-setting-dialog__btn-color hover:bg-setting-dialog__btn-hover-color group flex w-full items-center gap-3 rounded-full border-2 px-[.875rem] py-[.375rem] font-semibold transition-colors',
 										cfg.key === selectedSettingCfg
-											? '!border-border-btn-color-selected text-main-text-color !bg-setting-dialog__btn-color'
-											: 'border-transparent text-grey'
+											? '!border-border-btn-color-selected !bg-setting-dialog__btn-color text-main-text-color'
+											: 'text-grey hover:text-setting-dialog__btn-text-hover-color border-transparent',
 									)}
 									onClick={() => handleSelectSettingCfg(cfg.key)}
 								>
 									<IconContext.Provider
 										value={{
 											className: classNames(
-												'transition-colors group-hover:fill-setting-dialog__btn-text-hover-color',
+												'transition-colors',
 												cfg.key === selectedSettingCfg
 													? 'fill-main-text-color'
-													: 'fill-grey'
+													: 'fill-grey group-hover:fill-setting-dialog__btn-text-hover-color',
 											),
 											style: {
 												verticalAlign: 'middle',
@@ -117,13 +120,13 @@ const UserSettingDialog: React.FC = () => {
 								</button>
 							))}
 						</div>
-						<div className="h-[.0625rem] bg-border-color w-full" />
+						<div className="bg-border-color h-[.0625rem] w-full" />
 						<button
 							className={classNames(
-								'flex items-center gap-3 w-full px-[.875rem] py-[.375rem] rounded-full border-2 font-base text-accent-color-1 font-semibold transition-colors bg-setting-dialog__btn-color hover:bg-setting-dialog__btn-hover-color',
+								'font-base bg-setting-dialog__btn-color text-accent-color-1 hover:bg-setting-dialog__btn-hover-color flex w-full items-center gap-3 rounded-full border-2 px-[.875rem] py-[.375rem] font-semibold transition-colors',
 								selectedSettingCfg === SETTING_CONFIG_KEY.DELETE_ACCOUNT
 									? '!border-accent-color-1 !bg-setting-dialog__btn-color'
-									: 'border-transparent'
+									: 'border-transparent',
 							)}
 							onClick={() =>
 								handleSelectSettingCfg(SETTING_CONFIG_KEY.DELETE_ACCOUNT)

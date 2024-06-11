@@ -1,7 +1,14 @@
-import { useCallback, useReducer, useEffect, useRef, useState } from 'react';
+import React, {
+	useCallback,
+	useReducer,
+	useEffect,
+	useRef,
+	useState,
+} from 'react';
 
-import { emailRegex } from '@/utils';
-import AuthAPI from '@/modules/authentication/core/auth.service';
+import { AuthService } from '@/modules/auth/services';
+
+const emailRegex = /^\w+([.]?\w+)*@\w+([.]?\w+)*(\.\w{2,3})+$/;
 
 export enum ValidationType {
 	IS_EMAIL_VALID = 'IS_EMAIL_VALID',
@@ -58,7 +65,7 @@ const inputStateReducer = (state: IState, action: IAction) => {
 const validateValue = (
 	validateType: ValidationType,
 	value: string,
-	value2?: string
+	value2?: string,
 ): { isValid: boolean; error: string | undefined } => {
 	switch (validateType) {
 		case ValidationType.REQUIRED:
@@ -158,7 +165,7 @@ const validateValue = (
 	}
 };
 
-const useInput = (validateType: ValidationType, option?: validationOption) => {
+const useInput = (validateType?: ValidationType, option?: validationOption) => {
 	const [inputState, dispatch] = useReducer(inputStateReducer, initialState);
 	const [valResult, setValResult] = useState<{
 		isValid: boolean;
@@ -168,6 +175,10 @@ const useInput = (validateType: ValidationType, option?: validationOption) => {
 	const inputRef = useRef<HTMLInputElement>(null);
 
 	useEffect(() => {
+		if (!validateType) {
+			return;
+		}
+
 		let inputTimer: NodeJS.Timeout;
 		if (inputState.isTouched && !inputState.isValidated) {
 			inputTimer = setTimeout(() => {
@@ -179,11 +190,19 @@ const useInput = (validateType: ValidationType, option?: validationOption) => {
 	}, [inputState.value, inputState.isTouched, inputState.isValidated]);
 
 	useEffect(() => {
+		if (!validateType) {
+			return;
+		}
+
 		const res = validateValue(validateType, inputState.value, option?.password);
 		setValResult(res);
 	}, [inputState.value, validateType, option?.password]);
 
 	useEffect(() => {
+		if (!validateType) {
+			return;
+		}
+
 		if (
 			option?.isCheckEmailExist &&
 			valResult.isValid &&
@@ -192,7 +211,7 @@ const useInput = (validateType: ValidationType, option?: validationOption) => {
 		) {
 			const verifyEmailInput = async () => {
 				try {
-					const response = await AuthAPI.verifyEmail({
+					const response = await AuthService.getInstance().verifyEmail({
 						email: inputState.value,
 					});
 					if (response) {
@@ -215,12 +234,12 @@ const useInput = (validateType: ValidationType, option?: validationOption) => {
 		(event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
 			dispatch({ type: InputActionType.INPUT, payload: event.target.value });
 		},
-		[]
+		[],
 	);
 
 	const handleInputBlur = useCallback(
 		() => dispatch({ type: InputActionType.BLUR, payload: '' }),
-		[]
+		[],
 	);
 
 	const setIsTouched = useCallback(() => {
@@ -250,13 +269,13 @@ const useInput = (validateType: ValidationType, option?: validationOption) => {
 
 export default useInput;
 
-export interface IUserInputResult {
+export interface UseInputHook {
 	value: string;
 	inputRef: React.RefObject<HTMLDivElement>;
 	isValid: boolean;
 	errMessage: string | undefined;
 	handleValueChange: (
-		event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+		event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
 	) => void;
 	handleInputBlur: (event: React.FocusEvent<HTMLElement>) => void;
 	setIsTouched: () => void;

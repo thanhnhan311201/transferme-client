@@ -10,15 +10,13 @@ import App from './App';
 import './index.css';
 
 import store from './store';
-import { GOOGLE_CLIENT_ID } from './config';
-import CssBaseline from '@mui/material/CssBaseline';
+import { GOOGLE_CLIENT_ID } from './config/env';
 
 const root = ReactDOM.createRoot(
-	document.getElementById('root') as HTMLElement
+	document.getElementById('root') as HTMLElement,
 );
 root.render(
-	<React.Fragment>
-		<CssBaseline />
+	<>
 		<Router>
 			<Provider store={store}>
 				<GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
@@ -26,5 +24,5 @@ root.render(
 				</GoogleOAuthProvider>
 			</Provider>
 		</Router>
-	</React.Fragment>
+	</>,
 );

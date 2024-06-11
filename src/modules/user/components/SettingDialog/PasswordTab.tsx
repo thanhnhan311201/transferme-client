@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 
 import classNames from 'classnames';
 import { motion } from 'framer-motion';
@@ -17,43 +17,40 @@ const PasswordTab: React.FC = () => {
 		password: newPassword.value,
 	});
 
-	const handleSubmit = useCallback(
-		async (e: React.FormEvent<HTMLFormElement>) => {
-			try {
-				e.preventDefault();
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+		try {
+			e.preventDefault();
 
-				currentPassword.setIsTouched();
-				newPassword.setIsTouched();
-				cfmNewPassword.setIsTouched();
+			currentPassword.setIsTouched();
+			newPassword.setIsTouched();
+			cfmNewPassword.setIsTouched();
 
-				if (
-					!currentPassword.isValid ||
-					!newPassword.isValid ||
-					!cfmNewPassword.isValid
-				) {
-					if (!currentPassword.isValid) {
-						currentPassword.inputRef.current!.focus();
-					} else if (!newPassword.isValid) {
-						newPassword.inputRef.current!.focus();
-					} else if (!cfmNewPassword.isValid) {
-						cfmNewPassword.inputRef.current!.focus();
-					}
-					return;
+			if (
+				!currentPassword.isValid ||
+				!newPassword.isValid ||
+				!cfmNewPassword.isValid
+			) {
+				if (!currentPassword.isValid) {
+					currentPassword.inputRef.current!.focus();
+				} else if (!newPassword.isValid) {
+					newPassword.inputRef.current!.focus();
+				} else if (!cfmNewPassword.isValid) {
+					cfmNewPassword.inputRef.current!.focus();
 				}
-
-				console.log('currentPassword...', currentPassword.value);
-				console.log('newPassword...', newPassword.value);
-				console.log('cfmNewPassword...', cfmNewPassword.value);
-			} catch (error: any) {
-				currentPassword.inputRef.current!.focus();
-				toast.error(
-					error?.message ||
-						'There was an error during updating password. Please double check password fields and try again.'
-				);
+				return;
 			}
-		},
-		[currentPassword, newPassword, cfmNewPassword]
-	);
+
+			console.log('currentPassword...', currentPassword.value);
+			console.log('newPassword...', newPassword.value);
+			console.log('cfmNewPassword...', cfmNewPassword.value);
+		} catch (error: any) {
+			currentPassword.inputRef.current!.focus();
+			toast.error(
+				error?.message ||
+					'There was an error during updating password. Please double check password fields and try again.',
+			);
+		}
+	};
 
 	const isFormValid =
 		currentPassword.isValid &&
@@ -68,9 +65,9 @@ const PasswordTab: React.FC = () => {
 			initial={{ opacity: 0 }}
 			animate={{ opacity: 1 }}
 			transition={{ duration: 0.5 }}
-			className="w-full h-full flex flex-col justify-start gap-8"
+			className="flex h-full w-full flex-col justify-start gap-8"
 		>
-			<div className="shrink-0 font-['Inter'] text-3xl font-bold tracking-tight text-main-text-color">
+			<div className="text-main-text-color shrink-0 font-['Inter'] text-3xl font-bold tracking-tight">
 				Password
 			</div>
 			<div className="grow">
@@ -79,15 +76,15 @@ const PasswordTab: React.FC = () => {
 					className="flex flex-col justify-start gap-6"
 				>
 					<div className="flex flex-col justify-start gap-2">
-						<div className="font-base font-semibold text-main-text-color">
+						<div className="font-base text-main-text-color font-semibold">
 							Password
 						</div>
 						<Input
 							className={classNames(
-								'bg-setting-dialog__input-bg-color border-2 outline-none rounded-xl transition-colors focus:bg-transparent placeholder:text-grey/50',
+								'bg-setting-dialog__input-bg-color placeholder:text-grey/50 rounded-xl border-2 outline-none transition-colors focus:bg-transparent',
 								!currentPassword.isValid && currentPassword.isTouched
 									? 'border-accent-color-1'
-									: 'border-setting-dialog__input-bg-color'
+									: 'border-setting-dialog__input-bg-color',
 							)}
 							placeholder="Password"
 							type="password"
@@ -121,15 +118,15 @@ const PasswordTab: React.FC = () => {
 						/>
 					</div>
 					<div className="flex flex-col justify-start gap-2">
-						<div className="font-base font-semibold text-main-text-color">
+						<div className="font-base text-main-text-color font-semibold">
 							New password
 						</div>
 						<Input
 							className={classNames(
-								'bg-setting-dialog__input-bg-color border-2 outline-none rounded-xl transition-colors focus:bg-transparent placeholder:text-grey/50',
+								'bg-setting-dialog__input-bg-color placeholder:text-grey/50 rounded-xl border-2 outline-none transition-colors focus:bg-transparent',
 								!newPassword.isValid && newPassword.isTouched
 									? 'border-accent-color-1'
-									: 'border-setting-dialog__input-bg-color'
+									: 'border-setting-dialog__input-bg-color',
 							)}
 							placeholder="New password"
 							type="password"
@@ -168,15 +165,15 @@ const PasswordTab: React.FC = () => {
 						/>
 					</div>
 					<div className="flex flex-col justify-start gap-2">
-						<div className="font-base font-semibold text-main-text-color">
+						<div className="font-base text-main-text-color font-semibold">
 							Confirm new password
 						</div>
 						<Input
 							className={classNames(
-								'bg-setting-dialog__input-bg-color border-2 outline-none rounded-xl transition-colors focus:bg-transparent placeholder:text-grey/50',
+								'bg-setting-dialog__input-bg-color placeholder:text-grey/50 rounded-xl border-2 outline-none transition-colors focus:bg-transparent',
 								!cfmNewPassword.isValid && cfmNewPassword.isTouched
 									? 'border-accent-color-1'
-									: 'border-setting-dialog__input-bg-color'
+									: 'border-setting-dialog__input-bg-color',
 							)}
 							placeholder="Confirm new password"
 							type="password"
@@ -211,8 +208,8 @@ const PasswordTab: React.FC = () => {
 					</div>
 					<button
 						className={classNames(
-							'w-full h-12 font-base font-semibold transition-colors flex items-center justify-center rounded-xl px-[1.375rem] bg-accent-color-2 text-white',
-							isFormValid ? '' : 'opacity-20'
+							'font-base bg-accent-color-2 flex h-12 w-full items-center justify-center rounded-xl px-[1.375rem] font-semibold text-white transition-colors',
+							isFormValid ? '' : 'opacity-20',
 						)}
 						type="submit"
 						disabled={!isFormValid}

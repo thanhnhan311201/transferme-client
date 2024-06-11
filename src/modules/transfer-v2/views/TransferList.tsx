@@ -89,25 +89,25 @@ const TransferList = () => {
 	const [selectedTransferId, setSelectedTransferId] = useState<number>(1);
 
 	return (
-		<div className="grow flex flex-col items-start justify-start w-full pb-2 overflow-hidden">
-			<div className="shrink-0 w-full text-left px-5 py-4 font-base text-grey/75">
+		<div className="flex w-full grow flex-col items-start justify-start overflow-hidden pb-2">
+			<div className="font-base text-grey/75 w-full shrink-0 px-5 py-4 text-left">
 				Transfer list
 			</div>
-			<div className="transfer-list grow flex flex-col justify-start gap-2 w-full overflow-y-auto scroll-smooth">
+			<div className="transfer-list flex w-full grow flex-col justify-start gap-2 overflow-y-auto scroll-smooth">
 				{transferList.map((user) => (
 					<button
 						key={user.id}
 						className={classNames(
-							'rounded-lg w-full px-5 py-2 flex items-center gap-4 font-base text-white--1/75 font-semibold transition-colors hover:text-white',
+							'font-base text-white--1/75 flex w-full items-center gap-4 rounded-lg px-5 py-2 font-semibold transition-colors hover:text-white',
 							selectedTransferId === user.id
 								? 'bg-gradient-to-l from-[#323337] to-[rgba(80,62,110,0.29)] text-white'
-								: ''
+								: '',
 						)}
 						onClick={() => setSelectedTransferId(user.id)}
 					>
-						<div className="relative basis-12 h-12 shrink-0">
+						<div className="relative h-12 shrink-0 basis-12">
 							<img
-								className="rounded-full w-full"
+								className="w-full rounded-full"
 								src={user.avatar}
 								alt="User avatar"
 								referrerPolicy="no-referrer"
@@ -132,7 +132,7 @@ const TransferList = () => {
 								</IconContext.Provider>
 							)}
 						</div>
-						<div className="overflow-hidden grow truncate text-left">
+						<div className="grow overflow-hidden truncate text-left">
 							{user.name}
 						</div>
 					</button>

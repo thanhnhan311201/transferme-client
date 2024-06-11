@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import socketClient from '@/socket';
 
 import { motion } from 'framer-motion';
 import { Player } from '@lottiefiles/react-lottie-player';
@@ -16,7 +15,8 @@ import {
 	transferError,
 	availableToTransfer,
 	transfering,
-} from '../core/transfer.slice';
+} from '../state/transfer.slice';
+import { GatewayService } from '@/modules/gateway/gateway.service';
 import { useAppDispatch, useAppSelector } from '@/store';
 
 import TransferProgressWithLabel from './Stepper/TransferProgress';
@@ -26,17 +26,17 @@ import transferFiles from '@public/lotties/transfer-files.json';
 
 const ReceivingWindow: React.FC = () => {
 	const { transferStatus, sender, progress } = useAppSelector(
-		(state) => state.transfer
+		(state) => state.transfer,
 	);
 
 	const dispatch = useAppDispatch();
 
 	const handleRefuse = () => {
-		// socketClient.replyToRequest(false);
+		GatewayService.getInstance().replyToRequest(false);
 	};
 
 	const handleCancel = () => {
-		// socketClient.cancelTransfer();
+		GatewayService.getInstance().cancelTransfer();
 		dispatch(transferError());
 	};
 
@@ -46,7 +46,7 @@ const ReceivingWindow: React.FC = () => {
 
 	const handleAccept = () => {
 		dispatch(transfering());
-		// socketClient.replyToRequest(true);
+		GatewayService.getInstance().replyToRequest(true);
 	};
 
 	return (
@@ -63,7 +63,7 @@ const ReceivingWindow: React.FC = () => {
 							animate={{ opacity: 1, y: 0 }}
 							exit={{ opacity: 0, y: -150 }}
 							transition={{ duration: 0.5 }}
-							className="w-50rem bg-gradient-to-r from-primary-color--tint-5 to-primary-color pl-8 pr-16 py-4 rounded-3xl z-50 shadow-xl"
+							className="z-50 w-50rem rounded-3xl bg-gradient-to-r from-primary-color--tint-5 to-primary-color py-4 pl-8 pr-16 shadow-xl"
 						>
 							<Box
 								sx={{
@@ -88,12 +88,12 @@ const ReceivingWindow: React.FC = () => {
 										animate={{ opacity: 1, x: 0 }}
 										exit={{ opacity: 0, x: -50 }}
 										transition={{ duration: 0.5 }}
-										className="flex-1 flex flex-col"
+										className="flex flex-1 flex-col"
 									>
-										<h2 className="text-2xl font-medium mb-2">
+										<h2 className="mb-2 text-2xl font-medium">
 											Hey, You Just Received A File Transfer Request!
 										</h2>
-										<span className="text-base font-normal mb-10">
+										<span className="mb-10 text-base font-normal">
 											Do you want to receive files from the{' '}
 											<strong>{sender}?</strong>
 										</span>
@@ -151,9 +151,9 @@ const ReceivingWindow: React.FC = () => {
 										animate={{ opacity: 1, x: 0 }}
 										exit={{ opacity: 0, x: -50 }}
 										transition={{ duration: 0.5 }}
-										className="flex-1 flex flex-col"
+										className="flex flex-1 flex-col"
 									>
-										<h2 className="text-2xl font-medium mb-8">
+										<h2 className="mb-8 text-2xl font-medium">
 											Transfering...
 										</h2>
 										<Box
@@ -190,9 +190,9 @@ const ReceivingWindow: React.FC = () => {
 										animate={{ opacity: 1, x: 0 }}
 										exit={{ opacity: 0, x: -50 }}
 										transition={{ duration: 0.5 }}
-										className="flex-1 flex flex-col"
+										className="flex flex-1 flex-col"
 									>
-										<h2 className="text-2xl font-medium mb-8">
+										<h2 className="mb-8 text-2xl font-medium">
 											Waiting for the recipient to receive the file
 											successfully...
 										</h2>
@@ -213,10 +213,10 @@ const ReceivingWindow: React.FC = () => {
 										animate={{ opacity: 1, x: 0 }}
 										exit={{ opacity: 0, x: -50 }}
 										transition={{ duration: 0.5 }}
-										className="flex-1 flex flex-col"
+										className="flex flex-1 flex-col"
 									>
-										<h2 className="text-2xl font-medium mb-2">Successfully!</h2>
-										<span className="text-base font-normal mb-10">
+										<h2 className="mb-2 text-2xl font-medium">Successfully!</h2>
+										<span className="mb-10 text-base font-normal">
 											Your file has been transferred successfully!
 										</span>
 										<Button
@@ -258,10 +258,10 @@ const ReceivingWindow: React.FC = () => {
 										animate={{ opacity: 1, x: 0 }}
 										exit={{ opacity: 0, x: -50 }}
 										transition={{ duration: 0.5 }}
-										className="flex-1 flex flex-col"
+										className="flex flex-1 flex-col"
 									>
-										<h2 className="text-2xl font-medium mb-2">Error!</h2>
-										<span className="text-base font-normal mb-10">
+										<h2 className="mb-2 text-2xl font-medium">Error!</h2>
+										<span className="mb-10 text-base font-normal">
 											Your file has been transferred unsuccessfully!
 										</span>
 										<Button
@@ -300,7 +300,7 @@ const ReceivingWindow: React.FC = () => {
 						</motion.div>
 					</Backdrop>
 				</Box>,
-				document.getElementById('modal-root') as Element
+				document.getElementById('modal-root') as Element,
 			)}
 		</>
 	);

@@ -2,14 +2,14 @@ import React from 'react';
 
 import Header from './components/Header';
 
-import Register from '@/modules/authentication/views/Register';
+import Register from '@/modules/auth/views/Register';
 
 const RegisterPage: React.FC = () => {
 	return (
-		<div className="bg-gradient-to-br from-white to-primary-color--tint-1 min-h-screen flex flex-col">
+		<div className="flex min-h-screen flex-col bg-gradient-to-br from-white to-primary-color--tint-1">
 			<Header />
 			<div className="relative">
-				<div className="flex justify-center items-center pt-10">
+				<div className="flex items-center justify-center pt-10">
 					<Register />
 				</div>
 			</div>

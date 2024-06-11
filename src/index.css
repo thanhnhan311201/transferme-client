@@ -1,88 +1,117 @@
-@import "@fontsource/inter/400.css";
-@import "@fontsource/inter/500.css";
-@import "@fontsource/inter/600.css";
-@import "@fontsource/inter/700.css";
+@import '@fontsource/inter/400.css';
+@import '@fontsource/inter/500.css';
+@import '@fontsource/inter/600.css';
+@import '@fontsource/inter/700.css';
 
-@import "@fontsource/nunito/700.css";
+@import '@fontsource/nunito/700.css';
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root, [data-theme='light'] {
-  --main-bg: 20 23 24;
-  --content-bg: 254 254 254;
-  --border-color: 232 236 239;
-  --main-text-color: 20 23 24;
-  --overlay: rgba(20, 23, 24, 0.75);
-  --modal: 254 254 254;
+:root,
+[data-theme='light'] {
+	--main-bg: 20 23 24;
+	--content-bg: 254 254 254;
+	--border-color: 232 236 239;
+	--main-text-color: 20 23 24;
+	--overlay: rgba(20, 23, 24, 0.75);
 
-  /* for setting dialog */
-  --setting-dialog__btn-color: 254 254 254;
-  --setting-dialog__btn-hover-color: 243 245 247;
-  --setting-dialog__btn-text-hover-color: 108 114 117;
-  --setting-dialog__appearance__btn-text-color: rgba(20, 23, 24, 0.5);
-  --setting-dialog__appearance__btn-text-selected-color: 35 38 39;
-  --setting-dialog__input-bg-color: 243 245 247;
+	/* for modal */
+	--modal: 254 254 254;
+	--modal__close-btn-fill-color: 20 23 24;
+	--modal__close-btn-fill-hover-color: 0 132 255;
+	--modal__close-btn-bg-color: rgba(243, 245, 247, 1);
+
+	/* for setting dialog */
+	--setting-dialog__btn-color: 254 254 254;
+	--setting-dialog__btn-hover-color: 243 245 247;
+	--setting-dialog__btn-text-hover-color: 108 114 117;
+	--setting-dialog__appearance__btn-text-color: rgba(20, 23, 24, 0.5);
+	--setting-dialog__appearance__btn-text-selected-color: 35 38 39;
+	--setting-dialog__input-bg-color: 243 245 247;
+
+	/* for search dialog */
+	--search-dialog__btn-hover-color: rgba(232, 236, 239, 0.5);
 }
 [data-theme='dark'] {
-  --main-bg: 20 23 24;
-  --content-bg: 35 38 39;
-  --border-color: 52 56 57;
-  --main-text-color: 254 254 254;
-  --overlay: rgba(35, 38, 39, 0.9);
-  --modal: 20 23 24;
+	--main-bg: 20 23 24;
+	--content-bg: 35 38 39;
+	--border-color: 52 56 57;
+	--main-text-color: 254 254 254;
+	--overlay: rgba(35, 38, 39, 0.9);
 
-  /* for setting dialog */
-  --setting-dialog__btn-color: 20 23 24;
-  --setting-dialog__btn-hover-color: 35 38 39;
-  --setting-dialog__btn-text-hover-color: 254 254 254;
-  --setting-dialog__appearance__btn-text-color: rgba(232, 236, 239, 0.5);
-  --setting-dialog__appearance__btn-text-selected-color: 254 254 254;
-  --setting-dialog__input-bg-color: 35 38 39;
+	/* for modal */
+	--modal: 20 23 24;
+	--modal__close-btn-fill-color: 108 114 117;
+	--modal__close-btn-fill-hover-color: 254 254 254;
+	--modal__close-btn-bg-color: rgba(108, 114, 117, 0.25);
+
+	/* for setting dialog */
+	--setting-dialog__btn-color: 20 23 24;
+	--setting-dialog__btn-hover-color: 35 38 39;
+	--setting-dialog__btn-text-hover-color: 254 254 254;
+	--setting-dialog__appearance__btn-text-color: rgba(232, 236, 239, 0.5);
+	--setting-dialog__appearance__btn-text-selected-color: 254 254 254;
+	--setting-dialog__input-bg-color: 35 38 39;
+
+	/* for search dialog */
+	--search-dialog__btn-hover-color: rgba(35, 38, 39);
 }
 
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
 }
 
 html {
-  /* font-size: 62.5%; */
+	/* font-size: 62.5%; */
 }
 
 body {
-  margin: 0;
-  font-family: "Inter", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+	margin: 0;
+	font-family: 'Inter', sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 /* CONFIG */
 .transition-colors {
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
-  transition-timing-function: linear;
-  transition-duration: .2s;
+	transition-property: color, background-color, border-color,
+		text-decoration-color, fill, stroke;
+	transition-timing-function: linear;
+	transition-duration: 0.2s;
 }
 
-.transfer-list::-webkit-scrollbar {
-  width: 4px;
+.transfer-list::-webkit-scrollbar,
+.user-list::-webkit-scrollbar,
+.file-list::-webkit-scrollbar {
+	width: 4px;
 }
 
-.transfer-list::-webkit-scrollbar-track {
-  background: transparent
+.transfer-list::-webkit-scrollbar-track,
+.user-list::-webkit-scrollbar-track,
+.file-list::-webkit-scrollbar-track {
+	background: transparent;
 }
- 
-.transfer-list::-webkit-scrollbar-thumb {
-  /* background: linear-gradient(to bottom, rgb(95, 10, 135) 11.4%, rgb(164, 80, 139) 60.2%); */
-  /* background-color: rgba(232, 236, 239, 0.75); */
-  background: linear-gradient(to bottom, rgba(20, 23, 24, 0.75), rgb(142, 85, 234), rgba(20, 23, 24, 0.75));
-  border-radius: 10px;
+
+.transfer-list::-webkit-scrollbar-thumb,
+.user-list::-webkit-scrollbar-thumb,
+.file-list::-webkit-scrollbar-thumb {
+	/* background: linear-gradient(to bottom, rgb(95, 10, 135) 11.4%, rgb(164, 80, 139) 60.2%); */
+	/* background-color: rgba(232, 236, 239, 0.75); */
+	background: linear-gradient(
+		to bottom,
+		rgba(20, 23, 24, 0.75),
+		rgb(142, 85, 234),
+		rgba(20, 23, 24, 0.75)
+	);
+	border-radius: 10px;
 }
 
 .font-base {
-  font-family: "Inter";
-  font-size: .875rem;
-  line-height: 1.25rem;
+	font-family: 'Inter';
+	font-size: 0.875rem;
+	line-height: 1.25rem;
 }

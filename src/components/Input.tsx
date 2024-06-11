@@ -6,10 +6,11 @@ import { AnimatePresence, motion } from 'framer-motion';
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 	icon?: JSX.Element;
 	helperText?: React.ReactNode;
+	extraElement?: React.ReactNode;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>((props, ref) => {
-	const { icon, className, helperText, ...inputProps } = props;
+	const { icon, className, helperText, extraElement, ...inputProps } = props;
 
 	return (
 		<div>
@@ -18,16 +19,17 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>((props, ref) => {
 					ref={ref}
 					className={classNames(
 						className,
-						'w-full h-[3.25rem] px-4 font-base text-main-text-color transition-colors font-medium',
-						icon ? 'pl-[3.125rem] pr-3.5' : ''
+						'font-base text-main-text-color h-[3.25rem] w-full px-4 font-medium transition-colors',
+						icon ? 'pl-[3.125rem] pr-3.5' : '',
 					)}
 					{...inputProps}
 				/>
 				{icon && (
-					<div className="inline-block w-6 h-6 absolute top-2/4 -translate-y-2/4 left-4 pointer-events-none transition-colors">
+					<div className="pointer-events-none absolute left-4 top-2/4 inline-block h-6 w-6 -translate-y-2/4 transition-colors">
 						{icon}
 					</div>
 				)}
+				{extraElement && <>{extraElement}</>}
 			</div>
 			<AnimatePresence>
 				{helperText && (
@@ -37,7 +39,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>((props, ref) => {
 						animate={{ opacity: 1 }}
 						exit={{ opacity: 0 }}
 						transition={{ duration: 0.5 }}
-						className="mt-2 font-base"
+						className="font-base mt-2"
 					>
 						{helperText}
 					</motion.div>
