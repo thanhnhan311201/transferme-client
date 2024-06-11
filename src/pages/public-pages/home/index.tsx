@@ -9,26 +9,26 @@ import HomePageImg from '/images/home-page.png';
 
 const HomePage: React.FC = () => {
 	return (
-		<div className="bg-gradient-to-br from-white to-primary-color--tint-2 w-screen h-screen flex flex-col">
+		<div className="flex h-screen w-screen flex-col bg-gradient-to-br from-white to-primary-color--tint-2">
 			<Header />
-			<main className="flex-1 h-auto bg-inherit">
+			<main className="h-auto flex-1 bg-inherit">
 				<div className="flex justify-center">
-					<div className="grid grid-cols-2-for-home px-24 pt-16 items-center">
+					<div className="grid grid-cols-2-for-home items-center px-24 pt-16">
 						<motion.div
 							initial={{ opacity: 0, x: -200 }}
 							animate={{ opacity: 1, x: 0 }}
 							transition={{ duration: 0.75 }}
 							className="justify-self-start"
 						>
-							<h1 className="text-5xl mb-14 text-333 font-bold tracking-tight">
+							<h1 className="mb-14 text-5xl font-bold tracking-tight text-333">
 								Transfer and take your files to infinity and beyond
 							</h1>
-							<p className="text-xl mb-36 text-555">
+							<p className="mb-36 text-xl text-555">
 								TransferMe is a simple, fast and secure way to share your data
 							</p>
 							<Link
 								to="/auth/signin"
-								className="bg-gradient-to-br from-primary-color--tint-8 to-primary-color--shade inline-block text-white text-xl px-8 py-4 rounded-lg font-medium cursor-pointer"
+								className="inline-block cursor-pointer rounded-lg bg-gradient-to-br from-primary-color--tint-8 to-primary-color--shade px-8 py-4 text-xl font-medium text-white"
 							>
 								Start transfering
 							</Link>

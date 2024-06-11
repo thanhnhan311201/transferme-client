@@ -48,7 +48,7 @@ const TransferSuccess: React.FC<{ onHandleReset: () => void }> = (props) => {
 						gap: '0.25rem',
 					}}
 				>
-					<p className="text-4caf50 text-base font-medium">Success</p>
+					<p className="text-base font-medium text-4caf50">Success</p>
 					<p className="text-sm">
 						Your file has been transferred successfully!
 					</p>

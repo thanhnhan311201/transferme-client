@@ -16,7 +16,7 @@ const TransferProgressWithLabel: React.FC<
 			</Box>
 			<Box sx={{ minWidth: 35 }}>
 				<Typography variant="body2" color="inherit">{`${Math.round(
-					props.value
+					props.value,
 				)}%`}</Typography>
 			</Box>
 		</Box>
